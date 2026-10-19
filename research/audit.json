@@ -1,0 +1,5351 @@
+{
+  "version": "0.3.1",
+  "commit": "c9d804f470b8d7422ae04eb66faf671cef21ad52",
+  "commitDate": "2026-10-18T19:50:24+08:00",
+  "repository": "https://github.com/sganggs/Stronghold-Protocol",
+  "season": "act2autochess",
+  "seasonName": "卫戍协议：盟约",
+  "scope": "非官方同人复刻当前commit的静态攻略审计，未运行游戏。规则以data与当前实现为准。所有plan为机制推导，未声称实测强度排名。",
+  "factions": [
+    {
+      "id": "yanShip",
+      "name": "炎",
+      "tagline": "招募叠层 · 六炎召唤炎佑",
+      "trigger": "场上3名不同炎干员激活；6名召唤1只炎佑，9名改为2只。",
+      "core": [
+        "小满",
+        "夕",
+        "余",
+        "仇白"
+      ],
+      "plan": [
+        "推导：前期用惊蛰、星熊的获得时特质积累层数，再以小满随本回合获得的干员数持续增长。",
+        "推导：把小满、夕留在场上结算休整期；获得干员越多，已激活炎的叠层收益越高。",
+        "推导：中期优先争取6炎；后期让余、仇白承担防守和输出，再视人数资源争取9炎。"
+      ],
+      "pitfalls": [
+        "同名普通与精锐通常只计1名；9炎通常需借助调和、额外人数或扩充部署上限等来源。",
+        "小满、夕的休整期结束叠层必须在场；并要求相应盟约已激活。",
+        "炎佑只收集真正属于炎的干员属性，调和干员若不属于炎就不贡献属性总和。"
+      ],
+      "effects": [
+        "3炎：炎干员攻击力加成为23%+0.9%×层数。",
+        "6炎：炎佑同时攻击3目标，攻击附带20%攻击力灼燃损伤，并施加20%元素脆弱。",
+        "9炎：改为2只炎佑，各攻击力×1.5，所受伤害-90%。"
+      ],
+      "implementationNote": "本commit的炎佑实际属性为模板基础攻击/生命，再加开战时炎干员属性总和的30%；data/bonds.json.spec和旧research写成替换，已落后于tokens.js实现。",
+      "sourcePaths": [
+        "data/bonds.json#yanShip",
+        "data/chess.json",
+        "data/garrisons.json",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/core.js",
+        "server/sim/content/tokens.js"
+      ],
+      "thresholds": [
+        3,
+        6,
+        9
+      ],
+      "activeCount": 3,
+      "countMode": "BOARD",
+      "availability": {
+        "standard": true,
+        "otherDifficulties": true
+      },
+      "keyOperators": [
+        {
+          "id": "chess_char_2_04_a",
+          "name": "小满",
+          "tier": 2,
+          "skill": "乡音沉沉",
+          "skillDescription": "停止攻击敌人并使攻击范围内3个敌方单位沉睡4秒，之后攻击速度+45，且攻击3个敌人",
+          "traits": [
+            {
+              "id": "garrison_31_a",
+              "description": "<休整期结束时>本回合每获得过1名干员，使已激活的【炎】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_04_a",
+            "data/garrisons.json#garrison_31_a",
+            "server/sim/content/kits/ops/chess_char_2_04-grabds.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_12_a",
+          "name": "夕",
+          "tier": 5,
+          "skill": "工笔入化",
+          "skillDescription": "下一次攻击溅射范围扩大，造成相当于攻击力180%的法术伤害\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_119_a",
+              "description": "<休整期结束时>当前休整期每获得过一名干员，使已激活的【炎】【奥术】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_12_a",
+            "data/garrisons.json#garrison_119_a",
+            "server/sim/content/kits/ops/chess_char_5_12-dusk.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_03_a",
+          "name": "余",
+          "tier": 6,
+          "skill": "灶里乾坤",
+          "skillDescription": "生命上限+50%，攻击力+50%，防御力+50%，将第二天赋效果赋予全场所有干员；生成一面跨越整个战场的火墙，其他友方穿过火墙造成法术伤害时附带相当于余攻击力6%的灼燃损伤，敌方子弹穿过火墙时有10%几率被清除",
+          "traits": [
+            {
+              "id": "garrison_37_a",
+              "description": "<进入休整期时>若同一行有3名干员，随机获得1名当前人数最多盟约的干员"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_03_a",
+            "data/garrisons.json#garrison_37_a",
+            "server/sim/content/kits/ops/chess_char_6_03-yu.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_15_a",
+          "name": "仇白",
+          "tier": 6,
+          "skill": "问雪",
+          "skillDescription": "攻击范围扩大，攻击力+30%，伤害类型变为法术，额外攻击2个目标，远程攻击不再降低伤害，每次攻击使自身攻击速度+10（最多叠加5次）",
+          "traits": [
+            {
+              "id": "garrison_101_a",
+              "description": "【炎】【突袭】每叠加3层，本干员攻击束缚和停顿状态的敌人造成的伤害提升1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_15_a",
+            "data/garrisons.json#garrison_101_a",
+            "server/sim/content/kits/ops/chess_char_6_15-qiubai.js"
+          ]
+        }
+      ],
+      "members": [
+        {
+          "id": "chess_char_1_03_a",
+          "name": "惊蛰",
+          "tier": 1,
+          "skill": "初雷",
+          "skillDescription": "攻击力+80%，攻击在跳跃时不再降低伤害",
+          "traits": [
+            {
+              "id": "garrison_30_a",
+              "description": "<获得时>获得等于当前调度中心等级的【炎】层数（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_03_a",
+            "data/garrisons.json#garrison_30_a",
+            "server/sim/content/kits/ops/chess_char_1_03-leizi.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_04_a",
+          "name": "小满",
+          "tier": 2,
+          "skill": "乡音沉沉",
+          "skillDescription": "停止攻击敌人并使攻击范围内3个敌方单位沉睡4秒，之后攻击速度+45，且攻击3个敌人",
+          "traits": [
+            {
+              "id": "garrison_31_a",
+              "description": "<休整期结束时>本回合每获得过1名干员，使已激活的【炎】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_04_a",
+            "data/garrisons.json#garrison_31_a",
+            "server/sim/content/kits/ops/chess_char_2_04-grabds.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_03_a",
+          "name": "诗怀雅",
+          "tier": 3,
+          "skill": "协同作战",
+          "skillDescription": "攻击力+40%，第一天赋效果提升至2.4倍",
+          "traits": [
+            {
+              "id": "garrison_133_a",
+              "description": "<获得时>获得1个“盟约之币”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_03_a",
+            "data/garrisons.json#garrison_133_a",
+            "server/sim/content/kits/ops/chess_char_3_03-swire.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_04_a",
+          "name": "琳琅诗怀雅",
+          "tier": 3,
+          "skill": "“见面礼”",
+          "skillDescription": "消耗一枚金币在范围内一个可放置且可通行的地面放置香槟炸弹，香槟炸弹会对触碰到的首个敌人造成相当于攻击力155%的物理伤害，并使目标停顿2秒\n香槟炸弹在场3秒后可额外造成一次伤害；携带此技能时金币上限为3",
+          "traits": [
+            {
+              "id": "garrison_98_a",
+              "description": "<休整期结束时>使下个休整期额外获得1资金（若已激活【炎】/【投资人】此特质在整备区也有效）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_04_a",
+            "data/garrisons.json#garrison_98_a",
+            "server/sim/content/kits/ops/chess_char_3_04-swire2.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_17_a",
+          "name": "星熊",
+          "tier": 4,
+          "skill": "荆棘",
+          "skillDescription": "防御力+13%\n每次受到攻击时对目标造成相当于星熊攻击力65%的物理伤害",
+          "traits": [
+            {
+              "id": "garrison_65_a",
+              "description": "<获得时>自身所属盟约层数+8（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_17_a",
+            "data/garrisons.json#garrison_65_a",
+            "server/sim/content/kits/ops/chess_char_4_17-hsguma.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_03_a",
+          "name": "烛煌",
+          "tier": 5,
+          "skill": "众恶的焚场",
+          "skillDescription": "攻击范围改变，攻击力+70%，攻击间隔大幅缩短，攻击变为群体攻击；若目标处于灼燃损伤爆发期间则额外造成攻击力60%的元素伤害\n自身每秒流失最大生命的3%，攻击装有18发弹药，全场有敌人进入灼燃损伤爆发时获得2颗额外弹药，弹药打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_35_a",
+              "description": "<获得时>【炎】【维多利亚】层数+5（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_03_a",
+            "data/garrisons.json#garrison_35_a",
+            "server/sim/content/kits/ops/chess_char_5_03-blaze2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_12_a",
+          "name": "夕",
+          "tier": 5,
+          "skill": "工笔入化",
+          "skillDescription": "下一次攻击溅射范围扩大，造成相当于攻击力180%的法术伤害\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_119_a",
+              "description": "<休整期结束时>当前休整期每获得过一名干员，使已激活的【炎】【奥术】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_12_a",
+            "data/garrisons.json#garrison_119_a",
+            "server/sim/content/kits/ops/chess_char_5_12-dusk.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_23_a",
+          "name": "录武官",
+          "tier": 5,
+          "skill": "一点关窍",
+          "skillDescription": "攻击力+45%，治疗干员后为其施加一个增益，使其在10秒内每次受到伤害时恢复80点生命",
+          "traits": [
+            {
+              "id": "garrison_156_a",
+              "description": "<获得时>【炎】层数+6、【奇迹】层数+3（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_23_a",
+            "data/garrisons.json#garrison_156_a",
+            "server/sim/content/kits/ops/chess_char_5_23-reckpr.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_03_a",
+          "name": "余",
+          "tier": 6,
+          "skill": "灶里乾坤",
+          "skillDescription": "生命上限+50%，攻击力+50%，防御力+50%，将第二天赋效果赋予全场所有干员；生成一面跨越整个战场的火墙，其他友方穿过火墙造成法术伤害时附带相当于余攻击力6%的灼燃损伤，敌方子弹穿过火墙时有10%几率被清除",
+          "traits": [
+            {
+              "id": "garrison_37_a",
+              "description": "<进入休整期时>若同一行有3名干员，随机获得1名当前人数最多盟约的干员"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_03_a",
+            "data/garrisons.json#garrison_37_a",
+            "server/sim/content/kits/ops/chess_char_6_03-yu.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_15_a",
+          "name": "仇白",
+          "tier": 6,
+          "skill": "问雪",
+          "skillDescription": "攻击范围扩大，攻击力+30%，伤害类型变为法术，额外攻击2个目标，远程攻击不再降低伤害，每次攻击使自身攻击速度+10（最多叠加5次）",
+          "traits": [
+            {
+              "id": "garrison_101_a",
+              "description": "【炎】【突袭】每叠加3层，本干员攻击束缚和停顿状态的敌人造成的伤害提升1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_15_a",
+            "data/garrisons.json#garrison_101_a",
+            "server/sim/content/kits/ops/chess_char_6_15-qiubai.js"
+          ]
+        }
+      ],
+      "blackboard": {
+        "base_atk": 0.23,
+        "atk_per_stack": 0.009,
+        "power_bond_char_cnt": 6,
+        "ex_bond_char_cnt": 9,
+        "damage_resistance": 0.9,
+        "atk": 1.5
+      },
+      "officialDescription": "【炎】干员攻击力+{0:0%}（受层数影响）\n<在场6名不同【炎】干员>战斗开始时收集【炎】干员部分属性召唤“炎佑”（其攻击力和生命值为【炎】干员攻击力和生命值总和的30%）；“炎佑”同时攻击3个目标，攻击附带20%攻击力的灼燃损伤，周围敌人受到20%的元素脆弱，周期性使用“祛恶之焰”\n<在场9名不同【炎】干员>改为召唤2只“炎佑”；“炎佑”攻击力提升至1.5倍，受到的伤害-90%"
+    },
+    {
+      "id": "sargonShip",
+      "name": "萨尔贡",
+      "tagline": "技能接力 · 攻速与攻击叠加",
+      "trigger": "场上3名不同萨尔贡干员激活；6名解锁攻击力叠加。娜仁图亚策略会替换6人效果。",
+      "core": [
+        "莎草",
+        "菲莱",
+        "百炼嘉维尔",
+        "缇缇",
+        "异客"
+      ],
+      "plan": [
+        "推导：用莎草、菲莱、百炼嘉维尔的开技能特质叠层，缩短技能循环，让多个独立持续的加速效果重叠。",
+        "推导：中期达成6萨尔贡，再把快速释放技能的成员作为团队增益触发器。",
+        "推导：后期异客可同时消化萨尔贡、迅捷、精准层数；佩佩提供道具补给。"
+      ],
+      "pitfalls": [
+        "普通6萨尔贡的攻击/攻速上限来自25层临时增益：最高+300攻速、+300%攻击力；永久盟约层数主要延长持续时间。",
+        "选娜仁图亚后，6人效果改成向周围8格借出至多V阶装备效果60秒，不能再按普通攻击叠加流规划。",
+        "缇缇叠层看其范围内沉睡或晕眩事件，每场战斗至多24层。"
+      ],
+      "effects": [
+        "任一萨尔贡成员开启技能：所有在场萨尔贡成员攻速+12，持续5+0.22×层数秒，各次独立计时，最多25次。",
+        "普通6人：每次同时增加12%攻击力，至多+300%。"
+      ],
+      "sourcePaths": [
+        "data/bonds.json#sargonShip",
+        "data/chess.json",
+        "data/garrisons.json",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/core.js"
+      ],
+      "thresholds": [
+        3,
+        6
+      ],
+      "activeCount": 3,
+      "countMode": "BOARD",
+      "availability": {
+        "standard": true,
+        "otherDifficulties": true
+      },
+      "keyOperators": [
+        {
+          "id": "chess_char_2_06_a",
+          "name": "莎草",
+          "tier": 2,
+          "skill": "巧思乍现",
+          "skillDescription": "下次治疗时的治疗量提升至攻击力的160%，天赋附加屏障效果提升至150%\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_42_a",
+              "description": "<战斗中>首次开启技能时，使已激活的【萨尔贡】层数+5"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_06_a",
+            "data/garrisons.json#garrison_42_a",
+            "server/sim/content/kits/ops/chess_char_2_06-papyrs.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_06_a",
+          "name": "菲莱",
+          "tier": 3,
+          "skill": "冥河诅咒",
+          "skillDescription": "停止攻击，生命上限+40%，受到攻击时对周围的地面敌人造成攻击力110%的法术伤害并附带25%攻击力的凋亡损伤（每2秒最多触发一次）；若技能期间受到元素损伤则攻击力+70%至技能结束",
+          "traits": [
+            {
+              "id": "garrison_43_a",
+              "description": "<战斗中>开启技能时，使已激活的【萨尔贡】层数+6"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_06_a",
+            "data/garrisons.json#garrison_43_a",
+            "server/sim/content/kits/ops/chess_char_3_06-philae.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_23_a",
+          "name": "百炼嘉维尔",
+          "tier": 4,
+          "skill": "丛林之魂",
+          "skillDescription": "攻击力+85%，攻击速度+60，阻挡数+2，技能期间暂时只受到50%的伤害，其余伤害延后至技能结束，变为持续20秒等量的生命流失效果",
+          "traits": [
+            {
+              "id": "garrison_128_a",
+              "description": "<战斗中>开启技能时，使已激活的【萨尔贡】层数+9"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_23_a",
+            "data/garrisons.json#garrison_128_a",
+            "server/sim/content/kits/ops/chess_char_4_23-gvial2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_02_a",
+          "name": "缇缇",
+          "tier": 5,
+          "skill": "旧日绽放",
+          "skillDescription": "攻击力+110%，同时攻击两名敌人，攻击非沉睡目标时使其沉睡5秒，技能期间，全场敌人从沉睡状态醒来或于沉睡中被击倒时，受到法术伤害（随沉睡时长提高至攻击力370%），并使周围一名其他敌人沉睡5秒，攻击范围内的其他友方干员受到致命伤害时，陷入沉睡至生命值完全恢复或技能结束",
+          "traits": [
+            {
+              "id": "garrison_125_a",
+              "description": "<战斗中>每当范围内有敌人或干员进入沉睡或晕眩时，使已激活的【萨尔贡】【精准】层数+1（每场战斗至多24层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_02_a",
+            "data/garrisons.json#garrison_125_a",
+            "server/sim/content/kits/ops/chess_char_5_02-titi.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_05_a",
+          "name": "异客",
+          "tier": 6,
+          "skill": "辉煌裂片",
+          "skillDescription": "立即寻找大范围内生命值最高的目标，在其位置生成持续4秒的雷暴区域，期间每0.5秒以115%的攻击力对雷暴区域内的随机敌人进行一次额外攻击；可充能2次",
+          "traits": [
+            {
+              "id": "garrison_100_a",
+              "description": "【萨尔贡】【迅捷】【精准】每叠加3层，本干员攻击力+2%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_05_a",
+            "data/garrisons.json#garrison_100_a",
+            "server/sim/content/kits/ops/chess_char_6_05-pasngr.js"
+          ]
+        }
+      ],
+      "members": [
+        {
+          "id": "chess_char_1_12_a",
+          "name": "艾丝黛尔",
+          "tier": 1,
+          "skill": "舍身突击",
+          "skillDescription": "攻击力+100%，不再成为其他角色的治疗目标",
+          "traits": [
+            {
+              "id": "garrison_25_a",
+              "description": "<获得时>自身所属盟约层数+2（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_12_a",
+            "data/garrisons.json#garrison_25_a",
+            "server/sim/content/kits/ops/chess_char_1_12-estell.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_06_a",
+          "name": "莎草",
+          "tier": 2,
+          "skill": "巧思乍现",
+          "skillDescription": "下次治疗时的治疗量提升至攻击力的160%，天赋附加屏障效果提升至150%\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_42_a",
+              "description": "<战斗中>首次开启技能时，使已激活的【萨尔贡】层数+5"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_06_a",
+            "data/garrisons.json#garrison_42_a",
+            "server/sim/content/kits/ops/chess_char_2_06-papyrs.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_08_a",
+          "name": "泡泡",
+          "tier": 2,
+          "skill": "“挨打”",
+          "skillDescription": "停止攻击敌人；防御力+65%，自身更易受敌人攻击，每次受到攻击时对目标造成相当于泡泡防御力40%的物理伤害",
+          "traits": [
+            {
+              "id": "garrison_15_a",
+              "description": "【萨尔贡】【坚守】每叠加3层，本干员防御力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_08_a",
+            "data/garrisons.json#garrison_15_a",
+            "server/sim/content/kits/ops/chess_char_2_08-bubble.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_06_a",
+          "name": "菲莱",
+          "tier": 3,
+          "skill": "冥河诅咒",
+          "skillDescription": "停止攻击，生命上限+40%，受到攻击时对周围的地面敌人造成攻击力110%的法术伤害并附带25%攻击力的凋亡损伤（每2秒最多触发一次）；若技能期间受到元素损伤则攻击力+70%至技能结束",
+          "traits": [
+            {
+              "id": "garrison_43_a",
+              "description": "<战斗中>开启技能时，使已激活的【萨尔贡】层数+6"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_06_a",
+            "data/garrisons.json#garrison_43_a",
+            "server/sim/content/kits/ops/chess_char_3_06-philae.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_13_a",
+          "name": "至简",
+          "tier": 3,
+          "skill": "神工意匠",
+          "skillDescription": "下次攻击造成相当于攻击力130%的法术伤害，并连续攻击两次\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_13_a",
+              "description": "购买价格为1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_13_a",
+            "data/garrisons.json#garrison_13_a",
+            "server/sim/content/kits/ops/chess_char_3_13-malist.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_23_a",
+          "name": "百炼嘉维尔",
+          "tier": 4,
+          "skill": "丛林之魂",
+          "skillDescription": "攻击力+85%，攻击速度+60，阻挡数+2，技能期间暂时只受到50%的伤害，其余伤害延后至技能结束，变为持续20秒等量的生命流失效果",
+          "traits": [
+            {
+              "id": "garrison_128_a",
+              "description": "<战斗中>开启技能时，使已激活的【萨尔贡】层数+9"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_23_a",
+            "data/garrisons.json#garrison_128_a",
+            "server/sim/content/kits/ops/chess_char_4_23-gvial2.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_24_a",
+          "name": "卡涅利安",
+          "tier": 4,
+          "skill": "沙缚镣锁",
+          "skillDescription": "攻击间隔缩短，每次攻击对目标造成0.3秒停顿；\n蓄力额外效果：攻击力+10%且停顿变为束缚0.3秒",
+          "traits": [
+            {
+              "id": "garrison_49_a",
+              "description": "<获得时>获得1件“迅捷作战粮”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_24_a",
+            "data/garrisons.json#garrison_49_a",
+            "server/sim/content/kits/ops/chess_char_4_24-billro.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_02_a",
+          "name": "缇缇",
+          "tier": 5,
+          "skill": "旧日绽放",
+          "skillDescription": "攻击力+110%，同时攻击两名敌人，攻击非沉睡目标时使其沉睡5秒，技能期间，全场敌人从沉睡状态醒来或于沉睡中被击倒时，受到法术伤害（随沉睡时长提高至攻击力370%），并使周围一名其他敌人沉睡5秒，攻击范围内的其他友方干员受到致命伤害时，陷入沉睡至生命值完全恢复或技能结束",
+          "traits": [
+            {
+              "id": "garrison_125_a",
+              "description": "<战斗中>每当范围内有敌人或干员进入沉睡或晕眩时，使已激活的【萨尔贡】【精准】层数+1（每场战斗至多24层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_02_a",
+            "data/garrisons.json#garrison_125_a",
+            "server/sim/content/kits/ops/chess_char_5_02-titi.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_05_a",
+          "name": "异客",
+          "tier": 6,
+          "skill": "辉煌裂片",
+          "skillDescription": "立即寻找大范围内生命值最高的目标，在其位置生成持续4秒的雷暴区域，期间每0.5秒以115%的攻击力对雷暴区域内的随机敌人进行一次额外攻击；可充能2次",
+          "traits": [
+            {
+              "id": "garrison_100_a",
+              "description": "【萨尔贡】【迅捷】【精准】每叠加3层，本干员攻击力+2%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_05_a",
+            "data/garrisons.json#garrison_100_a",
+            "server/sim/content/kits/ops/chess_char_6_05-pasngr.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_06_a",
+          "name": "佩佩",
+          "tier": 6,
+          "skill": "时光震荡",
+          "skillDescription": "攻击间隔略微增大，攻击力+150%，攻击使命中的目标晕眩0.8秒，对主目标提升至1秒，每次攻击后使溅射范围扩大且攻击力额外+13%，最多叠加4层",
+          "traits": [
+            {
+              "id": "garrison_94_a",
+              "description": "<进入休整期时>获得1件“盟约之币”或“萨尔贡浓茶”，有小概率发现“黄沙罗盘”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_06_a",
+            "data/garrisons.json#garrison_94_a",
+            "server/sim/content/kits/ops/chess_char_6_06-pepe.js"
+          ]
+        }
+      ],
+      "blackboard": {
+        "base_time": 5,
+        "time_per_stack": 0.22,
+        "max_buff_stack_cnt": 25,
+        "base_attack_speed": 12,
+        "power_bond_char_cnt": 6,
+        "base_atk": 0.12,
+        "base_power_time": 60,
+        "power_time_per_stack": 0,
+        "filter_item_level": 5
+      },
+      "officialDescription": "【萨尔贡】干员开启技能时，所有【萨尔贡】干员攻击速度+12（至多+300），持续{0:0}秒（受层数影响）\n<在场6名不同【萨尔贡】干员>开启技能还会使所有【萨尔贡】干员攻击力+12%（至多+300%）\n选择策略【娜仁图亚】时，<在场6名不同【萨尔贡】干员>的效果会有所改变"
+    },
+    {
+      "id": "victoriaShip",
+      "name": "维多利亚",
+      "tagline": "异阶编队 · 装备与重锤成长",
+      "trigger": "场上3名不同维多利亚干员激活；6名获得每件装备的攻击力加成。",
+      "core": [
+        "薄绿",
+        "凯瑟琳",
+        "号角",
+        "维娜·维多利亚",
+        "焰影苇草"
+      ],
+      "plan": [
+        "推导：保留不同等阶的维多利亚干员，让薄绿和维娜在休整期结束时按不同等阶数叠层。",
+        "推导：把装备优先配给维多利亚主力；每25层发放的特殊维式重锤可补足装备数量。",
+        "推导：以凯瑟琳提供装备，号角辅助最高层盟约成长；后期由维娜或焰影苇草输出。"
+      ],
+      "pitfalls": [
+        "3人伤害倍率仅作用于携带至少1件装备的维多利亚干员。",
+        "薄绿统计的是不同等阶，不是干员总人数；同阶堆人不增加这项收益。",
+        "每件普通装备在6人效果下攻击力+50%，进阶为+80%；每名通常仅2装备栏。",
+        "重锤奖励仅在盟约激活时领取；未激活时积累的层数在激活时补发，每档一次。"
+      ],
+      "effects": [
+        "携带装备的成员伤害×(1.25+0.008×层数)。",
+        "每25层获得1件随机特殊维式重锤。",
+        "6人：每件普通装备攻击力+50%，进阶装备改为+80%。"
+      ],
+      "sourcePaths": [
+        "data/bonds.json#victoriaShip",
+        "data/chess.json",
+        "data/garrisons.json",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/core.js",
+        "server/sim/content/garrisons/meta.js"
+      ],
+      "thresholds": [
+        3,
+        6
+      ],
+      "activeCount": 3,
+      "countMode": "BOARD",
+      "availability": {
+        "standard": true,
+        "otherDifficulties": true
+      },
+      "keyOperators": [
+        {
+          "id": "chess_char_3_08_a",
+          "name": "薄绿",
+          "tier": 3,
+          "skill": "聚能涡旋",
+          "skillDescription": "每次攻击把目标小力地拖拽至面前，并造成相当于攻击力110%的法术伤害。技能结束时对攻击范围内所有敌人造成相当于攻击力210%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_48_a",
+              "description": "<休整期结束时>场上每有1名不同阶的【维多利亚】干员，使已激活的【维多利亚】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_08_a",
+            "data/garrisons.json#garrison_48_a",
+            "server/sim/content/kits/ops/chess_char_3_08-mint.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_11_a",
+          "name": "凯瑟琳",
+          "tier": 4,
+          "skill": "战火淬炼",
+          "skillDescription": "停止攻击，生命上限+40%，防御力+10%，装置效果改为使目标干员每秒获得相当于凯瑟琳生命上限6%的屏障（不会超过天赋上限）",
+          "traits": [
+            {
+              "id": "garrison_127_a",
+              "description": "<进入休整期时>若当前为奇数回合，获得1件随机装备"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_11_a",
+            "data/garrisons.json#garrison_127_a",
+            "server/sim/content/kits/ops/chess_char_4_11-cathy.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_08_a",
+          "name": "号角",
+          "tier": 5,
+          "skill": "终极防线",
+          "skillDescription": "攻击力+25%，攻击间隔缩短\n过载：攻击力改为+50%，逐渐流失生命（12秒后到达最大生命12%/秒）该技能可随时主动关闭",
+          "traits": [
+            {
+              "id": "garrison_61_a",
+              "description": "<休整期结束时>当前已激活且层数最多的盟约每有1名不同阶干员在场，层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_08_a",
+            "data/garrisons.json#garrison_61_a",
+            "server/sim/content/kits/ops/chess_char_5_08-horn.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_07_a",
+          "name": "维娜·维多利亚",
+          "tier": 6,
+          "skill": "俱以我之名",
+          "skillDescription": "立即在天赋一生效范围内可部署地面召唤“黄金盟誓”；技能期间可攻击被天赋一生效范围友方单位阻挡的敌人，攻击力+145%，攻击目标数+1，攻击间隔缩短，攻击时伤害类型变为真实",
+          "traits": [
+            {
+              "id": "garrison_53_a",
+              "description": "<休整期结束时>场上每有1名不同阶的【维多利亚】/【奇迹】干员使已激活的【维多利亚】层数+3/【奇迹】层数+2"
+            },
+            {
+              "id": "garrison_54_a",
+              "description": "<休整期结束时>场上每有1名不同阶的【维多利亚】/【奇迹】干员使已激活的【维多利亚】层数+3/【奇迹】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_07_a",
+            "data/garrisons.json#garrison_53_a",
+            "data/garrisons.json#garrison_54_a",
+            "server/sim/content/kits/ops/chess_char_6_07-siege2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_08_a",
+          "name": "焰影苇草",
+          "tier": 6,
+          "skill": "生命火种",
+          "skillDescription": "同时攻击两名敌人，攻击力+25%，第一天赋触发几率提升至100%，技能期间附带灼痕效果的敌人每秒受到20%焰影苇草攻击力的法术伤害、被击倒时对周围敌人造成100%焰影苇草攻击力的法术伤害并施加灼痕效果\n灼痕效果持续至技能结束",
+          "traits": [
+            {
+              "id": "garrison_11_a",
+              "description": "【维多利亚】每叠加3层，本干员攻击速度+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_08_a",
+            "data/garrisons.json#garrison_11_a",
+            "server/sim/content/kits/ops/chess_char_6_08-reed2.js"
+          ]
+        }
+      ],
+      "members": [
+        {
+          "id": "chess_char_1_06_a",
+          "name": "刺玫",
+          "tier": 1,
+          "skill": "荆藤庇荫",
+          "skillDescription": "攻击力+55%，使攻击范围内生命上限最高的友方角色更容易受到敌人攻击，且该角色受到攻击时刺玫对目标造成攻击力20%的法术伤害并仅对该角色触发刺玫特性",
+          "traits": [
+            {
+              "id": "garrison_154_a",
+              "description": "<休整期结束时>使已激活的【维多利亚】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_06_a",
+            "data/garrisons.json#garrison_154_a",
+            "server/sim/content/kits/ops/chess_char_1_06-vendla.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_05_a",
+          "name": "哈洛德",
+          "tier": 2,
+          "skill": "重症优先",
+          "skillDescription": "攻击速度+55，优先治疗元素损伤最严重的目标。治疗元素损伤累计超过一半的目标时，元素损伤回复量提升至160%",
+          "traits": [
+            {
+              "id": "garrison_09_a",
+              "description": "攻击力和生命值+20%；核心盟约每叠加3层，本干员攻击力和生命值+1%"
+            },
+            {
+              "id": "garrison_03_a",
+              "description": "攻击力和生命值+20%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_05_a",
+            "data/garrisons.json#garrison_09_a",
+            "data/garrisons.json#garrison_03_a",
+            "server/sim/content/kits/ops/chess_char_2_05-harold.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_10_a",
+          "name": "洛洛",
+          "tier": 2,
+          "skill": "自负此轭",
+          "skillDescription": "攻击速度+45，释放浮游单元锁定敌人攻击\n过载：特性浮游单元伤害上限提升至1.6倍，攻击力+40%，技能结束后晕眩过载持续时间的等长时间\n浮游单元锁敌后直至敌人被击杀或技能结束后返回干员身边，可随时主动关闭技能",
+          "traits": [
+            {
+              "id": "garrison_91_a",
+              "description": "<获得时>随机制造1件洛洛的定制品"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_10_a",
+            "data/garrisons.json#garrison_91_a",
+            "server/sim/content/kits/ops/chess_char_2_10-rockr.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_08_a",
+          "name": "薄绿",
+          "tier": 3,
+          "skill": "聚能涡旋",
+          "skillDescription": "每次攻击把目标小力地拖拽至面前，并造成相当于攻击力110%的法术伤害。技能结束时对攻击范围内所有敌人造成相当于攻击力210%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_48_a",
+              "description": "<休整期结束时>场上每有1名不同阶的【维多利亚】干员，使已激活的【维多利亚】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_08_a",
+            "data/garrisons.json#garrison_48_a",
+            "server/sim/content/kits/ops/chess_char_3_08-mint.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_07_a",
+          "name": "风笛",
+          "tier": 4,
+          "skill": "高效冲击",
+          "skillDescription": "下一次的攻击力提升至145%，且额外攻击一次\n可充能1次",
+          "traits": [
+            {
+              "id": "garrison_50_a",
+              "description": "<战斗中>前3次击倒敌人时，使已激活的【维多利亚】【远见】【不屈】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_07_a",
+            "data/garrisons.json#garrison_50_a",
+            "server/sim/content/kits/ops/chess_char_4_07-bpipe.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_11_a",
+          "name": "凯瑟琳",
+          "tier": 4,
+          "skill": "战火淬炼",
+          "skillDescription": "停止攻击，生命上限+40%，防御力+10%，装置效果改为使目标干员每秒获得相当于凯瑟琳生命上限6%的屏障（不会超过天赋上限）",
+          "traits": [
+            {
+              "id": "garrison_127_a",
+              "description": "<进入休整期时>若当前为奇数回合，获得1件随机装备"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_11_a",
+            "data/garrisons.json#garrison_127_a",
+            "server/sim/content/kits/ops/chess_char_4_11-cathy.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_03_a",
+          "name": "烛煌",
+          "tier": 5,
+          "skill": "众恶的焚场",
+          "skillDescription": "攻击范围改变，攻击力+70%，攻击间隔大幅缩短，攻击变为群体攻击；若目标处于灼燃损伤爆发期间则额外造成攻击力60%的元素伤害\n自身每秒流失最大生命的3%，攻击装有18发弹药，全场有敌人进入灼燃损伤爆发时获得2颗额外弹药，弹药打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_35_a",
+              "description": "<获得时>【炎】【维多利亚】层数+5（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_03_a",
+            "data/garrisons.json#garrison_35_a",
+            "server/sim/content/kits/ops/chess_char_5_03-blaze2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_08_a",
+          "name": "号角",
+          "tier": 5,
+          "skill": "终极防线",
+          "skillDescription": "攻击力+25%，攻击间隔缩短\n过载：攻击力改为+50%，逐渐流失生命（12秒后到达最大生命12%/秒）该技能可随时主动关闭",
+          "traits": [
+            {
+              "id": "garrison_61_a",
+              "description": "<休整期结束时>当前已激活且层数最多的盟约每有1名不同阶干员在场，层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_08_a",
+            "data/garrisons.json#garrison_61_a",
+            "server/sim/content/kits/ops/chess_char_5_08-horn.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_07_a",
+          "name": "维娜·维多利亚",
+          "tier": 6,
+          "skill": "俱以我之名",
+          "skillDescription": "立即在天赋一生效范围内可部署地面召唤“黄金盟誓”；技能期间可攻击被天赋一生效范围友方单位阻挡的敌人，攻击力+145%，攻击目标数+1，攻击间隔缩短，攻击时伤害类型变为真实",
+          "traits": [
+            {
+              "id": "garrison_53_a",
+              "description": "<休整期结束时>场上每有1名不同阶的【维多利亚】/【奇迹】干员使已激活的【维多利亚】层数+3/【奇迹】层数+2"
+            },
+            {
+              "id": "garrison_54_a",
+              "description": "<休整期结束时>场上每有1名不同阶的【维多利亚】/【奇迹】干员使已激活的【维多利亚】层数+3/【奇迹】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_07_a",
+            "data/garrisons.json#garrison_53_a",
+            "data/garrisons.json#garrison_54_a",
+            "server/sim/content/kits/ops/chess_char_6_07-siege2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_08_a",
+          "name": "焰影苇草",
+          "tier": 6,
+          "skill": "生命火种",
+          "skillDescription": "同时攻击两名敌人，攻击力+25%，第一天赋触发几率提升至100%，技能期间附带灼痕效果的敌人每秒受到20%焰影苇草攻击力的法术伤害、被击倒时对周围敌人造成100%焰影苇草攻击力的法术伤害并施加灼痕效果\n灼痕效果持续至技能结束",
+          "traits": [
+            {
+              "id": "garrison_11_a",
+              "description": "【维多利亚】每叠加3层，本干员攻击速度+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_08_a",
+            "data/garrisons.json#garrison_11_a",
+            "server/sim/content/kits/ops/chess_char_6_08-reed2.js"
+          ]
+        }
+      ],
+      "blackboard": {
+        "damage_scale_per_stack": 0.008,
+        "base_damage_scale": 1.25,
+        "power_bond_char_cnt": 6,
+        "atk_normal_equip": 0.5,
+        "atk_golden_equip": 0.3,
+        "layer": 25,
+        "count": 1
+      },
+      "officialDescription": "携带装备的【维多利亚】干员伤害提升至{0:0%}（受层数影响）\n<每叠加25层>获得一件带有随机特殊效果的维式重锤\n<在场6名不同【维多利亚】干员>【维多利亚】干员每携带1件装备攻击力+50%，携带进阶装备改为+80%"
+    },
+    {
+      "id": "kjeragShip",
+      "name": "谢拉格",
+      "tagline": "寒冷冻结 · 控场叠层",
+      "trigger": "场上3名不同谢拉格干员激活；6名每25秒触发全场寒风。",
+      "core": [
+        "初雪",
+        "灵知",
+        "银灰",
+        "凛御银灰",
+        "圣聆初雪"
+      ],
+      "plan": [
+        "推导：用灵知、耶拉、谢拉格不融冰制造寒冷，并让初雪、银灰覆盖敌人密集区域，从冻结事件增长层数。",
+        "推导：凛御银灰身前放攻击覆盖面大的谢拉格成员，让被赋予的冻结叠层特质触发更多。",
+        "推导：先稳住6人寒风，再用圣聆初雪消化高层数；领袖战观察单次伤害，适时降低额外增伤。"
+      ],
+      "pitfalls": [
+        "3人基础伤害倍率为1.25；对寒冷/冻结目标采用1.35+0.01×层数这一倍率，不能再额外乘一次1.25。",
+        "寒风间隔25秒；没有其他寒冷来源时，前25秒不会凭空冻结。",
+        "领袖单次伤害≥300000会整次作废；高层谢拉格叠加奥术等增伤可能越过限伤。"
+      ],
+      "effects": [
+        "普通目标伤害×1.25；寒冷或冻结目标伤害×(1.35+0.01×层数)。",
+        "6人寒风每25秒使全场敌人寒冷20+0.1×层数秒。"
+      ],
+      "sourcePaths": [
+        "data/bonds.json#kjeragShip",
+        "data/chess.json",
+        "data/garrisons.json",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/core.js",
+        "server/sim/content/devices.js"
+      ],
+      "thresholds": [
+        3,
+        6
+      ],
+      "activeCount": 3,
+      "countMode": "BOARD",
+      "availability": {
+        "standard": true,
+        "otherDifficulties": true
+      },
+      "keyOperators": [
+        {
+          "id": "chess_char_3_14_a",
+          "name": "初雪",
+          "tier": 3,
+          "skill": "自然震慑",
+          "skillDescription": "攻击范围内所有敌人防御力-40%，法术抗性-23%",
+          "traits": [
+            {
+              "id": "garrison_28_a",
+              "description": "<战斗中>每当范围内1名敌人进入冻结时，有50%概率使已激活的【谢拉格】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_14_a",
+            "data/garrisons.json#garrison_28_a",
+            "server/sim/content/kits/ops/chess_char_3_14-slbell.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_13_a",
+          "name": "灵知",
+          "tier": 4,
+          "skill": "零度爆发",
+          "skillDescription": "对范围内所有敌人造成2.5秒寒冷和相当于攻击力130%的法术伤害；蓄力：额外造成一层寒冷",
+          "traits": [
+            {
+              "id": "garrison_111_a",
+              "description": "<获得时>自身所属盟约层数+5（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_13_a",
+            "data/garrisons.json#garrison_111_a",
+            "server/sim/content/kits/ops/chess_char_4_13-gnosis.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_22_a",
+          "name": "银灰",
+          "tier": 4,
+          "skill": "真银斩",
+          "skillDescription": "防御力-70%，攻击力+125%，攻击范围扩大，同时攻击至多4个目标（视为近距离攻击）",
+          "traits": [
+            {
+              "id": "garrison_28_a",
+              "description": "<战斗中>每当范围内1名敌人进入冻结时，有50%概率使已激活的【谢拉格】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_22_a",
+            "data/garrisons.json#garrison_28_a",
+            "server/sim/content/kits/ops/chess_char_4_22-svrash.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_14_a",
+          "name": "凛御银灰",
+          "tier": 5,
+          "skill": "御敌的锋锐",
+          "skillDescription": "对前方6名敌人造成攻击力260%的物理伤害，使其4秒内寒冷且隐匿失效；待部署区中距离“风雪之眼”最近的1名干员费用-11（优先选择右侧近卫/术师/狙击干员）；使“风雪之眼”左侧所有干员部署时以自身攻击力施放一次本技能的范围效果（最多叠加2次）\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_126_a",
+              "description": "<战斗开始时>使身前一格【谢拉格】干员获得特质“范围内1名敌人进入冻结时，有60%概率使已激活的【谢拉格】层数+1”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_14_a",
+            "data/garrisons.json#garrison_126_a",
+            "server/sim/content/kits/ops/chess_char_5_14-svash2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_02_a",
+          "name": "圣聆初雪",
+          "tier": 6,
+          "skill": "群山俯首",
+          "skillDescription": "攻击范围扩大，立即诱导攻击范围内的所有敌人至自身周围的可达地面，持续10秒，积雪生成速度加快，攻击力+35%，攻击速度+30，攻击无视目标10点法术抗性，每次攻击造成相当于攻击力180%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_05_a",
+              "description": "【谢拉格】【奥术】每叠加3层，本干员攻击力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_02_a",
+            "data/garrisons.json#garrison_05_a",
+            "server/sim/content/kits/ops/chess_char_6_02-sbell2.js"
+          ]
+        }
+      ],
+      "members": [
+        {
+          "id": "chess_char_1_02_a",
+          "name": "角峰",
+          "tier": 1,
+          "skill": "抗寒体质",
+          "skillDescription": "生命上限+30%，防御力+10%，法术抗性+60%",
+          "traits": [
+            {
+              "id": "garrison_25_a",
+              "description": "<获得时>自身所属盟约层数+2（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_02_a",
+            "data/garrisons.json#garrison_25_a",
+            "server/sim/content/kits/ops/chess_char_1_02-yak.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_05_a",
+          "name": "哈洛德",
+          "tier": 2,
+          "skill": "重症优先",
+          "skillDescription": "攻击速度+55，优先治疗元素损伤最严重的目标。治疗元素损伤累计超过一半的目标时，元素损伤回复量提升至160%",
+          "traits": [
+            {
+              "id": "garrison_09_a",
+              "description": "攻击力和生命值+20%；核心盟约每叠加3层，本干员攻击力和生命值+1%"
+            },
+            {
+              "id": "garrison_03_a",
+              "description": "攻击力和生命值+20%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_05_a",
+            "data/garrisons.json#garrison_09_a",
+            "data/garrisons.json#garrison_03_a",
+            "server/sim/content/kits/ops/chess_char_2_05-harold.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_11_a",
+          "name": "雪猎",
+          "tier": 3,
+          "skill": "风雪连弩",
+          "skillDescription": "立即使用特殊子弹发动相当于攻击力160%的两连击（对非移动敌人提升至185%）\n可充能1次",
+          "traits": [
+            {
+              "id": "garrison_111_a",
+              "description": "<获得时>自身所属盟约层数+5（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_11_a",
+            "data/garrisons.json#garrison_111_a",
+            "server/sim/content/kits/ops/chess_char_3_11-snhunt.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_14_a",
+          "name": "初雪",
+          "tier": 3,
+          "skill": "自然震慑",
+          "skillDescription": "攻击范围内所有敌人防御力-40%，法术抗性-23%",
+          "traits": [
+            {
+              "id": "garrison_28_a",
+              "description": "<战斗中>每当范围内1名敌人进入冻结时，有50%概率使已激活的【谢拉格】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_14_a",
+            "data/garrisons.json#garrison_28_a",
+            "server/sim/content/kits/ops/chess_char_3_14-slbell.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_20_a",
+          "name": "耶拉",
+          "tier": 3,
+          "skill": "心随意动",
+          "skillDescription": "浮游单元+1，释放浮游单元锁定敌人攻击，攻击力+29%，自身与浮游单元攻击有15%概率对敌人造成2.5秒寒冷。\n浮游单元锁敌后直至敌人被击杀或技能结束后返回干员身边",
+          "traits": [
+            {
+              "id": "garrison_92_a",
+              "description": "<获得时>获得1件“谢拉格不融冰”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_20_a",
+            "data/garrisons.json#garrison_92_a",
+            "server/sim/content/kits/ops/chess_char_3_20-kjera.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_13_a",
+          "name": "灵知",
+          "tier": 4,
+          "skill": "零度爆发",
+          "skillDescription": "对范围内所有敌人造成2.5秒寒冷和相当于攻击力130%的法术伤害；蓄力：额外造成一层寒冷",
+          "traits": [
+            {
+              "id": "garrison_111_a",
+              "description": "<获得时>自身所属盟约层数+5（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_13_a",
+            "data/garrisons.json#garrison_111_a",
+            "server/sim/content/kits/ops/chess_char_4_13-gnosis.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_22_a",
+          "name": "银灰",
+          "tier": 4,
+          "skill": "真银斩",
+          "skillDescription": "防御力-70%，攻击力+125%，攻击范围扩大，同时攻击至多4个目标（视为近距离攻击）",
+          "traits": [
+            {
+              "id": "garrison_28_a",
+              "description": "<战斗中>每当范围内1名敌人进入冻结时，有50%概率使已激活的【谢拉格】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_22_a",
+            "data/garrisons.json#garrison_28_a",
+            "server/sim/content/kits/ops/chess_char_4_22-svrash.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_14_a",
+          "name": "凛御银灰",
+          "tier": 5,
+          "skill": "御敌的锋锐",
+          "skillDescription": "对前方6名敌人造成攻击力260%的物理伤害，使其4秒内寒冷且隐匿失效；待部署区中距离“风雪之眼”最近的1名干员费用-11（优先选择右侧近卫/术师/狙击干员）；使“风雪之眼”左侧所有干员部署时以自身攻击力施放一次本技能的范围效果（最多叠加2次）\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_126_a",
+              "description": "<战斗开始时>使身前一格【谢拉格】干员获得特质“范围内1名敌人进入冻结时，有60%概率使已激活的【谢拉格】层数+1”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_14_a",
+            "data/garrisons.json#garrison_126_a",
+            "server/sim/content/kits/ops/chess_char_5_14-svash2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_02_a",
+          "name": "圣聆初雪",
+          "tier": 6,
+          "skill": "群山俯首",
+          "skillDescription": "攻击范围扩大，立即诱导攻击范围内的所有敌人至自身周围的可达地面，持续10秒，积雪生成速度加快，攻击力+35%，攻击速度+30，攻击无视目标10点法术抗性，每次攻击造成相当于攻击力180%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_05_a",
+              "description": "【谢拉格】【奥术】每叠加3层，本干员攻击力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_02_a",
+            "data/garrisons.json#garrison_05_a",
+            "server/sim/content/kits/ops/chess_char_6_02-sbell2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_19_a",
+          "name": "锏",
+          "tier": 6,
+          "skill": "归于宁静",
+          "skillDescription": "持续发动总计10次斩击，每次斩击对最多5名敌人造成相当于攻击力180%的物理伤害，天赋的发动概率提升至100%，并持续将敌人中等力度地拖拽至自身中心，之后将造成一次相当于攻击力300%的物理伤害并将敌人较大力地拖拽至自身中心",
+          "traits": [
+            {
+              "id": "garrison_155_a",
+              "description": "<获得时>自身所属的盟约层数+8\n<部署时>使自身已激活的盟约层数+8（至多24层）"
+            },
+            {
+              "id": "garrison_65_a",
+              "description": "<获得时>自身所属盟约层数+8（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_19_a",
+            "data/garrisons.json#garrison_155_a",
+            "data/garrisons.json#garrison_65_a",
+            "server/sim/content/kits/ops/chess_char_6_19-blkkgt.js"
+          ]
+        }
+      ],
+      "blackboard": {
+        "base_damage_scale": 1.25,
+        "base_ex_damage_scale": 1.35,
+        "ex_damage_scale_per_stack": 0.01,
+        "power_bond_char_cnt": 6,
+        "bond_eff_kjerag[storm].interval": 25,
+        "bond_eff_kjerag[storm].base_time": 20,
+        "bond_eff_kjerag[storm].time_per_stack": 0.1
+      },
+      "officialDescription": "【谢拉格】干员伤害提升至125%，对寒冷和冻结敌人额外提升至{0:0%}（受层数影响）\n<在场6名不同【谢拉格】干员>战场上每25秒吹过一阵寒风使敌人寒冷{1:0}秒（受层数影响）"
+    },
+    {
+      "id": "lateranoShip",
+      "name": "拉特兰",
+      "tagline": "弹药循环 · 六拉特兰火力成长",
+      "trigger": "场上3名不同拉特兰干员激活；6名每次消耗弹药为全体拉特兰加攻击。标准模拟禁用。",
+      "core": [
+        "莫斯提马",
+        "圣约送葬人",
+        "蕾缪安",
+        "信仰搅拌机",
+        "新约能天使"
+      ],
+      "plan": [
+        "推导：使用确实带弹药技能的干员；圣约送葬人兼顾消耗弹药叠层，莫斯提马周围4格布置耗弹主力。",
+        "推导：中期优先凑6人，让全队累计消耗50发弹药达到+200%攻击力上限。",
+        "推导：蕾缪安同一行保留3名干员以触发其特质；新约能天使和信仰搅拌机负责持续耗弹。"
+      ],
+      "pitfalls": [
+        "3人仅放大开启技能时获得的弹药量；普通能天使、空弦等非弹药技能不会因此获得额外弹药。",
+        "多连击不等于消耗多发弹药，叠层以实际弹药减少事件为准。",
+        "标准模拟关闭拉特兰盟约。"
+      ],
+      "effects": [
+        "开启弹药技能时弹药量=floor(基础弹药×(1.05+0.015×层数))。",
+        "6人：每实际消耗1发弹药，全体拉特兰攻击力+4%，每战至多+200%。"
+      ],
+      "sourcePaths": [
+        "data/bonds.json#lateranoShip",
+        "data/chess.json",
+        "data/garrisons.json",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/core.js"
+      ],
+      "thresholds": [
+        3,
+        6
+      ],
+      "activeCount": 3,
+      "countMode": "BOARD",
+      "availability": {
+        "standard": false,
+        "otherDifficulties": true
+      },
+      "keyOperators": [
+        {
+          "id": "chess_char_4_02_a",
+          "name": "莫斯提马",
+          "tier": 4,
+          "skill": "序时之匙",
+          "skillDescription": "攻击范围扩大，攻击变为向外扩散的波纹，攻击力+90%，第二天赋的效果提升至3倍，小力度地击退攻击目标",
+          "traits": [
+            {
+              "id": "garrison_22_a",
+              "description": "<战斗中>自身周围4格的干员每消耗6发弹药，使已激活的【拉特兰】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_02_a",
+            "data/garrisons.json#garrison_22_a",
+            "server/sim/content/kits/ops/chess_char_4_02-mostma.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_01_a",
+          "name": "圣约送葬人",
+          "tier": 5,
+          "skill": "近身铳斗",
+          "skillDescription": "攻击力+45%，防御力+45%，阻挡数+1，受到敌人的近战攻击时有20%几率闪避并补充1颗弹药\n攻击装有12发弹药，打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_23_a",
+              "description": "<战斗中>自身每消耗7发子弹，使已激活的【拉特兰】层数+7、【远见】层数+3（每场战斗分别至多触发7次）"
+            },
+            {
+              "id": "garrison_55_a",
+              "description": "【23】<战斗中>自身每消耗7发子弹，使已激活的【拉特兰】层数+7、【远见】层数+3（【远见】每场战斗至多21层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_01_a",
+            "data/garrisons.json#garrison_23_a",
+            "data/garrisons.json#garrison_55_a",
+            "server/sim/content/kits/ops/chess_char_5_01-excu2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_01_a",
+          "name": "蕾缪安",
+          "tier": 6,
+          "skill": "礼炮·强制追思",
+          "skillDescription": "停止攻击，每0.5秒消耗1发子弹依次锁定敌人，技能结束时对每名被锁定的敌人所在位置进行轰炸，轰炸造成攻击力240%的范围物理伤害（中心伤害提升至攻击力的360%）\n攻击装有5发弹药，打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_24_a",
+              "description": "<战斗中>自身每消耗10发子弹，若同一行有3名干员，使已激活的【拉特兰】【精准】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_01_a",
+            "data/garrisons.json#garrison_24_a",
+            "server/sim/content/kits/ops/chess_char_6_01-lemuen.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_01_a",
+          "name": "信仰搅拌机",
+          "tier": 4,
+          "skill": "退休前布道",
+          "skillDescription": "技能开启时为所有其他【拉特兰】干员补弹2发；攻击范围扩大，生命上限+35%，攻击力+140%，防御力+35%，停止主动攻击敌人，受到攻击时立即向攻击范围内最多3个敌人进行1次反击，反击最小间隔为实际攻击间隔的60%\n攻击装有30发弹药，打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_14_a",
+              "description": "【拉特兰】【坚守】每叠加3层，本干员防御力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_01_a",
+            "data/garrisons.json#garrison_14_a",
+            "server/sim/content/kits/ops/chess_char_4_01-rmixer.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_13_a",
+          "name": "新约能天使",
+          "tier": 6,
+          "skill": "开火成瘾症",
+          "skillDescription": "立即偷取攻击范围内1名友方干员70点攻击速度（持续至技能结束或新约能天使离场），自身与其获得最大生命值180%的屏障，该屏障会持续衰减，攻击间隔降低，每次攻击造成攻击力230%的物理伤害\n攻击装有35发弹药，打完后结束（可随时停止技能），如果成功偷取攻击速度则额外获得5发弹药",
+          "traits": [
+            {
+              "id": "garrison_32_a",
+              "description": "<获得时>使下个休整期额外获得2资金"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_13_a",
+            "data/garrisons.json#garrison_32_a",
+            "server/sim/content/kits/ops/chess_char_6_13-angel2.js"
+          ]
+        }
+      ],
+      "members": [
+        {
+          "id": "chess_char_1_01_a",
+          "name": "隐现",
+          "tier": 1,
+          "skill": "“解决麻烦”",
+          "skillDescription": "攻击力+80%，攻击间隔略微缩短，优先攻击使用远程武器的敌人并且不容易成为敌人的攻击目标\n攻击装有14发弹药，打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_16_a",
+              "description": "【拉特兰】每叠加5层，本干员攻击速度+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_01_a",
+            "data/garrisons.json#garrison_16_a",
+            "server/sim/content/kits/ops/chess_char_1_01-inside.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_01_a",
+          "name": "送葬人",
+          "tier": 2,
+          "skill": "最终旅程",
+          "skillDescription": "普通攻击变为二连击，且攻击间隔少量缩短",
+          "traits": [
+            {
+              "id": "garrison_138_a",
+              "description": "<战斗中>首次击倒敌人时，使已激活的【精准】【拉特兰】层数+3"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_01_a",
+            "data/garrisons.json#garrison_138_a",
+            "server/sim/content/kits/ops/chess_char_2_01-excu.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_01_a",
+          "name": "能天使",
+          "tier": 3,
+          "skill": "过载模式",
+          "skillDescription": "攻击变为5连射，攻击间隔略微缩短\n技能会自动开启",
+          "traits": [
+            {
+              "id": "garrison_26_a",
+              "description": "<获得时>使下个休整期额外获得1资金"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_01_a",
+            "data/garrisons.json#garrison_26_a",
+            "server/sim/content/kits/ops/chess_char_3_01-angel.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_21_a",
+          "name": "空弦",
+          "tier": 3,
+          "skill": "箭矢·暴风",
+          "skillDescription": "攻击力+10%，攻击距离+1，攻击变为3连击，每次可以攻击2个敌人",
+          "traits": [
+            {
+              "id": "garrison_150_a",
+              "description": "<进入休整期时>使自身及身前一格干员的已激活盟约分别各层数+3"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_21_a",
+            "data/garrisons.json#garrison_150_a",
+            "server/sim/content/kits/ops/chess_char_3_21-archet.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_01_a",
+          "name": "信仰搅拌机",
+          "tier": 4,
+          "skill": "退休前布道",
+          "skillDescription": "技能开启时为所有其他【拉特兰】干员补弹2发；攻击范围扩大，生命上限+35%，攻击力+140%，防御力+35%，停止主动攻击敌人，受到攻击时立即向攻击范围内最多3个敌人进行1次反击，反击最小间隔为实际攻击间隔的60%\n攻击装有30发弹药，打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_14_a",
+              "description": "【拉特兰】【坚守】每叠加3层，本干员防御力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_01_a",
+            "data/garrisons.json#garrison_14_a",
+            "server/sim/content/kits/ops/chess_char_4_01-rmixer.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_02_a",
+          "name": "莫斯提马",
+          "tier": 4,
+          "skill": "序时之匙",
+          "skillDescription": "攻击范围扩大，攻击变为向外扩散的波纹，攻击力+90%，第二天赋的效果提升至3倍，小力度地击退攻击目标",
+          "traits": [
+            {
+              "id": "garrison_22_a",
+              "description": "<战斗中>自身周围4格的干员每消耗6发弹药，使已激活的【拉特兰】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_02_a",
+            "data/garrisons.json#garrison_22_a",
+            "server/sim/content/kits/ops/chess_char_4_02-mostma.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_01_a",
+          "name": "圣约送葬人",
+          "tier": 5,
+          "skill": "近身铳斗",
+          "skillDescription": "攻击力+45%，防御力+45%，阻挡数+1，受到敌人的近战攻击时有20%几率闪避并补充1颗弹药\n攻击装有12发弹药，打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_23_a",
+              "description": "<战斗中>自身每消耗7发子弹，使已激活的【拉特兰】层数+7、【远见】层数+3（每场战斗分别至多触发7次）"
+            },
+            {
+              "id": "garrison_55_a",
+              "description": "【23】<战斗中>自身每消耗7发子弹，使已激活的【拉特兰】层数+7、【远见】层数+3（【远见】每场战斗至多21层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_01_a",
+            "data/garrisons.json#garrison_23_a",
+            "data/garrisons.json#garrison_55_a",
+            "server/sim/content/kits/ops/chess_char_5_01-excu2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_01_a",
+          "name": "蕾缪安",
+          "tier": 6,
+          "skill": "礼炮·强制追思",
+          "skillDescription": "停止攻击，每0.5秒消耗1发子弹依次锁定敌人，技能结束时对每名被锁定的敌人所在位置进行轰炸，轰炸造成攻击力240%的范围物理伤害（中心伤害提升至攻击力的360%）\n攻击装有5发弹药，打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_24_a",
+              "description": "<战斗中>自身每消耗10发子弹，若同一行有3名干员，使已激活的【拉特兰】【精准】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_01_a",
+            "data/garrisons.json#garrison_24_a",
+            "server/sim/content/kits/ops/chess_char_6_01-lemuen.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_09_a",
+          "name": "塑心",
+          "tier": 6,
+          "skill": "“黄金的狂喜”",
+          "skillDescription": "对一个未处于损伤爆发期间的敌人造成相当于攻击力210%的法术伤害并附带85%攻击力的凋亡损伤\n可充能2次，技能未开启时无法普通攻击",
+          "traits": [
+            {
+              "id": "garrison_90_a",
+              "description": "<战斗中>开启技能时，同一行每有1名干员，当前已激活且层数最多的盟约层数+1（每场作战至多10层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_09_a",
+            "data/garrisons.json#garrison_90_a",
+            "server/sim/content/kits/ops/chess_char_6_09-cello.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_13_a",
+          "name": "新约能天使",
+          "tier": 6,
+          "skill": "开火成瘾症",
+          "skillDescription": "立即偷取攻击范围内1名友方干员70点攻击速度（持续至技能结束或新约能天使离场），自身与其获得最大生命值180%的屏障，该屏障会持续衰减，攻击间隔降低，每次攻击造成攻击力230%的物理伤害\n攻击装有35发弹药，打完后结束（可随时停止技能），如果成功偷取攻击速度则额外获得5发弹药",
+          "traits": [
+            {
+              "id": "garrison_32_a",
+              "description": "<获得时>使下个休整期额外获得2资金"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_13_a",
+            "data/garrisons.json#garrison_32_a",
+            "server/sim/content/kits/ops/chess_char_6_13-angel2.js"
+          ]
+        }
+      ],
+      "blackboard": {
+        "base_ammo_percent": 0.05,
+        "ammo_percent_per_stack": 0.015,
+        "power_bond_char_cnt": 6,
+        "atk_per_consume": 0.04,
+        "max_atk_for_consume": 2
+      },
+      "officialDescription": "【拉特兰】干员开启技能时获得的弹药量+{0:0%}（受层数影响）\n<在场6名不同【拉特兰】干员>任意【拉特兰】干员每消耗1发弹药，全体【拉特兰】干员攻击力+4%，至多+200%"
+    },
+    {
+      "id": "egirShip",
+      "name": "阿戈尔",
+      "tagline": "身前吞噬 · 生命与复活链",
+      "trigger": "场上3名不同阿戈尔干员激活；5名解锁每场最多3次成员首次击倒复活。标准模拟禁用。",
+      "core": [
+        "歌蕾蒂娅",
+        "乌尔比安",
+        "归溟幽灵鲨",
+        "浊心斯卡蒂"
+      ],
+      "plan": [
+        "推导：明确每名阿戈尔的朝向，把可承受吞噬伤害或可用于叠层的干员放在其身前一格。",
+        "推导：利用歌蕾蒂娅同一行3人的休整期产卡，为阵容和吞噬对象提供资源。",
+        "推导：中期凑5阿戈尔获得复活保障，后期乌尔比安、浊心斯卡蒂消化层数；用归溟幽灵鲨的替身切换继续叠层。"
+      ],
+      "pitfalls": [
+        "吞噬造成5000点物理生命流失并获取被标记者的基础攻击力和阻挡数；它可能击倒友军，必须规划站位。",
+        "吞噬按更靠左、再更靠上的阿戈尔依次标记，身前阿戈尔可继续串联；不是任意选取祭品。",
+        "5人效果总共只有3个复活名额，各成员首次击倒最多占1次；并非所有阿戈尔无限复活。",
+        "标准模拟关闭阿戈尔；联防与最终攻势中不要依靠战斗特质继续叠层。"
+      ],
+      "effects": [
+        "阿戈尔最大生命加成为35%+1%×层数。",
+        "开场吞噬身前一格，获取基础攻击和阻挡；每名被吞噬者按其等阶为阿戈尔加层，每场每名一次。",
+        "5人：3个复活名额，每名成员至多1次；开场吞噬击倒者在吞噬结束后按棋盘顺序使用名额。"
+      ],
+      "sourcePaths": [
+        "data/bonds.json#egirShip",
+        "data/chess.json",
+        "data/garrisons.json",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/core.js"
+      ],
+      "thresholds": [
+        3,
+        5
+      ],
+      "activeCount": 3,
+      "countMode": "BOARD",
+      "availability": {
+        "standard": false,
+        "otherDifficulties": true
+      },
+      "keyOperators": [
+        {
+          "id": "chess_char_4_12_a",
+          "name": "歌蕾蒂娅",
+          "tier": 4,
+          "skill": "缺水的碎漩狂舞",
+          "skillDescription": "对一个远处目标束缚并制造一个龙卷风使周围敌人移动速度-50%，每1.5秒造成85%攻击力的法术伤害并小力地拖拽至中心。技能结束时把目标地点周围的敌人小力地拖拽至面前",
+          "traits": [
+            {
+              "id": "garrison_39_a",
+              "description": "<进入休整期时>若同一行有3名干员，获得1个斯卡蒂、幽灵鲨或深巡"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_12_a",
+            "data/garrisons.json#garrison_39_a",
+            "server/sim/content/kits/ops/chess_char_4_12-glady.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_05_a",
+          "name": "乌尔比安",
+          "tier": 5,
+          "skill": "必须开辟的通路",
+          "skillDescription": "最大生命值+40%，攻击力+200%，立即朝面前扔出一个船锚，撞击到目标或达到最远距离时停止，并对周围所有敌人造成攻击力135%的物理伤害和6秒晕眩。若船锚停留的位置可以部署，乌尔比安会移动到该位置\n可以手动结束技能，技能结束时乌尔比安会返回到初始的位置",
+          "traits": [
+            {
+              "id": "garrison_12_a",
+              "description": "【阿戈尔】每叠加2层，本干员攻击力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_05_a",
+            "data/garrisons.json#garrison_12_a",
+            "server/sim/content/kits/ops/chess_char_5_05-ulpia.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_13_a",
+          "name": "归溟幽灵鲨",
+          "tier": 5,
+          "skill": "生存的渴望",
+          "skillDescription": "攻击力+70%，攻击速度+22，技能持续期间内干员的生命值不会低于1\n技能结束后视为被击倒",
+          "traits": [
+            {
+              "id": "garrison_40_a",
+              "description": "<战斗中>自身被击倒或替身与本体进行切换时，使已激活的【阿戈尔】层数+5、【不屈】层数+5"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_13_a",
+            "data/garrisons.json#garrison_40_a",
+            "server/sim/content/kits/ops/chess_char_5_13-ghost2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_04_a",
+          "name": "浊心斯卡蒂",
+          "tier": 6,
+          "skill": "\"潮涌，潮枯\"",
+          "skillDescription": "特性变为自身每秒流失5%生命，使范围内所有敌人每秒受到40%攻击力的真实伤害（自身与海嗣造成的伤害可叠加），范围内所有友方单位获得相当于浊心斯卡蒂65%攻击力的鼓舞效果",
+          "traits": [
+            {
+              "id": "garrison_84_a",
+              "description": "【阿戈尔】每叠加10层，本干员每秒回复50生命，自然技力回复速度+0.15/秒"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_04_a",
+            "data/garrisons.json#garrison_84_a",
+            "server/sim/content/kits/ops/chess_char_6_04-skadi2.js"
+          ]
+        }
+      ],
+      "members": [
+        {
+          "id": "chess_char_1_04_a",
+          "name": "深巡",
+          "tier": 1,
+          "skill": "行动能力剥夺",
+          "skillDescription": "攻击距离加长，攻击力+30%，攻击速度+25，攻击变为向正前方发射的毒性鳍刺，能穿过3个目标且造成1秒停顿。",
+          "traits": [
+            {
+              "id": "garrison_18_a",
+              "description": "攻击海怪敌人时攻击力提升至150%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_04_a",
+            "data/garrisons.json#garrison_18_a",
+            "server/sim/content/kits/ops/chess_char_1_04-udflow.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_07_a",
+          "name": "幽灵鲨",
+          "tier": 2,
+          "skill": "肉斩骨断",
+          "skillDescription": "技能持续期间内干员的生命值始终不会低于1，攻击力+70%\n技能结束后干员晕眩10秒",
+          "traits": [
+            {
+              "id": "garrison_46_a",
+              "description": "<战斗中>自身被击倒时，使已激活的【阿戈尔】层数+3"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_07_a",
+            "data/garrisons.json#garrison_46_a",
+            "server/sim/content/kits/ops/chess_char_2_07-ghost.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_05_a",
+          "name": "斯卡蒂",
+          "tier": 3,
+          "skill": "涌潮悲歌",
+          "skillDescription": "攻击力、防御力和生命上限各+85%",
+          "traits": [
+            {
+              "id": "garrison_38_a",
+              "description": "<战斗中>每击倒2名单位时，使已激活的【阿戈尔】【坚守】【突袭】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_05_a",
+            "data/garrisons.json#garrison_38_a",
+            "server/sim/content/kits/ops/chess_char_3_05-skadi.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_09_a",
+          "name": "海霓",
+          "tier": 3,
+          "skill": "阻滞性显色剂",
+          "skillDescription": "攻击力+30%，额外攻击一个目标，攻击范围内的非精英和领袖敌人移动速度-40%，且被击倒时使天赋效果提升0.4倍，最多提升至2.6倍，持续至技能结束",
+          "traits": [
+            {
+              "id": "garrison_131_a",
+              "description": "<战斗中>首次击倒敌人或我方干员时，使已激活的【阿戈尔】【奥术】层数+3"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_09_a",
+            "data/garrisons.json#garrison_131_a",
+            "server/sim/content/kits/ops/chess_char_3_09-haini.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_09_a",
+          "name": "水月",
+          "tier": 4,
+          "skill": "囚徒困境",
+          "skillDescription": "攻击间隔小幅度缩短，攻击力+15%，第一天赋额外攻击1个目标并附加0.8秒束缚",
+          "traits": [
+            {
+              "id": "garrison_07_a",
+              "description": "【阿戈尔】每叠加3层，本干员攻击力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_09_a",
+            "data/garrisons.json#garrison_07_a",
+            "server/sim/content/kits/ops/chess_char_4_09-mizuki.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_12_a",
+          "name": "歌蕾蒂娅",
+          "tier": 4,
+          "skill": "缺水的碎漩狂舞",
+          "skillDescription": "对一个远处目标束缚并制造一个龙卷风使周围敌人移动速度-50%，每1.5秒造成85%攻击力的法术伤害并小力地拖拽至中心。技能结束时把目标地点周围的敌人小力地拖拽至面前",
+          "traits": [
+            {
+              "id": "garrison_39_a",
+              "description": "<进入休整期时>若同一行有3名干员，获得1个斯卡蒂、幽灵鲨或深巡"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_12_a",
+            "data/garrisons.json#garrison_39_a",
+            "server/sim/content/kits/ops/chess_char_4_12-glady.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_05_a",
+          "name": "乌尔比安",
+          "tier": 5,
+          "skill": "必须开辟的通路",
+          "skillDescription": "最大生命值+40%，攻击力+200%，立即朝面前扔出一个船锚，撞击到目标或达到最远距离时停止，并对周围所有敌人造成攻击力135%的物理伤害和6秒晕眩。若船锚停留的位置可以部署，乌尔比安会移动到该位置\n可以手动结束技能，技能结束时乌尔比安会返回到初始的位置",
+          "traits": [
+            {
+              "id": "garrison_12_a",
+              "description": "【阿戈尔】每叠加2层，本干员攻击力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_05_a",
+            "data/garrisons.json#garrison_12_a",
+            "server/sim/content/kits/ops/chess_char_5_05-ulpia.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_13_a",
+          "name": "归溟幽灵鲨",
+          "tier": 5,
+          "skill": "生存的渴望",
+          "skillDescription": "攻击力+70%，攻击速度+22，技能持续期间内干员的生命值不会低于1\n技能结束后视为被击倒",
+          "traits": [
+            {
+              "id": "garrison_40_a",
+              "description": "<战斗中>自身被击倒或替身与本体进行切换时，使已激活的【阿戈尔】层数+5、【不屈】层数+5"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_13_a",
+            "data/garrisons.json#garrison_40_a",
+            "server/sim/content/kits/ops/chess_char_5_13-ghost2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_04_a",
+          "name": "浊心斯卡蒂",
+          "tier": 6,
+          "skill": "\"潮涌，潮枯\"",
+          "skillDescription": "特性变为自身每秒流失5%生命，使范围内所有敌人每秒受到40%攻击力的真实伤害（自身与海嗣造成的伤害可叠加），范围内所有友方单位获得相当于浊心斯卡蒂65%攻击力的鼓舞效果",
+          "traits": [
+            {
+              "id": "garrison_84_a",
+              "description": "【阿戈尔】每叠加10层，本干员每秒回复50生命，自然技力回复速度+0.15/秒"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_04_a",
+            "data/garrisons.json#garrison_84_a",
+            "server/sim/content/kits/ops/chess_char_6_04-skadi2.js"
+          ]
+        }
+      ],
+      "blackboard": {
+        "base_max_hp": 0.35,
+        "max_hp_per_stack": 0.01,
+        "damage_value": 5000,
+        "power_bond_char_cnt": 5,
+        "max_free_respawn_cnt": 3
+      },
+      "officialDescription": "【阿戈尔】干员生命值+{0:0%}（受层数影响）\n战斗开始时【阿戈尔】干员依次吞噬身前一格干员造成5000点物理伤害并获得其基础攻击力和阻挡数，并叠加等于被吞噬者等阶的盟约层数（【阿戈尔】之间优先更靠左和靠上的干员发起吞噬）\n<在场5名不同【阿戈尔】干员>前3名【阿戈尔】干员首次被击倒时立刻复活"
+    },
+    {
+      "id": "siracusaShip",
+      "name": "叙拉古",
+      "tagline": "刷新叠层 · 隐匿与真伤触发",
+      "trigger": "场上3名不同叙拉古干员激活；6名部署后获得隐匿与特殊真伤机会。",
+      "core": [
+        "拉普兰德",
+        "缄默德克萨斯",
+        "铃兰",
+        "安洁莉娜",
+        "荒芜拉普兰德"
+      ],
+      "plan": [
+        "推导：先激活3叙拉古，把拉普兰德放在整备区也可接收其本回合首次主动刷新叠层。",
+        "推导：阿罗玛、安洁莉娜在场时，每回合前3次刷新可达到各自休整期末特质收益上限。",
+        "推导：用普罗旺斯、德克萨斯、缄默德克萨斯等免费刷新来源驱动成长；铃兰身前放值得重复触发获得时效果的干员。",
+        "推导：后期争取荒芜拉普兰德精锐，将其击倒叠层特质扩散给叙拉古成员。"
+      ],
+      "pitfalls": [
+        "阿罗玛、安洁莉娜的休整期结束特质需在场；只有拉普兰德明确允许在整备区生效。",
+        "6人特效写名义3%概率，实现为全体叙拉古共享的伪随机计数；不能把每一下当独立3%抽签。",
+        "隐匿不等于完全无敌，处于阻挡时仍可能受到攻击。"
+      ],
+      "effects": [
+        "每次部署后攻速+25+0.8×层数，持续32+0.4×层数秒。",
+        "6人：部署后同持续时间隐匿；隐匿期间及离开后10秒，普通伤害命中有名义3%机会追加5000+50×层数真实伤害与3秒恐惧。"
+      ],
+      "sourcePaths": [
+        "data/bonds.json#siracusaShip",
+        "data/chess.json",
+        "data/garrisons.json",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/core.js",
+        "server/sim/content/garrisons/meta.js"
+      ],
+      "thresholds": [
+        3,
+        6
+      ],
+      "activeCount": 3,
+      "countMode": "BOARD",
+      "availability": {
+        "standard": true,
+        "otherDifficulties": true
+      },
+      "keyOperators": [
+        {
+          "id": "chess_char_2_16_a",
+          "name": "拉普兰德",
+          "tier": 2,
+          "skill": "狼魂",
+          "skillDescription": "攻击力+75%，伤害类型变为法术，额外攻击一个目标，远程攻击不再降低攻击力\n技能自动开启",
+          "traits": [
+            {
+              "id": "garrison_123_a",
+              "description": "<刷新时>若为本回合首次主动刷新，使已激活的【叙拉古】层数+4，此干员在整备区时也有效"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_16_a",
+            "data/garrisons.json#garrison_123_a",
+            "server/sim/content/kits/ops/chess_char_2_16-whitew.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_16_a",
+          "name": "缄默德克萨斯",
+          "tier": 4,
+          "skill": "剑雨滂沱",
+          "skillDescription": "部署后立即对周围所有敌人造成两次相当于攻击力115%的法术伤害并使目标晕眩1.5秒，之后每秒释放剑雨攻击范围内最多2个不同的目标，造成攻击力85%的法术伤害和0.2秒晕眩",
+          "traits": [
+            {
+              "id": "garrison_114_a",
+              "description": "<进入休整期时>获得1次免费刷新"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_16_a",
+            "data/garrisons.json#garrison_114_a",
+            "server/sim/content/kits/ops/chess_char_4_16-texas2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_10_a",
+          "name": "铃兰",
+          "tier": 5,
+          "skill": "狐火渺然",
+          "skillDescription": "停止攻击，攻击范围扩大，第二天赋效果提升至1.4倍，攻击范围内的所有敌人被停顿，且每秒回复范围内所有友方单位相当于攻击力9%的生命",
+          "traits": [
+            {
+              "id": "garrison_60_a",
+              "description": "<进入休整期时>触发身前一格的其他干员的“获得时”类效果"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_10_a",
+            "data/garrisons.json#garrison_60_a",
+            "server/sim/content/kits/ops/chess_char_5_10-lisa.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_20_a",
+          "name": "安洁莉娜",
+          "tier": 5,
+          "skill": "秘杖·反重力模式",
+          "skillDescription": "全场所有敌人失重，攻击范围扩大，攻击力+90%，可以攻击4个敌人\n技能未开启时无法普通攻击",
+          "traits": [
+            {
+              "id": "garrison_147_a",
+              "description": "<休整期结束时>本回合每刷新过1次，使已激活的【叙拉古】层数+4（每回合至多12层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_20_a",
+            "data/garrisons.json#garrison_147_a",
+            "server/sim/content/kits/ops/chess_char_5_20-aglina.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_18_a",
+          "name": "荒芜拉普兰德",
+          "tier": 6,
+          "skill": "终幕·浩劫",
+          "skillDescription": "浮游单元+2，攻击力+45%，释放特殊形态的浮游单元散开后在整个战场范围各自追逐较近的敌人，追上时使目标恐惧2秒并锁定其攻击，浮游单元周围的敌人移动速度-30%且每秒受到相当于攻击力100%的法术伤害（不叠加）；浮游单元在锁定目标倒下后重新索敌，直至技能结束后返回干员身边",
+          "traits": [
+            {
+              "id": "garrison_118_a",
+              "description": "<战斗中>击倒敌人时，使已激活的【叙拉古】层数+2\n将荒芜拉普兰德合成为精锐即可在战斗中使所有【叙拉古】干员获得该效果"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_18_a",
+            "data/garrisons.json#garrison_118_a",
+            "server/sim/content/kits/ops/chess_char_6_18-whitw2.js"
+          ]
+        }
+      ],
+      "members": [
+        {
+          "id": "chess_char_1_07_a",
+          "name": "普罗旺斯",
+          "tier": 1,
+          "skill": "狼眼",
+          "skillDescription": "目标敌人的生命每降低20%，对其造成伤害时的攻击力+12%",
+          "traits": [
+            {
+              "id": "garrison_113_a",
+              "description": "<获得时>获得1次免费刷新"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_07_a",
+            "data/garrisons.json#garrison_113_a",
+            "server/sim/content/kits/ops/chess_char_1_07-prove.js"
+          ]
+        },
+        {
+          "id": "chess_char_1_08_a",
+          "name": "德克萨斯",
+          "tier": 1,
+          "skill": "剑雨",
+          "skillDescription": "立即获得10点费用；对周围所有敌人造成两次相当于攻击力120%的法术伤害，并令击中目标晕眩2秒",
+          "traits": [
+            {
+              "id": "garrison_120_a",
+              "description": "<售出时>获得1次免费刷新"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_08_a",
+            "data/garrisons.json#garrison_120_a",
+            "server/sim/content/kits/ops/chess_char_1_08-texas.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_16_a",
+          "name": "拉普兰德",
+          "tier": 2,
+          "skill": "狼魂",
+          "skillDescription": "攻击力+75%，伤害类型变为法术，额外攻击一个目标，远程攻击不再降低攻击力\n技能自动开启",
+          "traits": [
+            {
+              "id": "garrison_123_a",
+              "description": "<刷新时>若为本回合首次主动刷新，使已激活的【叙拉古】层数+4，此干员在整备区时也有效"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_16_a",
+            "data/garrisons.json#garrison_123_a",
+            "server/sim/content/kits/ops/chess_char_2_16-whitew.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_18_a",
+          "name": "忍冬",
+          "tier": 3,
+          "skill": "隐狐之艺",
+          "skillDescription": "技能开启时立即获得7点部署费用，攻击距离+1，攻击力+65%，攻击速度从+160逐渐衰减至+0，同时攻击阻挡的所有敌人，每次攻击晕眩敌人0.2秒\n若技能期间击倒敌人，则技能结束时进入迷彩状态，直至下一次开启技能",
+          "traits": [
+            {
+              "id": "garrison_71_a",
+              "description": "<获得时>自身所属盟约层数+6（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_18_a",
+            "data/garrisons.json#garrison_71_a",
+            "server/sim/content/kits/ops/chess_char_3_18-vulpis.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_19_a",
+          "name": "伺夜",
+          "tier": 3,
+          "skill": "领袖的尊严",
+          "skillDescription": "技能持续时间内逐渐获得10点部署费用，攻击变为三连击；狼群与伺夜攻击被狼群阻挡的单位造成伤害时，额外造成相当于伺夜攻击力20%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_152_a",
+              "description": "<战斗中>造成的伤害变为弱点伤害（基于敌人的防御力和法术抗性变换物理和法术伤害），前3次击倒敌人时使已激活的【叙拉古】层数+2、【奇迹】层数+1"
+            },
+            {
+              "id": "garrison_153_a",
+              "description": "【152】<战斗中>造成的伤害变为弱点伤害（基于敌人的防御力和法术抗性变换物理和法术伤害），前3次击倒敌人时使已激活的【叙拉古】层数+2、【奇迹】层数+1"
+            },
+            {
+              "id": "garrison_01_a",
+              "description": "<战斗中>造成的伤害变为弱点伤害（基于敌人的防御力和法术抗性变换物理和法术伤害）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_19_a",
+            "data/garrisons.json#garrison_152_a",
+            "data/garrisons.json#garrison_153_a",
+            "data/garrisons.json#garrison_01_a",
+            "server/sim/content/kits/ops/chess_char_3_19-vigil.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_10_a",
+          "name": "阿罗玛",
+          "tier": 4,
+          "skill": "小心地滑",
+          "skillDescription": "攻击力+65%，攻击范围内浮空状态的敌人结束浮空落地时，对其造成攻击力65%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_122_a",
+              "description": "<休整期结束时>本回合每刷新过1次，使已激活的【叙拉古】【奥术】层数+2（至多6层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_10_a",
+            "data/garrisons.json#garrison_122_a",
+            "server/sim/content/kits/ops/chess_char_4_10-aroma.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_16_a",
+          "name": "缄默德克萨斯",
+          "tier": 4,
+          "skill": "剑雨滂沱",
+          "skillDescription": "部署后立即对周围所有敌人造成两次相当于攻击力115%的法术伤害并使目标晕眩1.5秒，之后每秒释放剑雨攻击范围内最多2个不同的目标，造成攻击力85%的法术伤害和0.2秒晕眩",
+          "traits": [
+            {
+              "id": "garrison_114_a",
+              "description": "<进入休整期时>获得1次免费刷新"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_16_a",
+            "data/garrisons.json#garrison_114_a",
+            "server/sim/content/kits/ops/chess_char_4_16-texas2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_10_a",
+          "name": "铃兰",
+          "tier": 5,
+          "skill": "狐火渺然",
+          "skillDescription": "停止攻击，攻击范围扩大，第二天赋效果提升至1.4倍，攻击范围内的所有敌人被停顿，且每秒回复范围内所有友方单位相当于攻击力9%的生命",
+          "traits": [
+            {
+              "id": "garrison_60_a",
+              "description": "<进入休整期时>触发身前一格的其他干员的“获得时”类效果"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_10_a",
+            "data/garrisons.json#garrison_60_a",
+            "server/sim/content/kits/ops/chess_char_5_10-lisa.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_20_a",
+          "name": "安洁莉娜",
+          "tier": 5,
+          "skill": "秘杖·反重力模式",
+          "skillDescription": "全场所有敌人失重，攻击范围扩大，攻击力+90%，可以攻击4个敌人\n技能未开启时无法普通攻击",
+          "traits": [
+            {
+              "id": "garrison_147_a",
+              "description": "<休整期结束时>本回合每刷新过1次，使已激活的【叙拉古】层数+4（每回合至多12层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_20_a",
+            "data/garrisons.json#garrison_147_a",
+            "server/sim/content/kits/ops/chess_char_5_20-aglina.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_18_a",
+          "name": "荒芜拉普兰德",
+          "tier": 6,
+          "skill": "终幕·浩劫",
+          "skillDescription": "浮游单元+2，攻击力+45%，释放特殊形态的浮游单元散开后在整个战场范围各自追逐较近的敌人，追上时使目标恐惧2秒并锁定其攻击，浮游单元周围的敌人移动速度-30%且每秒受到相当于攻击力100%的法术伤害（不叠加）；浮游单元在锁定目标倒下后重新索敌，直至技能结束后返回干员身边",
+          "traits": [
+            {
+              "id": "garrison_118_a",
+              "description": "<战斗中>击倒敌人时，使已激活的【叙拉古】层数+2\n将荒芜拉普兰德合成为精锐即可在战斗中使所有【叙拉古】干员获得该效果"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_18_a",
+            "data/garrisons.json#garrison_118_a",
+            "server/sim/content/kits/ops/chess_char_6_18-whitw2.js"
+          ]
+        }
+      ],
+      "blackboard": {
+        "base_duration": 32,
+        "duration_per_stack": 0.4,
+        "base_attack_speed": 25,
+        "attack_speed_per_stack": 0.8,
+        "power_bond_char_cnt": 6,
+        "ex_bond_char_cnt": 6,
+        "end_duration": 10,
+        "prob": 0.03,
+        "base_damage": 5000,
+        "damage_per_stack": 50,
+        "fear": 3
+      },
+      "officialDescription": "【叙拉古】干员部署后攻击速度+{0:0}，持续{1:0}秒（受层数影响）\n<在场6名不同【叙拉古】干员>【叙拉古】干员部署后还会进入等时长的隐匿状态，【叙拉古】干员在隐匿状态和脱离隐匿10秒内对敌人攻击时有3%概率造成{2:0}（受层数影响）点真实伤害并恐惧目标3秒"
+    },
+    {
+      "id": "kazimierzShip",
+      "name": "卡西米尔",
+      "tagline": "再部署成长 · 阻挡真伤",
+      "trigger": "场上3名不同卡西米尔干员激活；6名解锁阻挡脉冲/未阻挡攻击真伤。标准模拟禁用。",
+      "core": [
+        "砾",
+        "瑕光",
+        "远牙",
+        "玛恩纳",
+        "耀骑士临光"
+      ],
+      "plan": [
+        "推导：让砾等快速再部署成员参与前线循环，用部署事件给卡西米尔团队加攻击和层数。",
+        "推导：远牙同一行最右放可频繁再部署的干员；耀骑士临光身前也可放该循环位。",
+        "推导：用助力减少再部署时间，不屈提供快速返场机会；根据前线实际生存情况调整承伤，不强求每次击倒。",
+        "推导：后期让玛恩纳、耀骑士临光输出，配合6人真伤机制处理高防敌人。"
+      ],
+      "pitfalls": [
+        "每次触发看本人的干员部署；卡西米尔攻击上限随层数增长，不是固定无限叠加。",
+        "远牙赋予的是同一行最右一名干员；耀骑士临光赋予自己和身前一格，注意朝向与相对位置。",
+        "3坚守会分担非坚守干员伤害，可能降低砾的击倒/返场频率，属于循环流需评估的取舍。",
+        "标准模拟关闭卡西米尔。"
+      ],
+      "effects": [
+        "本人任意干员部署时，卡西米尔攻击力+20%，每战累计上限为50%+1%×层数。",
+        "6人：阻挡时每2秒对周围0.8格敌人造成120%攻击力真实伤害与0.1秒晕眩；未阻挡时普通攻击伤害附带30%攻击力真实伤害。"
+      ],
+      "sourcePaths": [
+        "data/bonds.json#kazimierzShip",
+        "data/chess.json",
+        "data/garrisons.json",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/core.js"
+      ],
+      "thresholds": [
+        3,
+        6
+      ],
+      "activeCount": 3,
+      "countMode": "BOARD",
+      "availability": {
+        "standard": false,
+        "otherDifficulties": true
+      },
+      "keyOperators": [
+        {
+          "id": "chess_char_2_12_a",
+          "name": "砾",
+          "tier": 2,
+          "skill": "鼠群",
+          "skillDescription": "部署后获得可吸收相当于自己最大生命140%的屏障，该屏障会在10秒内持续衰减",
+          "traits": [
+            {
+              "id": "garrison_75_a",
+              "description": "<部署时>使已激活的【卡西米尔】层数+1\n<被击倒时>使已激活的【不屈】层数+2"
+            },
+            {
+              "id": "garrison_143_a",
+              "description": "<部署时>使已激活的【卡西米尔】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_12_a",
+            "data/garrisons.json#garrison_75_a",
+            "data/garrisons.json#garrison_143_a",
+            "server/sim/content/kits/ops/chess_char_2_12-gravel.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_12_a",
+          "name": "瑕光",
+          "tier": 3,
+          "skill": "先贤化身",
+          "skillDescription": "攻击力+65%，防御力+25%，每次攻击额外造成相当于攻击力60%的法术伤害，并恢复周围一名其他友方单位相当于攻击力70%的生命",
+          "traits": [
+            {
+              "id": "garrison_106_a",
+              "description": "<部署时>使自身已激活的盟约层数+4（每场作战至多12层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_12_a",
+            "data/garrisons.json#garrison_106_a",
+            "server/sim/content/kits/ops/chess_char_3_12-blemsh.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_20_a",
+          "name": "远牙",
+          "tier": 4,
+          "skill": "光羽箭",
+          "skillDescription": "攻击范围改为前方无限长的直线，攻击力+80%，攻击原本范围以外的目标时，造成的伤害提高至125%",
+          "traits": [
+            {
+              "id": "garrison_148_a",
+              "description": "<战斗开始时>使同一行最右边一名干员获得特质“<部署时>使已激活的【卡西米尔】【精准】层数+4（每场作战至多24层）”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_20_a",
+            "data/garrisons.json#garrison_148_a",
+            "server/sim/content/kits/ops/chess_char_4_20-fartth.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_19_a",
+          "name": "玛恩纳",
+          "tier": 5,
+          "skill": "未照耀的荣光",
+          "skillDescription": "攻击范围扩大，特性提升至2倍（每击倒一名敌人时特性倍率-10%），攻击对5个目标造成相当于125%攻击力的物理伤害。范围内所有敌人受到卡西米尔干员攻击时额外附带玛恩纳10%攻击力的真实伤害",
+          "traits": [
+            {
+              "id": "garrison_115_a",
+              "description": "【卡西米尔】每叠加5层，本干员部署后100秒内基础攻击力+10、基础生命值+50"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_19_a",
+            "data/garrisons.json#garrison_115_a",
+            "server/sim/content/kits/ops/chess_char_5_19-mlynar.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_17_a",
+          "name": "耀骑士临光",
+          "tier": 6,
+          "skill": "耀阳颔首",
+          "skillDescription": "在周围四格可部署地面召唤一把\"耀阳\"对周围敌人造成90%耀骑士临光攻击力的真实伤害并晕眩3秒，自身攻击范围扩大，攻击力+70%、防御力+40%，攻击自身与\"耀阳\"阻挡的单位时伤害类型变为真实",
+          "traits": [
+            {
+              "id": "garrison_145_a",
+              "description": "<战斗开始时>使自身和身前一格干员获得特质“【卡西米尔】每叠加3层，本干员再部署时间-1.5%，攻击速度+0.5”"
+            },
+            {
+              "id": "garrison_144_a",
+              "description": "【145】【卡西米尔】每叠加3层，本干员再部署时间-1.5%，攻击速度+0.5"
+            },
+            {
+              "id": "garrison_159_a",
+              "description": "【145】【卡西米尔】每叠加3层，本干员攻击速度+0.5"
+            },
+            {
+              "id": "garrison_160_a",
+              "description": "【145】<战斗开始时>使自身和身前一格干员获得特质“【卡西米尔】每叠加3层，攻击速度+0.5”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_17_a",
+            "data/garrisons.json#garrison_145_a",
+            "data/garrisons.json#garrison_144_a",
+            "data/garrisons.json#garrison_159_a",
+            "data/garrisons.json#garrison_160_a",
+            "server/sim/content/kits/ops/chess_char_6_17-nearl2.js"
+          ]
+        }
+      ],
+      "members": [
+        {
+          "id": "chess_char_1_19_a",
+          "name": "野鬃",
+          "tier": 1,
+          "skill": "夹枪冲锋",
+          "skillDescription": "攻击范围扩大，攻击力+45%，攻击会把目标往攻击方向中等力度地推开",
+          "traits": [
+            {
+              "id": "garrison_25_a",
+              "description": "<获得时>自身所属盟约层数+2（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_19_a",
+            "data/garrisons.json#garrison_25_a",
+            "server/sim/content/kits/ops/chess_char_1_19-wildmn.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_12_a",
+          "name": "砾",
+          "tier": 2,
+          "skill": "鼠群",
+          "skillDescription": "部署后获得可吸收相当于自己最大生命140%的屏障，该屏障会在10秒内持续衰减",
+          "traits": [
+            {
+              "id": "garrison_75_a",
+              "description": "<部署时>使已激活的【卡西米尔】层数+1\n<被击倒时>使已激活的【不屈】层数+2"
+            },
+            {
+              "id": "garrison_143_a",
+              "description": "<部署时>使已激活的【卡西米尔】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_12_a",
+            "data/garrisons.json#garrison_75_a",
+            "data/garrisons.json#garrison_143_a",
+            "server/sim/content/kits/ops/chess_char_2_12-gravel.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_18_a",
+          "name": "灰毫",
+          "tier": 2,
+          "skill": "攻击力强化·γ型",
+          "skillDescription": "攻击力+45%",
+          "traits": [
+            {
+              "id": "garrison_105_a",
+              "description": "<获得时>当前激活且层数最多的盟约层数+3"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_18_a",
+            "data/garrisons.json#garrison_105_a",
+            "server/sim/content/kits/ops/chess_char_2_18-ashlok.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_12_a",
+          "name": "瑕光",
+          "tier": 3,
+          "skill": "先贤化身",
+          "skillDescription": "攻击力+65%，防御力+25%，每次攻击额外造成相当于攻击力60%的法术伤害，并恢复周围一名其他友方单位相当于攻击力70%的生命",
+          "traits": [
+            {
+              "id": "garrison_106_a",
+              "description": "<部署时>使自身已激活的盟约层数+4（每场作战至多12层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_12_a",
+            "data/garrisons.json#garrison_106_a",
+            "server/sim/content/kits/ops/chess_char_3_12-blemsh.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_17_a",
+          "name": "流星",
+          "tier": 3,
+          "skill": "碎甲击·扩散",
+          "skillDescription": "立即对攻击范围内至多5个敌人造成相当于攻击力155%的物理伤害，5秒内使命中目标的防御力-30%",
+          "traits": [
+            {
+              "id": "garrison_137_a",
+              "description": "<战斗中>攻击力和生命值+25%，造成的伤害变为弱点伤害（基于敌人的防御力和法术抗性变换物理和法术伤害）"
+            },
+            {
+              "id": "garrison_01_a",
+              "description": "<战斗中>造成的伤害变为弱点伤害（基于敌人的防御力和法术抗性变换物理和法术伤害）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_17_a",
+            "data/garrisons.json#garrison_137_a",
+            "data/garrisons.json#garrison_01_a",
+            "server/sim/content/kits/ops/chess_char_3_17-shotst.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_19_a",
+          "name": "焰尾",
+          "tier": 4,
+          "skill": "焰心",
+          "skillDescription": "技能持续时间内逐渐获得8点部署费用，攻击间隔缩短，攻击力+45%，阻挡数+1，获得60%的物理和法术闪避",
+          "traits": [
+            {
+              "id": "garrison_149_a",
+              "description": "<获得时>获得1个野鬃或灰毫，小概率获得远牙"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_19_a",
+            "data/garrisons.json#garrison_149_a",
+            "server/sim/content/kits/ops/chess_char_4_19-flamtl.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_20_a",
+          "name": "远牙",
+          "tier": 4,
+          "skill": "光羽箭",
+          "skillDescription": "攻击范围改为前方无限长的直线，攻击力+80%，攻击原本范围以外的目标时，造成的伤害提高至125%",
+          "traits": [
+            {
+              "id": "garrison_148_a",
+              "description": "<战斗开始时>使同一行最右边一名干员获得特质“<部署时>使已激活的【卡西米尔】【精准】层数+4（每场作战至多24层）”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_20_a",
+            "data/garrisons.json#garrison_148_a",
+            "server/sim/content/kits/ops/chess_char_4_20-fartth.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_19_a",
+          "name": "玛恩纳",
+          "tier": 5,
+          "skill": "未照耀的荣光",
+          "skillDescription": "攻击范围扩大，特性提升至2倍（每击倒一名敌人时特性倍率-10%），攻击对5个目标造成相当于125%攻击力的物理伤害。范围内所有敌人受到卡西米尔干员攻击时额外附带玛恩纳10%攻击力的真实伤害",
+          "traits": [
+            {
+              "id": "garrison_115_a",
+              "description": "【卡西米尔】每叠加5层，本干员部署后100秒内基础攻击力+10、基础生命值+50"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_19_a",
+            "data/garrisons.json#garrison_115_a",
+            "server/sim/content/kits/ops/chess_char_5_19-mlynar.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_17_a",
+          "name": "耀骑士临光",
+          "tier": 6,
+          "skill": "耀阳颔首",
+          "skillDescription": "在周围四格可部署地面召唤一把\"耀阳\"对周围敌人造成90%耀骑士临光攻击力的真实伤害并晕眩3秒，自身攻击范围扩大，攻击力+70%、防御力+40%，攻击自身与\"耀阳\"阻挡的单位时伤害类型变为真实",
+          "traits": [
+            {
+              "id": "garrison_145_a",
+              "description": "<战斗开始时>使自身和身前一格干员获得特质“【卡西米尔】每叠加3层，本干员再部署时间-1.5%，攻击速度+0.5”"
+            },
+            {
+              "id": "garrison_144_a",
+              "description": "【145】【卡西米尔】每叠加3层，本干员再部署时间-1.5%，攻击速度+0.5"
+            },
+            {
+              "id": "garrison_159_a",
+              "description": "【145】【卡西米尔】每叠加3层，本干员攻击速度+0.5"
+            },
+            {
+              "id": "garrison_160_a",
+              "description": "【145】<战斗开始时>使自身和身前一格干员获得特质“【卡西米尔】每叠加3层，攻击速度+0.5”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_17_a",
+            "data/garrisons.json#garrison_145_a",
+            "data/garrisons.json#garrison_144_a",
+            "data/garrisons.json#garrison_159_a",
+            "data/garrisons.json#garrison_160_a",
+            "server/sim/content/kits/ops/chess_char_6_17-nearl2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_19_a",
+          "name": "锏",
+          "tier": 6,
+          "skill": "归于宁静",
+          "skillDescription": "持续发动总计10次斩击，每次斩击对最多5名敌人造成相当于攻击力180%的物理伤害，天赋的发动概率提升至100%，并持续将敌人中等力度地拖拽至自身中心，之后将造成一次相当于攻击力300%的物理伤害并将敌人较大力地拖拽至自身中心",
+          "traits": [
+            {
+              "id": "garrison_155_a",
+              "description": "<获得时>自身所属的盟约层数+8\n<部署时>使自身已激活的盟约层数+8（至多24层）"
+            },
+            {
+              "id": "garrison_65_a",
+              "description": "<获得时>自身所属盟约层数+8（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_19_a",
+            "data/garrisons.json#garrison_155_a",
+            "data/garrisons.json#garrison_65_a",
+            "server/sim/content/kits/ops/chess_char_6_19-blkkgt.js"
+          ]
+        }
+      ],
+      "blackboard": {
+        "atk_when_born": 0.2,
+        "base_max_atk_when_born": 0.5,
+        "max_atk_when_born_per_stack": 0.01,
+        "damage_interval": 2,
+        "damage_atk_scale": 1.2,
+        "stun": 0.1,
+        "range_radius": 0.8,
+        "power_bond_char_cnt": 6,
+        "pure_atk_scale": 0.3
+      },
+      "officialDescription": "每次有干员部署时【卡西米尔】干员攻击力+20%（至多+{0:0%}）（受层数影响）\n<在场6名不同【卡西米尔】干员>【卡西米尔】干员阻挡敌人时每2秒对周围敌人造成120%攻击力真实伤害和0.1秒晕眩，未阻挡敌人时攻击附带30%攻击力的真实伤害"
+    }
+  ],
+  "addons": [
+    {
+      "id": "preciShip",
+      "name": "精准",
+      "thresholds": [
+        2,
+        3
+      ],
+      "countMode": "BOARD",
+      "countsHand": false,
+      "noStack": false,
+      "summary": "2名：精准攻击力+10%+1.2%×层数；3名扩展到所有精准与远程干员，并无视30%防御与法抗。",
+      "officialDescription": "【精准】干员攻击力+{0:0%}（受层数影响）\n<在场3名不同【精准】干员>生效范围变为所有【精准】干员和远程干员，且攻击无视30%防御力和法术抗性",
+      "blackboard": {
+        "base_atk": 0.1,
+        "atk_per_stack": 0.012,
+        "power_def_penetrate": 0.3,
+        "power_magic_resist_penetrate": 0.3,
+        "power_bond_char_cnt": 3
+      },
+      "members": [
+        {
+          "id": "chess_char_1_09_a",
+          "name": "跃跃",
+          "tier": 1,
+          "skill": "乐趣加倍",
+          "skillDescription": "攻击力+25%，每次攻击额外发射1个回旋投射物",
+          "traits": [
+            {
+              "id": "garrison_19_a",
+              "description": "攻击无人机敌人时攻击力提升至150%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_09_a",
+            "data/garrisons.json#garrison_19_a",
+            "server/sim/content/kits/ops/chess_char_1_09-caper.js"
+          ]
+        },
+        {
+          "id": "chess_char_1_17_a",
+          "name": "深靛",
+          "tier": 1,
+          "skill": "光影迷宫",
+          "skillDescription": "攻击间隔略微缩短，天赋的触发几率提升至2.0倍，攻击范围内处于束缚状态的敌人每0.5秒受到相当于深靛攻击力12%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_25_a",
+              "description": "<获得时>自身所属盟约层数+2（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_17_a",
+            "data/garrisons.json#garrison_25_a",
+            "server/sim/content/kits/ops/chess_char_1_17-indigo.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_01_a",
+          "name": "送葬人",
+          "tier": 2,
+          "skill": "最终旅程",
+          "skillDescription": "普通攻击变为二连击，且攻击间隔少量缩短",
+          "traits": [
+            {
+              "id": "garrison_138_a",
+              "description": "<战斗中>首次击倒敌人时，使已激活的【精准】【拉特兰】层数+3"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_01_a",
+            "data/garrisons.json#garrison_138_a",
+            "server/sim/content/kits/ops/chess_char_2_01-excu.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_11_a",
+          "name": "雪猎",
+          "tier": 3,
+          "skill": "风雪连弩",
+          "skillDescription": "立即使用特殊子弹发动相当于攻击力160%的两连击（对非移动敌人提升至185%）\n可充能1次",
+          "traits": [
+            {
+              "id": "garrison_111_a",
+              "description": "<获得时>自身所属盟约层数+5（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_11_a",
+            "data/garrisons.json#garrison_111_a",
+            "server/sim/content/kits/ops/chess_char_3_11-snhunt.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_06_a",
+          "name": "寒芒克洛丝",
+          "tier": 4,
+          "skill": "封喉",
+          "skillDescription": "攻击间隔少量缩短，攻击变为2连射，击中目标40次后技能剩余时间内攻击变为4连射",
+          "traits": [
+            {
+              "id": "garrison_73_a",
+              "description": "<战斗开始时>使身前一格干员获得特质“开启技能时使已激活【精准】层数+1”（每场战斗至多10层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_06_a",
+            "data/garrisons.json#garrison_73_a",
+            "server/sim/content/kits/ops/chess_char_4_06-kroos2.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_14_a",
+          "name": "莱恩哈特",
+          "tier": 4,
+          "skill": "解构与爆破",
+          "skillDescription": "攻击范围扩大，立即对攻击范围内的所有敌人造成相当于攻击力170%的法术伤害且使其在6秒内法术抗性-8%\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_51_a",
+              "description": "<休整期结束时>使自身已激活的盟约层数+5"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_14_a",
+            "data/garrisons.json#garrison_51_a",
+            "server/sim/content/kits/ops/chess_char_4_14-lionhd.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_20_a",
+          "name": "远牙",
+          "tier": 4,
+          "skill": "光羽箭",
+          "skillDescription": "攻击范围改为前方无限长的直线，攻击力+80%，攻击原本范围以外的目标时，造成的伤害提高至125%",
+          "traits": [
+            {
+              "id": "garrison_148_a",
+              "description": "<战斗开始时>使同一行最右边一名干员获得特质“<部署时>使已激活的【卡西米尔】【精准】层数+4（每场作战至多24层）”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_20_a",
+            "data/garrisons.json#garrison_148_a",
+            "server/sim/content/kits/ops/chess_char_4_20-fartth.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_02_a",
+          "name": "缇缇",
+          "tier": 5,
+          "skill": "旧日绽放",
+          "skillDescription": "攻击力+110%，同时攻击两名敌人，攻击非沉睡目标时使其沉睡5秒，技能期间，全场敌人从沉睡状态醒来或于沉睡中被击倒时，受到法术伤害（随沉睡时长提高至攻击力370%），并使周围一名其他敌人沉睡5秒，攻击范围内的其他友方干员受到致命伤害时，陷入沉睡至生命值完全恢复或技能结束",
+          "traits": [
+            {
+              "id": "garrison_125_a",
+              "description": "<战斗中>每当范围内有敌人或干员进入沉睡或晕眩时，使已激活的【萨尔贡】【精准】层数+1（每场战斗至多24层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_02_a",
+            "data/garrisons.json#garrison_125_a",
+            "server/sim/content/kits/ops/chess_char_5_02-titi.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_01_a",
+          "name": "蕾缪安",
+          "tier": 6,
+          "skill": "礼炮·强制追思",
+          "skillDescription": "停止攻击，每0.5秒消耗1发子弹依次锁定敌人，技能结束时对每名被锁定的敌人所在位置进行轰炸，轰炸造成攻击力240%的范围物理伤害（中心伤害提升至攻击力的360%）\n攻击装有5发弹药，打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_24_a",
+              "description": "<战斗中>自身每消耗10发子弹，若同一行有3名干员，使已激活的【拉特兰】【精准】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_01_a",
+            "data/garrisons.json#garrison_24_a",
+            "server/sim/content/kits/ops/chess_char_6_01-lemuen.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_05_a",
+          "name": "异客",
+          "tier": 6,
+          "skill": "辉煌裂片",
+          "skillDescription": "立即寻找大范围内生命值最高的目标，在其位置生成持续4秒的雷暴区域，期间每0.5秒以115%的攻击力对雷暴区域内的随机敌人进行一次额外攻击；可充能2次",
+          "traits": [
+            {
+              "id": "garrison_100_a",
+              "description": "【萨尔贡】【迅捷】【精准】每叠加3层，本干员攻击力+2%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_05_a",
+            "data/garrisons.json#garrison_100_a",
+            "server/sim/content/kits/ops/chess_char_6_05-pasngr.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_08_a",
+          "name": "焰影苇草",
+          "tier": 6,
+          "skill": "生命火种",
+          "skillDescription": "同时攻击两名敌人，攻击力+25%，第一天赋触发几率提升至100%，技能期间附带灼痕效果的敌人每秒受到20%焰影苇草攻击力的法术伤害、被击倒时对周围敌人造成100%焰影苇草攻击力的法术伤害并施加灼痕效果\n灼痕效果持续至技能结束",
+          "traits": [
+            {
+              "id": "garrison_11_a",
+              "description": "【维多利亚】每叠加3层，本干员攻击速度+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_08_a",
+            "data/garrisons.json#garrison_11_a",
+            "server/sim/content/kits/ops/chess_char_6_08-reed2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_12_a",
+          "name": "迷迭香",
+          "tier": 6,
+          "skill": "末梢阻断",
+          "skillDescription": "攻击间隔增大，攻击力+20%，溅射范围扩大，每次攻击额外造成2次余震；受到攻击和余震的目标有20%的几率晕眩0.9秒",
+          "traits": [
+            {
+              "id": "garrison_09_a",
+              "description": "攻击力和生命值+20%；核心盟约每叠加3层，本干员攻击力和生命值+1%"
+            },
+            {
+              "id": "garrison_03_a",
+              "description": "攻击力和生命值+20%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_12_a",
+            "data/garrisons.json#garrison_09_a",
+            "data/garrisons.json#garrison_03_a",
+            "server/sim/content/kits/ops/chess_char_6_12-rosmon.js"
+          ]
+        }
+      ],
+      "disabledInStandard": false,
+      "sourcePaths": [
+        "data/bonds.json#preciShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "swiftShip",
+      "name": "迅捷",
+      "thresholds": [
+        2
+      ],
+      "countMode": "BOARD",
+      "countsHand": false,
+      "noStack": false,
+      "summary": "2名：迅捷技能结束有20%+0.35%×层数概率回复12技力；40层后所有干员以同概率额外回复15技力。",
+      "officialDescription": "【迅捷】干员技能结束时有{0:0%}概率（受层数影响）立刻回复12点技力\n<达到40层>所有干员技能结束时有等概率额外回复15点技力",
+      "blackboard": {
+        "base_prob": 0.2,
+        "prob_per_stack": 0.0035,
+        "power_bond_stack_cnt": 40,
+        "normal_sp": 12,
+        "power_sp": 15
+      },
+      "members": [
+        {
+          "id": "chess_char_1_01_a",
+          "name": "隐现",
+          "tier": 1,
+          "skill": "“解决麻烦”",
+          "skillDescription": "攻击力+80%，攻击间隔略微缩短，优先攻击使用远程武器的敌人并且不容易成为敌人的攻击目标\n攻击装有14发弹药，打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_16_a",
+              "description": "【拉特兰】每叠加5层，本干员攻击速度+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_01_a",
+            "data/garrisons.json#garrison_16_a",
+            "server/sim/content/kits/ops/chess_char_1_01-inside.js"
+          ]
+        },
+        {
+          "id": "chess_char_1_19_a",
+          "name": "野鬃",
+          "tier": 1,
+          "skill": "夹枪冲锋",
+          "skillDescription": "攻击范围扩大，攻击力+45%，攻击会把目标往攻击方向中等力度地推开",
+          "traits": [
+            {
+              "id": "garrison_25_a",
+              "description": "<获得时>自身所属盟约层数+2（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_19_a",
+            "data/garrisons.json#garrison_25_a",
+            "server/sim/content/kits/ops/chess_char_1_19-wildmn.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_13_a",
+          "name": "蒂比",
+          "tier": 2,
+          "skill": "紧急赶场通知",
+          "skillDescription": "立刻起飞，攻击范围扩大，攻击力+20%，攻击变为3连射\n受到攻击后触发，并闪避本次物理或法术伤害",
+          "traits": [
+            {
+              "id": "garrison_80_a",
+              "description": "<进入休整期时>使自身已激活的盟约层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_13_a",
+            "data/garrisons.json#garrison_80_a",
+            "server/sim/content/kits/ops/chess_char_2_13-tippi.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_19_a",
+          "name": "锡人",
+          "tier": 2,
+          "skill": "“大拉里”",
+          "skillDescription": "投掷一个炼金单元，在11秒内使落点周围的地面敌人每秒受到相当于攻击力65%的法术伤害、友方单位每秒恢复相当于攻击力15%的生命\n可充能1次",
+          "traits": [
+            {
+              "id": "garrison_151_a",
+              "description": "攻击力和生命值+20%；【投资人】【迅捷】每叠加3层，本干员攻击力和生命值+1%"
+            },
+            {
+              "id": "garrison_03_a",
+              "description": "攻击力和生命值+20%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_19_a",
+            "data/garrisons.json#garrison_151_a",
+            "data/garrisons.json#garrison_03_a",
+            "server/sim/content/kits/ops/chess_char_2_19-tinman.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_10_a",
+          "name": "松果",
+          "tier": 3,
+          "skill": "电能过载",
+          "skillDescription": "攻击力+25%，攻击范围缩短；每使用过一次技能额外追加攻击力+20%的效果（最多+60%）",
+          "traits": [
+            {
+              "id": "garrison_116_a",
+              "description": "<售出时>进行一次I阶干员的免费特殊招募\n本干员合成为精锐状态后，上述特殊招募变为V阶干员"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_10_a",
+            "data/garrisons.json#garrison_116_a",
+            "server/sim/content/kits/ops/chess_char_3_10-pinecn.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_18_a",
+          "name": "忍冬",
+          "tier": 3,
+          "skill": "隐狐之艺",
+          "skillDescription": "技能开启时立即获得7点部署费用，攻击距离+1，攻击力+65%，攻击速度从+160逐渐衰减至+0，同时攻击阻挡的所有敌人，每次攻击晕眩敌人0.2秒\n若技能期间击倒敌人，则技能结束时进入迷彩状态，直至下一次开启技能",
+          "traits": [
+            {
+              "id": "garrison_71_a",
+              "description": "<获得时>自身所属盟约层数+6（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_18_a",
+            "data/garrisons.json#garrison_71_a",
+            "server/sim/content/kits/ops/chess_char_3_18-vulpis.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_14_a",
+          "name": "莱恩哈特",
+          "tier": 4,
+          "skill": "解构与爆破",
+          "skillDescription": "攻击范围扩大，立即对攻击范围内的所有敌人造成相当于攻击力170%的法术伤害且使其在6秒内法术抗性-8%\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_51_a",
+              "description": "<休整期结束时>使自身已激活的盟约层数+5"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_14_a",
+            "data/garrisons.json#garrison_51_a",
+            "server/sim/content/kits/ops/chess_char_4_14-lionhd.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_14_a",
+          "name": "凛御银灰",
+          "tier": 5,
+          "skill": "御敌的锋锐",
+          "skillDescription": "对前方6名敌人造成攻击力260%的物理伤害，使其4秒内寒冷且隐匿失效；待部署区中距离“风雪之眼”最近的1名干员费用-11（优先选择右侧近卫/术师/狙击干员）；使“风雪之眼”左侧所有干员部署时以自身攻击力施放一次本技能的范围效果（最多叠加2次）\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_126_a",
+              "description": "<战斗开始时>使身前一格【谢拉格】干员获得特质“范围内1名敌人进入冻结时，有60%概率使已激活的【谢拉格】层数+1”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_14_a",
+            "data/garrisons.json#garrison_126_a",
+            "server/sim/content/kits/ops/chess_char_5_14-svash2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_15_a",
+          "name": "引星棘刺",
+          "tier": 5,
+          "skill": "解构涌潮",
+          "skillDescription": "投掷一个炼金单元，在12秒内使落点周围的地面敌人受到的治疗和回复效果降低50%，每秒受到相当于攻击力120%的法术伤害，友方单位每秒恢复相当于攻击力12%的生命；炼金单元能在12秒内缓慢沿投掷方向移动且影响范围持续扩大\n可充能1次",
+          "traits": [
+            {
+              "id": "garrison_79_a",
+              "description": "<休整期结束时>使自身及身前一格干员的已激活盟约分别各层数+4"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_15_a",
+            "data/garrisons.json#garrison_79_a",
+            "server/sim/content/kits/ops/chess_char_5_15-thorn2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_22_a",
+          "name": "妮芙",
+          "tier": 5,
+          "skill": "怵然震爆",
+          "skillDescription": "对敌人造成一次相当于攻击力270%的法术伤害、使其恐惧4秒，并对目标周围造成一次等额法术溅射伤害，均附带造成法术伤害18%的凋亡损伤；若攻击到的单位处于凋亡损伤爆发期间，使第一天赋造成的伤害效果提高至攻击力的70%\n可充能1次",
+          "traits": [
+            {
+              "id": "garrison_56_a",
+              "description": "<休整期结束时>整备区每有1个干员，使已激活的【迅捷】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_22_a",
+            "data/garrisons.json#garrison_56_a",
+            "server/sim/content/kits/ops/chess_char_5_22-nymph.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_05_a",
+          "name": "异客",
+          "tier": 6,
+          "skill": "辉煌裂片",
+          "skillDescription": "立即寻找大范围内生命值最高的目标，在其位置生成持续4秒的雷暴区域，期间每0.5秒以115%的攻击力对雷暴区域内的随机敌人进行一次额外攻击；可充能2次",
+          "traits": [
+            {
+              "id": "garrison_100_a",
+              "description": "【萨尔贡】【迅捷】【精准】每叠加3层，本干员攻击力+2%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_05_a",
+            "data/garrisons.json#garrison_100_a",
+            "server/sim/content/kits/ops/chess_char_6_05-pasngr.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_19_a",
+          "name": "锏",
+          "tier": 6,
+          "skill": "归于宁静",
+          "skillDescription": "持续发动总计10次斩击，每次斩击对最多5名敌人造成相当于攻击力180%的物理伤害，天赋的发动概率提升至100%，并持续将敌人中等力度地拖拽至自身中心，之后将造成一次相当于攻击力300%的物理伤害并将敌人较大力地拖拽至自身中心",
+          "traits": [
+            {
+              "id": "garrison_155_a",
+              "description": "<获得时>自身所属的盟约层数+8\n<部署时>使自身已激活的盟约层数+8（至多24层）"
+            },
+            {
+              "id": "garrison_65_a",
+              "description": "<获得时>自身所属盟约层数+8（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_19_a",
+            "data/garrisons.json#garrison_155_a",
+            "data/garrisons.json#garrison_65_a",
+            "server/sim/content/kits/ops/chess_char_6_19-blkkgt.js"
+          ]
+        }
+      ],
+      "disabledInStandard": false,
+      "sourcePaths": [
+        "data/bonds.json#swiftShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "skillfulShip",
+      "name": "灵巧",
+      "thresholds": [
+        2
+      ],
+      "countMode": "BOARD",
+      "countsHand": false,
+      "noStack": false,
+      "summary": "2名：灵巧自身及周围4格攻速+10+层数；40层扩大至8格。",
+      "officialDescription": "【灵巧】干员及周围4格的干员攻击速度+{0:0}（受层数影响）\n <达到40层>生效范围变为【灵巧】干员周围8格",
+      "blackboard": {
+        "base_attack_speed": 10,
+        "attack_speed_per_stack": 1,
+        "power_bond_stack_cnt": 40
+      },
+      "members": [
+        {
+          "id": "chess_char_1_14_a",
+          "name": "格雷伊",
+          "tier": 1,
+          "skill": "静电释放",
+          "skillDescription": "攻击速度+50，天赋停顿的持续时间提升至1.6倍",
+          "traits": [
+            {
+              "id": "garrison_67_a",
+              "description": "<售出时>进入下个休整期额外获得1资金"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_14_a",
+            "data/garrisons.json#garrison_67_a",
+            "server/sim/content/kits/ops/chess_char_1_14-greyy.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_04_a",
+          "name": "小满",
+          "tier": 2,
+          "skill": "乡音沉沉",
+          "skillDescription": "停止攻击敌人并使攻击范围内3个敌方单位沉睡4秒，之后攻击速度+45，且攻击3个敌人",
+          "traits": [
+            {
+              "id": "garrison_31_a",
+              "description": "<休整期结束时>本回合每获得过1名干员，使已激活的【炎】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_04_a",
+            "data/garrisons.json#garrison_31_a",
+            "server/sim/content/kits/ops/chess_char_2_04-grabds.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_13_a",
+          "name": "蒂比",
+          "tier": 2,
+          "skill": "紧急赶场通知",
+          "skillDescription": "立刻起飞，攻击范围扩大，攻击力+20%，攻击变为3连射\n受到攻击后触发，并闪避本次物理或法术伤害",
+          "traits": [
+            {
+              "id": "garrison_80_a",
+              "description": "<进入休整期时>使自身已激活的盟约层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_13_a",
+            "data/garrisons.json#garrison_80_a",
+            "server/sim/content/kits/ops/chess_char_2_13-tippi.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_02_a",
+          "name": "断崖",
+          "tier": 3,
+          "skill": "浮游刃启动",
+          "skillDescription": "攻击范围扩大，伤害类型变为法术；每次攻击时，额外对周围8格友方单位阻挡的所有敌人造成相当于攻击力100%的法术伤害(均视为近战攻击）",
+          "traits": [
+            {
+              "id": "garrison_47_a",
+              "description": "<休整期结束时>使自身及身后一格干员的已激活盟约分别各层数+3"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_02_a",
+            "data/garrisons.json#garrison_47_a",
+            "server/sim/content/kits/ops/chess_char_3_02-ayer.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_13_a",
+          "name": "至简",
+          "tier": 3,
+          "skill": "神工意匠",
+          "skillDescription": "下次攻击造成相当于攻击力130%的法术伤害，并连续攻击两次\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_13_a",
+              "description": "购买价格为1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_13_a",
+            "data/garrisons.json#garrison_13_a",
+            "server/sim/content/kits/ops/chess_char_3_13-malist.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_21_a",
+          "name": "空弦",
+          "tier": 3,
+          "skill": "箭矢·暴风",
+          "skillDescription": "攻击力+10%，攻击距离+1，攻击变为3连击，每次可以攻击2个敌人",
+          "traits": [
+            {
+              "id": "garrison_150_a",
+              "description": "<进入休整期时>使自身及身前一格干员的已激活盟约分别各层数+3"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_21_a",
+            "data/garrisons.json#garrison_150_a",
+            "server/sim/content/kits/ops/chess_char_3_21-archet.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_11_a",
+          "name": "凯瑟琳",
+          "tier": 4,
+          "skill": "战火淬炼",
+          "skillDescription": "停止攻击，生命上限+40%，防御力+10%，装置效果改为使目标干员每秒获得相当于凯瑟琳生命上限6%的屏障（不会超过天赋上限）",
+          "traits": [
+            {
+              "id": "garrison_127_a",
+              "description": "<进入休整期时>若当前为奇数回合，获得1件随机装备"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_11_a",
+            "data/garrisons.json#garrison_127_a",
+            "server/sim/content/kits/ops/chess_char_4_11-cathy.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_13_a",
+          "name": "灵知",
+          "tier": 4,
+          "skill": "零度爆发",
+          "skillDescription": "对范围内所有敌人造成2.5秒寒冷和相当于攻击力130%的法术伤害；蓄力：额外造成一层寒冷",
+          "traits": [
+            {
+              "id": "garrison_111_a",
+              "description": "<获得时>自身所属盟约层数+5（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_13_a",
+            "data/garrisons.json#garrison_111_a",
+            "server/sim/content/kits/ops/chess_char_4_13-gnosis.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_21_a",
+          "name": "白面鸮",
+          "tier": 4,
+          "skill": "脑啡肽",
+          "skillDescription": "攻击范围扩大，攻击间隔较大幅度缩短",
+          "traits": [
+            {
+              "id": "garrison_86_a",
+              "description": "身前一格干员若为“进入休整期时”特质，本干员的特质与其相同"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_21_a",
+            "data/garrisons.json#garrison_86_a",
+            "server/sim/content/kits/ops/chess_char_4_21-plosis.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_06_a",
+          "name": "隐德来希",
+          "tier": 5,
+          "skill": "灵与欲的惜别",
+          "skillDescription": "攻击范围扩大，攻击力+80%，攻击速度+100，立刻为攻击范围内最多3名生命值最高的地面敌人召唤对应的心烛，每次攻击对心烛至少造成35%攻击力的伤害，心烛继承原敌人当前60%的生命值，被攻击时原敌人也会流失同等生命值\n心烛只受隐德来希攻击的影响",
+          "traits": [
+            {
+              "id": "garrison_10_a",
+              "description": "核心盟约每叠加3层，本干员攻击力和生命值+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_06_a",
+            "data/garrisons.json#garrison_10_a",
+            "server/sim/content/kits/ops/chess_char_5_06-etlchi.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_16_a",
+          "name": "溯光星源",
+          "tier": 6,
+          "skill": "并流连锁",
+          "skillDescription": "攻击范围扩大，攻击力+35%，攻击间隔缩短，持续锁定2个敌人进行攻击，被锁定的敌人会互相链接；每个被链接的敌人会把即将受到法术伤害的15%额外传导给其他链接目标",
+          "traits": [
+            {
+              "id": "garrison_121_a",
+              "description": "<休整期结束时>本回合每花费3资金，使已激活的【灵巧】【奥术】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_16_a",
+            "data/garrisons.json#garrison_121_a",
+            "server/sim/content/kits/ops/chess_char_6_16-halo2.js"
+          ]
+        }
+      ],
+      "disabledInStandard": true,
+      "sourcePaths": [
+        "data/bonds.json#skillfulShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "arcaneShip",
+      "name": "奥术",
+      "thresholds": [
+        2,
+        3
+      ],
+      "countMode": "BOARD",
+      "countsHand": false,
+      "noStack": false,
+      "summary": "2名：奥术造成法伤使目标受到的法伤倍率变为1.20+0.01×层数，持续3秒；3名对生命低于50%的目标将该倍率再乘1.4。",
+      "officialDescription": "【奥术】干员造成法术伤害时使目标受到的法术伤害提升{0:0%}（受层数影响），持续3秒\n<在场3名不同【奥术】干员>【奥术】干员对生命值低于50%的敌人施加的伤害提升比例为{1:0%}（受层数影响）",
+      "blackboard": {
+        "weak_duration": 3,
+        "base_damage_scale": 1.2,
+        "damage_scale_per_stack": 0.01,
+        "power_bond_char_cnt": 3,
+        "power_weak_scale": 1.4,
+        "hp_ratio": 0.5,
+        "base_damage_scale_show": 0.2,
+        "base_damage_scale_show_ex": 0.68,
+        "damage_scale_per_stack_show_ex": 0.014
+      },
+      "members": [
+        {
+          "id": "chess_char_1_17_a",
+          "name": "深靛",
+          "tier": 1,
+          "skill": "光影迷宫",
+          "skillDescription": "攻击间隔略微缩短，天赋的触发几率提升至2.0倍，攻击范围内处于束缚状态的敌人每0.5秒受到相当于深靛攻击力12%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_25_a",
+              "description": "<获得时>自身所属盟约层数+2（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_17_a",
+            "data/garrisons.json#garrison_25_a",
+            "server/sim/content/kits/ops/chess_char_1_17-indigo.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_10_a",
+          "name": "洛洛",
+          "tier": 2,
+          "skill": "自负此轭",
+          "skillDescription": "攻击速度+45，释放浮游单元锁定敌人攻击\n过载：特性浮游单元伤害上限提升至1.6倍，攻击力+40%，技能结束后晕眩过载持续时间的等长时间\n浮游单元锁敌后直至敌人被击杀或技能结束后返回干员身边，可随时主动关闭技能",
+          "traits": [
+            {
+              "id": "garrison_91_a",
+              "description": "<获得时>随机制造1件洛洛的定制品"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_10_a",
+            "data/garrisons.json#garrison_91_a",
+            "server/sim/content/kits/ops/chess_char_2_10-rockr.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_09_a",
+          "name": "海霓",
+          "tier": 3,
+          "skill": "阻滞性显色剂",
+          "skillDescription": "攻击力+30%，额外攻击一个目标，攻击范围内的非精英和领袖敌人移动速度-40%，且被击倒时使天赋效果提升0.4倍，最多提升至2.6倍，持续至技能结束",
+          "traits": [
+            {
+              "id": "garrison_131_a",
+              "description": "<战斗中>首次击倒敌人或我方干员时，使已激活的【阿戈尔】【奥术】层数+3"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_09_a",
+            "data/garrisons.json#garrison_131_a",
+            "server/sim/content/kits/ops/chess_char_3_09-haini.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_02_a",
+          "name": "莫斯提马",
+          "tier": 4,
+          "skill": "序时之匙",
+          "skillDescription": "攻击范围扩大，攻击变为向外扩散的波纹，攻击力+90%，第二天赋的效果提升至3倍，小力度地击退攻击目标",
+          "traits": [
+            {
+              "id": "garrison_22_a",
+              "description": "<战斗中>自身周围4格的干员每消耗6发弹药，使已激活的【拉特兰】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_02_a",
+            "data/garrisons.json#garrison_22_a",
+            "server/sim/content/kits/ops/chess_char_4_02-mostma.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_10_a",
+          "name": "阿罗玛",
+          "tier": 4,
+          "skill": "小心地滑",
+          "skillDescription": "攻击力+65%，攻击范围内浮空状态的敌人结束浮空落地时，对其造成攻击力65%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_122_a",
+              "description": "<休整期结束时>本回合每刷新过1次，使已激活的【叙拉古】【奥术】层数+2（至多6层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_10_a",
+            "data/garrisons.json#garrison_122_a",
+            "server/sim/content/kits/ops/chess_char_4_10-aroma.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_07_a",
+          "name": "史尔特尔",
+          "tier": 5,
+          "skill": "黄昏",
+          "skillDescription": "立即恢复所有生命；攻击力+210%，攻击距离+2，攻击目标数+2，生命上限+5000，逐渐流失生命（60秒后到达最大生命20%/秒）；持续时间无限",
+          "traits": [
+            {
+              "id": "garrison_107_a",
+              "description": "<部署时>使已激活的【突袭】层数+8（每场作战至多50层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_07_a",
+            "data/garrisons.json#garrison_107_a",
+            "server/sim/content/kits/ops/chess_char_5_07-surtr.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_12_a",
+          "name": "夕",
+          "tier": 5,
+          "skill": "工笔入化",
+          "skillDescription": "下一次攻击溅射范围扩大，造成相当于攻击力180%的法术伤害\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_119_a",
+              "description": "<休整期结束时>当前休整期每获得过一名干员，使已激活的【炎】【奥术】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_12_a",
+            "data/garrisons.json#garrison_119_a",
+            "server/sim/content/kits/ops/chess_char_5_12-dusk.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_02_a",
+          "name": "圣聆初雪",
+          "tier": 6,
+          "skill": "群山俯首",
+          "skillDescription": "攻击范围扩大，立即诱导攻击范围内的所有敌人至自身周围的可达地面，持续10秒，积雪生成速度加快，攻击力+35%，攻击速度+30，攻击无视目标10点法术抗性，每次攻击造成相当于攻击力180%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_05_a",
+              "description": "【谢拉格】【奥术】每叠加3层，本干员攻击力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_02_a",
+            "data/garrisons.json#garrison_05_a",
+            "server/sim/content/kits/ops/chess_char_6_02-sbell2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_16_a",
+          "name": "溯光星源",
+          "tier": 6,
+          "skill": "并流连锁",
+          "skillDescription": "攻击范围扩大，攻击力+35%，攻击间隔缩短，持续锁定2个敌人进行攻击，被锁定的敌人会互相链接；每个被链接的敌人会把即将受到法术伤害的15%额外传导给其他链接目标",
+          "traits": [
+            {
+              "id": "garrison_121_a",
+              "description": "<休整期结束时>本回合每花费3资金，使已激活的【灵巧】【奥术】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_16_a",
+            "data/garrisons.json#garrison_121_a",
+            "server/sim/content/kits/ops/chess_char_6_16-halo2.js"
+          ]
+        }
+      ],
+      "disabledInStandard": true,
+      "sourcePaths": [
+        "data/bonds.json#arcaneShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "steadShip",
+      "name": "坚守",
+      "thresholds": [
+        2,
+        3
+      ],
+      "countMode": "BOARD",
+      "countsHand": false,
+      "noStack": false,
+      "summary": "2名：全体生命值+25%+1.2%×层数；3名分担非坚守所受40%伤害，坚守挨打反击法伤并施加40%脆弱。",
+      "officialDescription": "所有干员生命值+{0:0%}（受层数影响）\n<在场3名不同【坚守】干员>场上非【坚守】干员受到伤害时，所受伤害的40%由【坚守】干员平均承担；【坚守】干员受到伤害时，伤害来源受到{1:0}点法术伤害（受层数影响，每0.2秒至多触发1次）和持续5秒的40%的脆弱效果",
+      "blackboard": {
+        "base_max_hp": 0.25,
+        "max_hp_per_stack": 0.012,
+        "damage_resistance": 0.4,
+        "power_bond_char_cnt": 3,
+        "cd_duration": 0.2,
+        "weak[limit]": 5,
+        "damage_scale": 1.4,
+        "base_damage_value": 850,
+        "damage_value_per_stack": 10
+      },
+      "members": [
+        {
+          "id": "chess_char_1_02_a",
+          "name": "角峰",
+          "tier": 1,
+          "skill": "抗寒体质",
+          "skillDescription": "生命上限+30%，防御力+10%，法术抗性+60%",
+          "traits": [
+            {
+              "id": "garrison_25_a",
+              "description": "<获得时>自身所属盟约层数+2（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_02_a",
+            "data/garrisons.json#garrison_25_a",
+            "server/sim/content/kits/ops/chess_char_1_02-yak.js"
+          ]
+        },
+        {
+          "id": "chess_char_1_10_a",
+          "name": "古米",
+          "tier": 1,
+          "skill": "备用军粮",
+          "skillDescription": "下次攻击会恢复附近一名友方角色相当于古米攻击力115%的生命值\n可充能1次",
+          "traits": [
+            {
+              "id": "garrison_08_a",
+              "description": "技力自然恢复速度+0.15/秒"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_10_a",
+            "data/garrisons.json#garrison_08_a",
+            "server/sim/content/kits/ops/chess_char_1_10-sunbr.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_08_a",
+          "name": "泡泡",
+          "tier": 2,
+          "skill": "“挨打”",
+          "skillDescription": "停止攻击敌人；防御力+65%，自身更易受敌人攻击，每次受到攻击时对目标造成相当于泡泡防御力40%的物理伤害",
+          "traits": [
+            {
+              "id": "garrison_15_a",
+              "description": "【萨尔贡】【坚守】每叠加3层，本干员防御力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_08_a",
+            "data/garrisons.json#garrison_15_a",
+            "server/sim/content/kits/ops/chess_char_2_08-bubble.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_17_a",
+          "name": "折桠",
+          "tier": 2,
+          "skill": "生存决心",
+          "skillDescription": "技能开启时使自身周围的地面敌人战栗5秒；攻击力+100%，防御力+30%，同时攻击阻挡的所有敌人",
+          "traits": [
+            {
+              "id": "garrison_69_a",
+              "description": "<休整期结束时>使已激活的【坚守】层数+4"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_17_a",
+            "data/garrisons.json#garrison_69_a",
+            "server/sim/content/kits/ops/chess_char_2_17-branch.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_18_a",
+          "name": "灰毫",
+          "tier": 2,
+          "skill": "攻击力强化·γ型",
+          "skillDescription": "攻击力+45%",
+          "traits": [
+            {
+              "id": "garrison_105_a",
+              "description": "<获得时>当前激活且层数最多的盟约层数+3"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_18_a",
+            "data/garrisons.json#garrison_105_a",
+            "server/sim/content/kits/ops/chess_char_2_18-ashlok.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_05_a",
+          "name": "斯卡蒂",
+          "tier": 3,
+          "skill": "涌潮悲歌",
+          "skillDescription": "攻击力、防御力和生命上限各+85%",
+          "traits": [
+            {
+              "id": "garrison_38_a",
+              "description": "<战斗中>每击倒2名单位时，使已激活的【阿戈尔】【坚守】【突袭】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_05_a",
+            "data/garrisons.json#garrison_38_a",
+            "server/sim/content/kits/ops/chess_char_3_05-skadi.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_16_a",
+          "name": "蛇屠箱",
+          "tier": 3,
+          "skill": "壳状防御",
+          "skillDescription": "停止攻击敌人；阻挡数+1，防御力+75%，每秒恢复最大生命的1%",
+          "traits": [
+            {
+              "id": "garrison_70_a",
+              "description": "<休整期结束时>同一行每有1名干员，使已激活的【坚守】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_16_a",
+            "data/garrisons.json#garrison_70_a",
+            "server/sim/content/kits/ops/chess_char_3_16-snakek.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_01_a",
+          "name": "信仰搅拌机",
+          "tier": 4,
+          "skill": "退休前布道",
+          "skillDescription": "技能开启时为所有其他【拉特兰】干员补弹2发；攻击范围扩大，生命上限+35%，攻击力+140%，防御力+35%，停止主动攻击敌人，受到攻击时立即向攻击范围内最多3个敌人进行1次反击，反击最小间隔为实际攻击间隔的60%\n攻击装有30发弹药，打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_14_a",
+              "description": "【拉特兰】【坚守】每叠加3层，本干员防御力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_01_a",
+            "data/garrisons.json#garrison_14_a",
+            "server/sim/content/kits/ops/chess_char_4_01-rmixer.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_11_a",
+          "name": "塞雷娅",
+          "tier": 5,
+          "skill": "药物配置",
+          "skillDescription": "治疗附近一定范围内的所有友军相当于塞雷娅攻击力95%的生命",
+          "traits": [
+            {
+              "id": "garrison_99_a",
+              "description": "身前一格干员若为“休整期结束时”特质，本干员的特质与其相同"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_11_a",
+            "data/garrisons.json#garrison_99_a",
+            "server/sim/content/kits/ops/chess_char_5_11-demkni.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_03_a",
+          "name": "余",
+          "tier": 6,
+          "skill": "灶里乾坤",
+          "skillDescription": "生命上限+50%，攻击力+50%，防御力+50%，将第二天赋效果赋予全场所有干员；生成一面跨越整个战场的火墙，其他友方穿过火墙造成法术伤害时附带相当于余攻击力6%的灼燃损伤，敌方子弹穿过火墙时有10%几率被清除",
+          "traits": [
+            {
+              "id": "garrison_37_a",
+              "description": "<进入休整期时>若同一行有3名干员，随机获得1名当前人数最多盟约的干员"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_03_a",
+            "data/garrisons.json#garrison_37_a",
+            "server/sim/content/kits/ops/chess_char_6_03-yu.js"
+          ]
+        }
+      ],
+      "disabledInStandard": false,
+      "sourcePaths": [
+        "data/bonds.json#steadShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "deputShip",
+      "name": "助力",
+      "thresholds": [
+        2,
+        3
+      ],
+      "countMode": "BOARD",
+      "countsHand": false,
+      "noStack": false,
+      "summary": "2名：全体防御+15%+1.2%×层数、再部署时间-30%，休整期结束所有激活盟约+2层；3名档改为+4层。",
+      "officialDescription": "所有干员防御力+{0:0%}（受层数影响），再部署时间-30%\n休整期结束时，使当前所有已激活的盟约层数+2\n<在场3名不同【助力】干员>改为层数+4",
+      "blackboard": {
+        "base_def": 0.15,
+        "def_per_stack": 0.012,
+        "respawn_time": -0.3,
+        "layer": 2,
+        "count": 3,
+        "more_layer": 4
+      },
+      "members": [
+        {
+          "id": "chess_char_1_06_a",
+          "name": "刺玫",
+          "tier": 1,
+          "skill": "荆藤庇荫",
+          "skillDescription": "攻击力+55%，使攻击范围内生命上限最高的友方角色更容易受到敌人攻击，且该角色受到攻击时刺玫对目标造成攻击力20%的法术伤害并仅对该角色触发刺玫特性",
+          "traits": [
+            {
+              "id": "garrison_154_a",
+              "description": "<休整期结束时>使已激活的【维多利亚】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_06_a",
+            "data/garrisons.json#garrison_154_a",
+            "server/sim/content/kits/ops/chess_char_1_06-vendla.js"
+          ]
+        },
+        {
+          "id": "chess_char_1_13_a",
+          "name": "波登可",
+          "tier": 1,
+          "skill": "孢子扩散",
+          "skillDescription": "立即投掷一个小瓶，碎裂后在周围产生一个持续5秒的孢子群\n孢子群范围内所有敌人被停顿且失去特殊能力，每秒受到相当于攻击力50%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_102_a",
+              "description": "<休整期结束时>当前激活且层数最多的盟约层数+1，此干员在整备区时也有效"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_13_a",
+            "data/garrisons.json#garrison_102_a",
+            "server/sim/content/kits/ops/chess_char_1_13-podego.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_14_a",
+          "name": "调香师",
+          "tier": 2,
+          "skill": "精调",
+          "skillDescription": "攻击速度-50，攻击力+180%",
+          "traits": [
+            {
+              "id": "garrison_81_a",
+              "description": "<休整期结束时>当前激活且层数最多的盟约层数+2，此干员在整备区时也有效"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_14_a",
+            "data/garrisons.json#garrison_81_a",
+            "server/sim/content/kits/ops/chess_char_2_14-flower.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_20_a",
+          "name": "耶拉",
+          "tier": 3,
+          "skill": "心随意动",
+          "skillDescription": "浮游单元+1，释放浮游单元锁定敌人攻击，攻击力+29%，自身与浮游单元攻击有15%概率对敌人造成2.5秒寒冷。\n浮游单元锁敌后直至敌人被击杀或技能结束后返回干员身边",
+          "traits": [
+            {
+              "id": "garrison_92_a",
+              "description": "<获得时>获得1件“谢拉格不融冰”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_20_a",
+            "data/garrisons.json#garrison_92_a",
+            "server/sim/content/kits/ops/chess_char_3_20-kjera.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_21_a",
+          "name": "白面鸮",
+          "tier": 4,
+          "skill": "脑啡肽",
+          "skillDescription": "攻击范围扩大，攻击间隔较大幅度缩短",
+          "traits": [
+            {
+              "id": "garrison_86_a",
+              "description": "身前一格干员若为“进入休整期时”特质，本干员的特质与其相同"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_21_a",
+            "data/garrisons.json#garrison_86_a",
+            "server/sim/content/kits/ops/chess_char_4_21-plosis.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_24_a",
+          "name": "卡涅利安",
+          "tier": 4,
+          "skill": "沙缚镣锁",
+          "skillDescription": "攻击间隔缩短，每次攻击对目标造成0.3秒停顿；\n蓄力额外效果：攻击力+10%且停顿变为束缚0.3秒",
+          "traits": [
+            {
+              "id": "garrison_49_a",
+              "description": "<获得时>获得1件“迅捷作战粮”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_24_a",
+            "data/garrisons.json#garrison_49_a",
+            "server/sim/content/kits/ops/chess_char_4_24-billro.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_14_a",
+          "name": "流明",
+          "tier": 6,
+          "skill": "灯火不灭",
+          "skillDescription": "攻击力+30%，攻击速度+20，优先治疗处于异常状态中的单位；只在治疗异常状态中的单位时会消耗子弹，使该次治疗量提升至攻击力的135%并解除目标所受的异常状态\n攻击装有4发子弹，打完后技能结束（期间可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_57_a",
+              "description": "<休整期结束时>整备区中每名干员所在的已激活盟约分别层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_14_a",
+            "data/garrisons.json#garrison_57_a",
+            "server/sim/content/kits/ops/chess_char_6_14-lumen.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_20_a",
+          "name": "纯烬艾雅法拉",
+          "tier": 6,
+          "skill": "火山回响",
+          "skillDescription": "攻击范围扩大至整个战场，治疗变为35%治疗量和元素损伤回复量的5连发，优先治疗不同的目标，第二天赋的效果提升至2.9倍",
+          "traits": [
+            {
+              "id": "garrison_140_a",
+              "description": "<战斗中>开启技能时，当前已激活且层数最多的盟约层数+3"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_20_a",
+            "data/garrisons.json#garrison_140_a",
+            "server/sim/content/kits/ops/chess_char_6_20-agoat2.js"
+          ]
+        }
+      ],
+      "disabledInStandard": false,
+      "sourcePaths": [
+        "data/bonds.json#deputShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "visiShip",
+      "name": "远见",
+      "thresholds": [
+        2
+      ],
+      "countMode": "BOARD_AND_DECK",
+      "countsHand": true,
+      "noStack": false,
+      "summary": "2名（含整备区）：每10层获得2资金；首次80层远见购买价永久-1，150层改为全干员永久-1。",
+      "officialDescription": "<每叠加10层>获得一次2资金\n<首次到达80层>所有【远见】干员购买价格永久-1资金\n<首次到达150层>上述效果改为所有干员购买价格永久-1资金\n整备区的【远见】干员也可用于激活盟约",
+      "blackboard": {
+        "layer": 10,
+        "count": 2,
+        "layer1": 80,
+        "discount": 1,
+        "layer2": 150
+      },
+      "members": [
+        {
+          "id": "chess_char_2_02_a",
+          "name": "赫默",
+          "tier": 2,
+          "skill": "医疗无人机",
+          "skillDescription": "获得一个医疗无人机\n最多可库存1个无人机；无人机投入战场后治疗周围友军，10秒后自动销毁",
+          "traits": [
+            {
+              "id": "garrison_80_a",
+              "description": "<进入休整期时>使自身已激活的盟约层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_02_a",
+            "data/garrisons.json#garrison_80_a",
+            "server/sim/content/kits/ops/chess_char_2_02-silent.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_03_a",
+          "name": "诗怀雅",
+          "tier": 3,
+          "skill": "协同作战",
+          "skillDescription": "攻击力+40%，第一天赋效果提升至2.4倍",
+          "traits": [
+            {
+              "id": "garrison_133_a",
+              "description": "<获得时>获得1个“盟约之币”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_03_a",
+            "data/garrisons.json#garrison_133_a",
+            "server/sim/content/kits/ops/chess_char_3_03-swire.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_14_a",
+          "name": "初雪",
+          "tier": 3,
+          "skill": "自然震慑",
+          "skillDescription": "攻击范围内所有敌人防御力-40%，法术抗性-23%",
+          "traits": [
+            {
+              "id": "garrison_28_a",
+              "description": "<战斗中>每当范围内1名敌人进入冻结时，有50%概率使已激活的【谢拉格】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_14_a",
+            "data/garrisons.json#garrison_28_a",
+            "server/sim/content/kits/ops/chess_char_3_14-slbell.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_04_a",
+          "name": "伊内丝",
+          "tier": 4,
+          "skill": "暗夜无明",
+          "skillDescription": "攻击范围扩大，攻击力+60%，自身获得隐匿，每次攻击获得1点部署费用并偷取目标5点攻击速度（最多50点，持续至技能结束或伊内丝离场）",
+          "traits": [
+            {
+              "id": "garrison_104_a",
+              "description": "<休整期结束时>使自身已激活的盟约层数+5"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_04_a",
+            "data/garrisons.json#garrison_104_a",
+            "server/sim/content/kits/ops/chess_char_4_04-ines.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_07_a",
+          "name": "风笛",
+          "tier": 4,
+          "skill": "高效冲击",
+          "skillDescription": "下一次的攻击力提升至145%，且额外攻击一次\n可充能1次",
+          "traits": [
+            {
+              "id": "garrison_50_a",
+              "description": "<战斗中>前3次击倒敌人时，使已激活的【维多利亚】【远见】【不屈】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_07_a",
+            "data/garrisons.json#garrison_50_a",
+            "server/sim/content/kits/ops/chess_char_4_07-bpipe.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_01_a",
+          "name": "圣约送葬人",
+          "tier": 5,
+          "skill": "近身铳斗",
+          "skillDescription": "攻击力+45%，防御力+45%，阻挡数+1，受到敌人的近战攻击时有20%几率闪避并补充1颗弹药\n攻击装有12发弹药，打完后结束（可随时停止技能）",
+          "traits": [
+            {
+              "id": "garrison_23_a",
+              "description": "<战斗中>自身每消耗7发子弹，使已激活的【拉特兰】层数+7、【远见】层数+3（每场战斗分别至多触发7次）"
+            },
+            {
+              "id": "garrison_55_a",
+              "description": "【23】<战斗中>自身每消耗7发子弹，使已激活的【拉特兰】层数+7、【远见】层数+3（【远见】每场战斗至多21层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_01_a",
+            "data/garrisons.json#garrison_23_a",
+            "data/garrisons.json#garrison_55_a",
+            "server/sim/content/kits/ops/chess_char_5_01-excu2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_21_a",
+          "name": "寒檀",
+          "tier": 5,
+          "skill": "“女巫之泪”",
+          "skillDescription": "攻击范围扩大，攻击间隔超大幅度缩短，攻击变为向攻击范围内的随机地块召唤冰凌，冰凌落地后对周围所有敌人造成1秒寒冷和相当于寒檀攻击力65%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_141_a",
+              "description": "<进入休整期时><休整期结束时>使已激活的【远见】层数+4"
+            },
+            {
+              "id": "garrison_142_a",
+              "description": "<休整期结束时>使已激活的【远见】层数+4"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_21_a",
+            "data/garrisons.json#garrison_141_a",
+            "data/garrisons.json#garrison_142_a",
+            "server/sim/content/kits/ops/chess_char_5_21-sntlla.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_12_a",
+          "name": "迷迭香",
+          "tier": 6,
+          "skill": "末梢阻断",
+          "skillDescription": "攻击间隔增大，攻击力+20%，溅射范围扩大，每次攻击额外造成2次余震；受到攻击和余震的目标有20%的几率晕眩0.9秒",
+          "traits": [
+            {
+              "id": "garrison_09_a",
+              "description": "攻击力和生命值+20%；核心盟约每叠加3层，本干员攻击力和生命值+1%"
+            },
+            {
+              "id": "garrison_03_a",
+              "description": "攻击力和生命值+20%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_12_a",
+            "data/garrisons.json#garrison_09_a",
+            "data/garrisons.json#garrison_03_a",
+            "server/sim/content/kits/ops/chess_char_6_12-rosmon.js"
+          ]
+        }
+      ],
+      "disabledInStandard": false,
+      "sourcePaths": [
+        "data/bonds.json#visiShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "miraShip",
+      "name": "奇迹",
+      "thresholds": [
+        2
+      ],
+      "countMode": "BOARD_AND_DECK",
+      "countsHand": true,
+      "noStack": false,
+      "summary": "2名（含整备区）：主动刷新可能令下次免费，概率18%+0.3%×层数，最高100%；每100层获得20资金。",
+      "officialDescription": "刷新调度中心时，有{0:0%}（受层数影响）概率使下次刷新不消耗资金\n<每叠加100层>获得20资金\n整备区的【奇迹】干员也可用于激活盟约",
+      "blackboard": {
+        "probk": 0.3,
+        "prob": 0.003,
+        "baseprob": 0.18,
+        "layer": 100,
+        "count": 20
+      },
+      "members": [
+        {
+          "id": "chess_char_2_11_a",
+          "name": "风丸",
+          "tier": 2,
+          "skill": "纸艺·双影",
+          "skillDescription": "立即流失50%当前生命，攻击力+70%，并在周围的近战部署位召唤<替身>协助作战",
+          "traits": [
+            {
+              "id": "garrison_93_a",
+              "description": "只需2个相同的本干员即可合成精锐"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_11_a",
+            "data/garrisons.json#garrison_93_a",
+            "server/sim/content/kits/ops/chess_char_2_11-kazema.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_01_a",
+          "name": "能天使",
+          "tier": 3,
+          "skill": "过载模式",
+          "skillDescription": "攻击变为5连射，攻击间隔略微缩短\n技能会自动开启",
+          "traits": [
+            {
+              "id": "garrison_26_a",
+              "description": "<获得时>使下个休整期额外获得1资金"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_01_a",
+            "data/garrisons.json#garrison_26_a",
+            "server/sim/content/kits/ops/chess_char_3_01-angel.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_19_a",
+          "name": "伺夜",
+          "tier": 3,
+          "skill": "领袖的尊严",
+          "skillDescription": "技能持续时间内逐渐获得10点部署费用，攻击变为三连击；狼群与伺夜攻击被狼群阻挡的单位造成伤害时，额外造成相当于伺夜攻击力20%的法术伤害",
+          "traits": [
+            {
+              "id": "garrison_152_a",
+              "description": "<战斗中>造成的伤害变为弱点伤害（基于敌人的防御力和法术抗性变换物理和法术伤害），前3次击倒敌人时使已激活的【叙拉古】层数+2、【奇迹】层数+1"
+            },
+            {
+              "id": "garrison_153_a",
+              "description": "【152】<战斗中>造成的伤害变为弱点伤害（基于敌人的防御力和法术抗性变换物理和法术伤害），前3次击倒敌人时使已激活的【叙拉古】层数+2、【奇迹】层数+1"
+            },
+            {
+              "id": "garrison_01_a",
+              "description": "<战斗中>造成的伤害变为弱点伤害（基于敌人的防御力和法术抗性变换物理和法术伤害）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_19_a",
+            "data/garrisons.json#garrison_152_a",
+            "data/garrisons.json#garrison_153_a",
+            "data/garrisons.json#garrison_01_a",
+            "server/sim/content/kits/ops/chess_char_3_19-vigil.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_26_a",
+          "name": "华法琳",
+          "tier": 4,
+          "skill": "紧急包扎",
+          "skillDescription": "下次治疗额外回复目标最大生命值的15%\n只当目标生命值不满一半时才会触发，可充能2次",
+          "traits": [
+            {
+              "id": "garrison_72_a",
+              "description": "<战斗开始时>使身前一格干员获得特质“开启技能时使自身所属已激活盟约层数+1”（每场战斗至多7层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_26_a",
+            "data/garrisons.json#garrison_72_a",
+            "server/sim/content/kits/ops/chess_char_4_26-bldsk.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_15_a",
+          "name": "引星棘刺",
+          "tier": 5,
+          "skill": "解构涌潮",
+          "skillDescription": "投掷一个炼金单元，在12秒内使落点周围的地面敌人受到的治疗和回复效果降低50%，每秒受到相当于攻击力120%的法术伤害，友方单位每秒恢复相当于攻击力12%的生命；炼金单元能在12秒内缓慢沿投掷方向移动且影响范围持续扩大\n可充能1次",
+          "traits": [
+            {
+              "id": "garrison_79_a",
+              "description": "<休整期结束时>使自身及身前一格干员的已激活盟约分别各层数+4"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_15_a",
+            "data/garrisons.json#garrison_79_a",
+            "server/sim/content/kits/ops/chess_char_5_15-thorn2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_20_a",
+          "name": "安洁莉娜",
+          "tier": 5,
+          "skill": "秘杖·反重力模式",
+          "skillDescription": "全场所有敌人失重，攻击范围扩大，攻击力+90%，可以攻击4个敌人\n技能未开启时无法普通攻击",
+          "traits": [
+            {
+              "id": "garrison_147_a",
+              "description": "<休整期结束时>本回合每刷新过1次，使已激活的【叙拉古】层数+4（每回合至多12层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_20_a",
+            "data/garrisons.json#garrison_147_a",
+            "server/sim/content/kits/ops/chess_char_5_20-aglina.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_23_a",
+          "name": "录武官",
+          "tier": 5,
+          "skill": "一点关窍",
+          "skillDescription": "攻击力+45%，治疗干员后为其施加一个增益，使其在10秒内每次受到伤害时恢复80点生命",
+          "traits": [
+            {
+              "id": "garrison_156_a",
+              "description": "<获得时>【炎】层数+6、【奇迹】层数+3（无需激活盟约）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_23_a",
+            "data/garrisons.json#garrison_156_a",
+            "server/sim/content/kits/ops/chess_char_5_23-reckpr.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_07_a",
+          "name": "维娜·维多利亚",
+          "tier": 6,
+          "skill": "俱以我之名",
+          "skillDescription": "立即在天赋一生效范围内可部署地面召唤“黄金盟誓”；技能期间可攻击被天赋一生效范围友方单位阻挡的敌人，攻击力+145%，攻击目标数+1，攻击间隔缩短，攻击时伤害类型变为真实",
+          "traits": [
+            {
+              "id": "garrison_53_a",
+              "description": "<休整期结束时>场上每有1名不同阶的【维多利亚】/【奇迹】干员使已激活的【维多利亚】层数+3/【奇迹】层数+2"
+            },
+            {
+              "id": "garrison_54_a",
+              "description": "<休整期结束时>场上每有1名不同阶的【维多利亚】/【奇迹】干员使已激活的【维多利亚】层数+3/【奇迹】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_07_a",
+            "data/garrisons.json#garrison_53_a",
+            "data/garrisons.json#garrison_54_a",
+            "server/sim/content/kits/ops/chess_char_6_07-siege2.js"
+          ]
+        }
+      ],
+      "disabledInStandard": true,
+      "sourcePaths": [
+        "data/bonds.json#miraShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "investShip",
+      "name": "投资人",
+      "thresholds": [
+        3
+      ],
+      "countMode": "BOARD_AND_DECK",
+      "countsHand": true,
+      "noStack": false,
+      "summary": "3名（含整备区）：获得时特质触发2次；100层后3次。",
+      "officialDescription": "干员的“获得时”类特质每次触发2次\n<达到100层>“获得时”类特质每次触发3次\n整备区的【投资人】干员也可用于激活盟约",
+      "blackboard": {
+        "layer": 0,
+        "count": 2
+      },
+      "members": [
+        {
+          "id": "chess_char_2_19_a",
+          "name": "锡人",
+          "tier": 2,
+          "skill": "“大拉里”",
+          "skillDescription": "投掷一个炼金单元，在11秒内使落点周围的地面敌人每秒受到相当于攻击力65%的法术伤害、友方单位每秒恢复相当于攻击力15%的生命\n可充能1次",
+          "traits": [
+            {
+              "id": "garrison_151_a",
+              "description": "攻击力和生命值+20%；【投资人】【迅捷】每叠加3层，本干员攻击力和生命值+1%"
+            },
+            {
+              "id": "garrison_03_a",
+              "description": "攻击力和生命值+20%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_19_a",
+            "data/garrisons.json#garrison_151_a",
+            "data/garrisons.json#garrison_03_a",
+            "server/sim/content/kits/ops/chess_char_2_19-tinman.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_04_a",
+          "name": "琳琅诗怀雅",
+          "tier": 3,
+          "skill": "“见面礼”",
+          "skillDescription": "消耗一枚金币在范围内一个可放置且可通行的地面放置香槟炸弹，香槟炸弹会对触碰到的首个敌人造成相当于攻击力155%的物理伤害，并使目标停顿2秒\n香槟炸弹在场3秒后可额外造成一次伤害；携带此技能时金币上限为3",
+          "traits": [
+            {
+              "id": "garrison_98_a",
+              "description": "<休整期结束时>使下个休整期额外获得1资金（若已激活【炎】/【投资人】此特质在整备区也有效）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_04_a",
+            "data/garrisons.json#garrison_98_a",
+            "server/sim/content/kits/ops/chess_char_3_04-swire2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_14_a",
+          "name": "凛御银灰",
+          "tier": 5,
+          "skill": "御敌的锋锐",
+          "skillDescription": "对前方6名敌人造成攻击力260%的物理伤害，使其4秒内寒冷且隐匿失效；待部署区中距离“风雪之眼”最近的1名干员费用-11（优先选择右侧近卫/术师/狙击干员）；使“风雪之眼”左侧所有干员部署时以自身攻击力施放一次本技能的范围效果（最多叠加2次）\n可充能2次",
+          "traits": [
+            {
+              "id": "garrison_126_a",
+              "description": "<战斗开始时>使身前一格【谢拉格】干员获得特质“范围内1名敌人进入冻结时，有60%概率使已激活的【谢拉格】层数+1”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_14_a",
+            "data/garrisons.json#garrison_126_a",
+            "server/sim/content/kits/ops/chess_char_5_14-svash2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_17_a",
+          "name": "山",
+          "tier": 5,
+          "skill": "横扫架势",
+          "skillDescription": "可以在下列状态和初始状态间切换：\n防御力-30%，攻击距离缩短，攻击力+35%，阻挡数+1，同时攻击阻挡的所有敌人，每秒恢复最大生命的4.0%",
+          "traits": [
+            {
+              "id": "garrison_34_a",
+              "description": "<休整期结束时>本回合每获得过1名干员，使已激活的【投资人】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_17_a",
+            "data/garrisons.json#garrison_34_a",
+            "server/sim/content/kits/ops/chess_char_5_17-f12yin.js"
+          ]
+        }
+      ],
+      "disabledInStandard": true,
+      "sourcePaths": [
+        "data/bonds.json#investShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "raidShip",
+      "name": "突袭",
+      "thresholds": [
+        2
+      ],
+      "countMode": "BOARD",
+      "countsHand": false,
+      "noStack": false,
+      "summary": "2名：突袭成员10秒未攻击或技能就绪且范围无敌时，保留技力立即转移再部署至地面敌人周围，期间攻击/生命+25%+1%×层数；50层全体攻速+50。",
+      "officialDescription": "【突袭】干员10秒内未进行攻击或技能就绪时，若范围内没有敌人，则保留技力立即再部署至一名地面敌人周围，期间攻击力和生命值+{0:0%}（受层数影响）\n <达到50层>所有干员攻击速度+50",
+      "blackboard": {
+        "base_attack_speed": 0,
+        "attack_speed_per_stack": 0,
+        "base_atk": 0.25,
+        "atk_per_stack": 0.01,
+        "base_max_hp": 0.25,
+        "max_hp_per_stack": 0.01,
+        "power_bond_stack_cnt": 50,
+        "power_attack_speed": 50,
+        "no_attack_duration": 10
+      },
+      "members": [
+        {
+          "id": "chess_char_1_18_a",
+          "name": "宴",
+          "tier": 1,
+          "skill": "落地斩·破门",
+          "skillDescription": "部署后立即流失50%当前生命，并在14秒内攻击力+65%，伤害类型变为法术",
+          "traits": [
+            {
+              "id": "garrison_01_a",
+              "description": "<战斗中>造成的伤害变为弱点伤害（基于敌人的防御力和法术抗性变换物理和法术伤害）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_18_a",
+            "data/garrisons.json#garrison_01_a",
+            "server/sim/content/kits/ops/chess_char_1_18-utage.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_09_a",
+          "name": "休谟斯",
+          "tier": 2,
+          "skill": "高效处理",
+          "skillDescription": "技能持续时间内阻挡数+1，生命值高于50%时，获得+25%攻击力的精力充沛；高于80%时效果翻倍",
+          "traits": [
+            {
+              "id": "garrison_77_a",
+              "description": "<战斗中>每击倒2名敌人时，使已激活的【突袭】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_09_a",
+            "data/garrisons.json#garrison_77_a",
+            "server/sim/content/kits/ops/chess_char_2_09-humus.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_05_a",
+          "name": "斯卡蒂",
+          "tier": 3,
+          "skill": "涌潮悲歌",
+          "skillDescription": "攻击力、防御力和生命上限各+85%",
+          "traits": [
+            {
+              "id": "garrison_38_a",
+              "description": "<战斗中>每击倒2名单位时，使已激活的【阿戈尔】【坚守】【突袭】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_05_a",
+            "data/garrisons.json#garrison_38_a",
+            "server/sim/content/kits/ops/chess_char_3_05-skadi.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_12_a",
+          "name": "瑕光",
+          "tier": 3,
+          "skill": "先贤化身",
+          "skillDescription": "攻击力+65%，防御力+25%，每次攻击额外造成相当于攻击力60%的法术伤害，并恢复周围一名其他友方单位相当于攻击力70%的生命",
+          "traits": [
+            {
+              "id": "garrison_106_a",
+              "description": "<部署时>使自身已激活的盟约层数+4（每场作战至多12层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_12_a",
+            "data/garrisons.json#garrison_106_a",
+            "server/sim/content/kits/ops/chess_char_3_12-blemsh.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_04_a",
+          "name": "伊内丝",
+          "tier": 4,
+          "skill": "暗夜无明",
+          "skillDescription": "攻击范围扩大，攻击力+60%，自身获得隐匿，每次攻击获得1点部署费用并偷取目标5点攻击速度（最多50点，持续至技能结束或伊内丝离场）",
+          "traits": [
+            {
+              "id": "garrison_104_a",
+              "description": "<休整期结束时>使自身已激活的盟约层数+5"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_04_a",
+            "data/garrisons.json#garrison_104_a",
+            "server/sim/content/kits/ops/chess_char_4_04-ines.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_16_a",
+          "name": "缄默德克萨斯",
+          "tier": 4,
+          "skill": "剑雨滂沱",
+          "skillDescription": "部署后立即对周围所有敌人造成两次相当于攻击力115%的法术伤害并使目标晕眩1.5秒，之后每秒释放剑雨攻击范围内最多2个不同的目标，造成攻击力85%的法术伤害和0.2秒晕眩",
+          "traits": [
+            {
+              "id": "garrison_114_a",
+              "description": "<进入休整期时>获得1次免费刷新"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_16_a",
+            "data/garrisons.json#garrison_114_a",
+            "server/sim/content/kits/ops/chess_char_4_16-texas2.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_07_a",
+          "name": "史尔特尔",
+          "tier": 5,
+          "skill": "黄昏",
+          "skillDescription": "立即恢复所有生命；攻击力+210%，攻击距离+2，攻击目标数+2，生命上限+5000，逐渐流失生命（60秒后到达最大生命20%/秒）；持续时间无限",
+          "traits": [
+            {
+              "id": "garrison_107_a",
+              "description": "<部署时>使已激活的【突袭】层数+8（每场作战至多50层）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_07_a",
+            "data/garrisons.json#garrison_107_a",
+            "server/sim/content/kits/ops/chess_char_5_07-surtr.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_15_a",
+          "name": "仇白",
+          "tier": 6,
+          "skill": "问雪",
+          "skillDescription": "攻击范围扩大，攻击力+30%，伤害类型变为法术，额外攻击2个目标，远程攻击不再降低伤害，每次攻击使自身攻击速度+10（最多叠加5次）",
+          "traits": [
+            {
+              "id": "garrison_101_a",
+              "description": "【炎】【突袭】每叠加3层，本干员攻击束缚和停顿状态的敌人造成的伤害提升1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_15_a",
+            "data/garrisons.json#garrison_101_a",
+            "server/sim/content/kits/ops/chess_char_6_15-qiubai.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_17_a",
+          "name": "耀骑士临光",
+          "tier": 6,
+          "skill": "耀阳颔首",
+          "skillDescription": "在周围四格可部署地面召唤一把\"耀阳\"对周围敌人造成90%耀骑士临光攻击力的真实伤害并晕眩3秒，自身攻击范围扩大，攻击力+70%、防御力+40%，攻击自身与\"耀阳\"阻挡的单位时伤害类型变为真实",
+          "traits": [
+            {
+              "id": "garrison_145_a",
+              "description": "<战斗开始时>使自身和身前一格干员获得特质“【卡西米尔】每叠加3层，本干员再部署时间-1.5%，攻击速度+0.5”"
+            },
+            {
+              "id": "garrison_144_a",
+              "description": "【145】【卡西米尔】每叠加3层，本干员再部署时间-1.5%，攻击速度+0.5"
+            },
+            {
+              "id": "garrison_159_a",
+              "description": "【145】【卡西米尔】每叠加3层，本干员攻击速度+0.5"
+            },
+            {
+              "id": "garrison_160_a",
+              "description": "【145】<战斗开始时>使自身和身前一格干员获得特质“【卡西米尔】每叠加3层，攻击速度+0.5”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_17_a",
+            "data/garrisons.json#garrison_145_a",
+            "data/garrisons.json#garrison_144_a",
+            "data/garrisons.json#garrison_159_a",
+            "data/garrisons.json#garrison_160_a",
+            "server/sim/content/kits/ops/chess_char_6_17-nearl2.js"
+          ]
+        }
+      ],
+      "disabledInStandard": true,
+      "sourcePaths": [
+        "data/bonds.json#raidShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "indomShip",
+      "name": "不屈",
+      "thresholds": [
+        2,
+        3
+      ],
+      "countMode": "BOARD",
+      "countsHand": false,
+      "noStack": false,
+      "summary": "2名：地面干员击倒时18%+0.4%×层数概率立即再部署；3名档地面干员击倒令全体技力+5。",
+      "officialDescription": "地面干员被击倒时，有{0:0%}（受层数影响）概率立刻重新部署\n<在场3名不同【不屈】干员>地面干员被击倒时使场上所有干员技力+5",
+      "blackboard": {
+        "base_prob": 0.18,
+        "prob_per_stack": 0.004,
+        "power_bond_stack_cnt": 0,
+        "sp": 5,
+        "power_bond_char_cnt": 3
+      },
+      "members": [
+        {
+          "id": "chess_char_1_20_a",
+          "name": "雷蛇",
+          "tier": 1,
+          "skill": "反击电弧",
+          "skillDescription": "攻击间隔增大，攻击力+105%，每次攻击对最多3个敌人造成法术伤害，并有15%概率使命中目标晕眩1秒\n持续时间结束后雷蛇晕眩5秒",
+          "traits": [
+            {
+              "id": "garrison_158_a",
+              "description": "<休整期结束时>使已激活的【不屈】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_20_a",
+            "data/garrisons.json#garrison_158_a",
+            "server/sim/content/kits/ops/chess_char_1_20-liskam.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_12_a",
+          "name": "砾",
+          "tier": 2,
+          "skill": "鼠群",
+          "skillDescription": "部署后获得可吸收相当于自己最大生命140%的屏障，该屏障会在10秒内持续衰减",
+          "traits": [
+            {
+              "id": "garrison_75_a",
+              "description": "<部署时>使已激活的【卡西米尔】层数+1\n<被击倒时>使已激活的【不屈】层数+2"
+            },
+            {
+              "id": "garrison_143_a",
+              "description": "<部署时>使已激活的【卡西米尔】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_12_a",
+            "data/garrisons.json#garrison_75_a",
+            "data/garrisons.json#garrison_143_a",
+            "server/sim/content/kits/ops/chess_char_2_12-gravel.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_16_a",
+          "name": "蛇屠箱",
+          "tier": 3,
+          "skill": "壳状防御",
+          "skillDescription": "停止攻击敌人；阻挡数+1，防御力+75%，每秒恢复最大生命的1%",
+          "traits": [
+            {
+              "id": "garrison_70_a",
+              "description": "<休整期结束时>同一行每有1名干员，使已激活的【坚守】层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_16_a",
+            "data/garrisons.json#garrison_70_a",
+            "server/sim/content/kits/ops/chess_char_3_16-snakek.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_07_a",
+          "name": "风笛",
+          "tier": 4,
+          "skill": "高效冲击",
+          "skillDescription": "下一次的攻击力提升至145%，且额外攻击一次\n可充能1次",
+          "traits": [
+            {
+              "id": "garrison_50_a",
+              "description": "<战斗中>前3次击倒敌人时，使已激活的【维多利亚】【远见】【不屈】层数+2"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_07_a",
+            "data/garrisons.json#garrison_50_a",
+            "server/sim/content/kits/ops/chess_char_4_07-bpipe.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_06_a",
+          "name": "隐德来希",
+          "tier": 5,
+          "skill": "灵与欲的惜别",
+          "skillDescription": "攻击范围扩大，攻击力+80%，攻击速度+100，立刻为攻击范围内最多3名生命值最高的地面敌人召唤对应的心烛，每次攻击对心烛至少造成35%攻击力的伤害，心烛继承原敌人当前60%的生命值，被攻击时原敌人也会流失同等生命值\n心烛只受隐德来希攻击的影响",
+          "traits": [
+            {
+              "id": "garrison_10_a",
+              "description": "核心盟约每叠加3层，本干员攻击力和生命值+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_06_a",
+            "data/garrisons.json#garrison_10_a",
+            "server/sim/content/kits/ops/chess_char_5_06-etlchi.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_13_a",
+          "name": "归溟幽灵鲨",
+          "tier": 5,
+          "skill": "生存的渴望",
+          "skillDescription": "攻击力+70%，攻击速度+22，技能持续期间内干员的生命值不会低于1\n技能结束后视为被击倒",
+          "traits": [
+            {
+              "id": "garrison_40_a",
+              "description": "<战斗中>自身被击倒或替身与本体进行切换时，使已激活的【阿戈尔】层数+5、【不屈】层数+5"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_13_a",
+            "data/garrisons.json#garrison_40_a",
+            "server/sim/content/kits/ops/chess_char_5_13-ghost2.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_06_a",
+          "name": "佩佩",
+          "tier": 6,
+          "skill": "时光震荡",
+          "skillDescription": "攻击间隔略微增大，攻击力+150%，攻击使命中的目标晕眩0.8秒，对主目标提升至1秒，每次攻击后使溅射范围扩大且攻击力额外+13%，最多叠加4层",
+          "traits": [
+            {
+              "id": "garrison_94_a",
+              "description": "<进入休整期时>获得1件“盟约之币”或“萨尔贡浓茶”，有小概率发现“黄沙罗盘”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_06_a",
+            "data/garrisons.json#garrison_94_a",
+            "server/sim/content/kits/ops/chess_char_6_06-pepe.js"
+          ]
+        }
+      ],
+      "disabledInStandard": false,
+      "sourcePaths": [
+        "data/bonds.json#indomShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "maniShip",
+      "name": "调和",
+      "thresholds": [
+        1
+      ],
+      "countMode": "BOARD",
+      "countsHand": false,
+      "noStack": true,
+      "summary": "1名：场上已有真实成员的每个核心盟约人数各+1；调和成员享受已激活核心效果。只加1人。",
+      "officialDescription": "激活时可以使场上核心盟约的激活人数+1，【调和】干员享受已激活的核心盟约的效果",
+      "blackboard": {
+        "count": 1
+      },
+      "members": [
+        {
+          "id": "chess_char_6_11_a",
+          "name": "缪尔赛思",
+          "tier": 6,
+          "skill": "浅层非熵适应",
+          "skillDescription": "立即获得13点费用，自身与流形攻击力+22%，若流形为近战复制体时每2秒对周围八格敌人向自己中心小力度地拖拽并使所有阻挡的单位持续晕眩，若为远程复制体时刷新所有流形且攻击附带持续1.5秒的束缚",
+          "traits": [
+            {
+              "id": "garrison_76_a",
+              "description": "<获得时>获得1个“变形同构体”"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_11_a",
+            "data/garrisons.json#garrison_76_a",
+            "server/sim/content/kits/ops/chess_char_6_11-mlyss.js"
+          ]
+        }
+      ],
+      "disabledInStandard": false,
+      "sourcePaths": [
+        "data/bonds.json#maniShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "emptyShip",
+      "name": "协防干员",
+      "thresholds": [
+        2
+      ],
+      "countMode": "BOARD",
+      "countsHand": false,
+      "noStack": true,
+      "summary": "2名：全体物理和法术所受伤害-20%；协防成员伤害×1.2，精锐×1.4。",
+      "officialDescription": "所有干员受到的物理和法术伤害-20%；【协防干员】伤害提升至120%，精锐【协防干员】造成伤害提升至140%",
+      "blackboard": {
+        "damage_resistance": 0.2,
+        "damage_scale_normal": 1.2,
+        "damage_scale_extra": 1.4
+      },
+      "members": [
+        {
+          "id": "chess_char_2_14_a",
+          "name": "调香师",
+          "tier": 2,
+          "skill": "精调",
+          "skillDescription": "攻击速度-50，攻击力+180%",
+          "traits": [
+            {
+              "id": "garrison_81_a",
+              "description": "<休整期结束时>当前激活且层数最多的盟约层数+2，此干员在整备区时也有效"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_14_a",
+            "data/garrisons.json#garrison_81_a",
+            "server/sim/content/kits/ops/chess_char_2_14-flower.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_10_a",
+          "name": "松果",
+          "tier": 3,
+          "skill": "电能过载",
+          "skillDescription": "攻击力+25%，攻击范围缩短；每使用过一次技能额外追加攻击力+20%的效果（最多+60%）",
+          "traits": [
+            {
+              "id": "garrison_116_a",
+              "description": "<售出时>进行一次I阶干员的免费特殊招募\n本干员合成为精锐状态后，上述特殊招募变为V阶干员"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_10_a",
+            "data/garrisons.json#garrison_116_a",
+            "server/sim/content/kits/ops/chess_char_3_10-pinecn.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_25_a",
+          "name": "魔王",
+          "tier": 4,
+          "skill": "编织重构现世",
+          "skillDescription": "攻击范围扩大，自身特性效果提高至65%，“微尘”不再消失，攻击范围内所有其它友方单位获得相当于魔王65%的最大生命值的鼓舞效果，每隔2秒重新分配攻击范围内所有友方单位的生命",
+          "traits": [
+            {
+              "id": "garrison_59_a",
+              "description": "<战斗中>战斗中当本干员身前一格的干员因特质使层数提升时，使其额外层数+1"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_25_a",
+            "data/garrisons.json#garrison_59_a",
+            "server/sim/content/kits/ops/chess_char_4_25-cetsyr.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_10_a",
+          "name": "铃兰",
+          "tier": 5,
+          "skill": "狐火渺然",
+          "skillDescription": "停止攻击，攻击范围扩大，第二天赋效果提升至1.4倍，攻击范围内的所有敌人被停顿，且每秒回复范围内所有友方单位相当于攻击力9%的生命",
+          "traits": [
+            {
+              "id": "garrison_60_a",
+              "description": "<进入休整期时>触发身前一格的其他干员的“获得时”类效果"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_10_a",
+            "data/garrisons.json#garrison_60_a",
+            "server/sim/content/kits/ops/chess_char_5_10-lisa.js"
+          ]
+        },
+        {
+          "id": "chess_char_6_12_a",
+          "name": "迷迭香",
+          "tier": 6,
+          "skill": "末梢阻断",
+          "skillDescription": "攻击间隔增大，攻击力+20%，溅射范围扩大，每次攻击额外造成2次余震；受到攻击和余震的目标有20%的几率晕眩0.9秒",
+          "traits": [
+            {
+              "id": "garrison_09_a",
+              "description": "攻击力和生命值+20%；核心盟约每叠加3层，本干员攻击力和生命值+1%"
+            },
+            {
+              "id": "garrison_03_a",
+              "description": "攻击力和生命值+20%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_6_12_a",
+            "data/garrisons.json#garrison_09_a",
+            "data/garrisons.json#garrison_03_a",
+            "server/sim/content/kits/ops/chess_char_6_12-rosmon.js"
+          ]
+        }
+      ],
+      "disabledInStandard": false,
+      "sourcePaths": [
+        "data/bonds.json#emptyShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "soloShip",
+      "name": "独行",
+      "thresholds": [
+        1
+      ],
+      "countMode": "BOARD",
+      "countsHand": false,
+      "noStack": true,
+      "summary": "恰好1种独行干员：独行攻击/生命+60%，初始技力+15；2种及以上失效。",
+      "officialDescription": "<在场1名【独行】干员>【独行】干员攻击力和生命值+60%，初始技力+15（在场2名及以上【独行】干员时失效）",
+      "blackboard": {
+        "atk": 0.6,
+        "max_hp": 0.6,
+        "sp": 15
+      },
+      "members": [
+        {
+          "id": "chess_char_1_08_a",
+          "name": "德克萨斯",
+          "tier": 1,
+          "skill": "剑雨",
+          "skillDescription": "立即获得10点费用；对周围所有敌人造成两次相当于攻击力120%的法术伤害，并令击中目标晕眩2秒",
+          "traits": [
+            {
+              "id": "garrison_120_a",
+              "description": "<售出时>获得1次免费刷新"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_1_08_a",
+            "data/garrisons.json#garrison_120_a",
+            "server/sim/content/kits/ops/chess_char_1_08-texas.js"
+          ]
+        },
+        {
+          "id": "chess_char_2_17_a",
+          "name": "折桠",
+          "tier": 2,
+          "skill": "生存决心",
+          "skillDescription": "技能开启时使自身周围的地面敌人战栗5秒；攻击力+100%，防御力+30%，同时攻击阻挡的所有敌人",
+          "traits": [
+            {
+              "id": "garrison_69_a",
+              "description": "<休整期结束时>使已激活的【坚守】层数+4"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_2_17_a",
+            "data/garrisons.json#garrison_69_a",
+            "server/sim/content/kits/ops/chess_char_2_17-branch.js"
+          ]
+        },
+        {
+          "id": "chess_char_3_17_a",
+          "name": "流星",
+          "tier": 3,
+          "skill": "碎甲击·扩散",
+          "skillDescription": "立即对攻击范围内至多5个敌人造成相当于攻击力155%的物理伤害，5秒内使命中目标的防御力-30%",
+          "traits": [
+            {
+              "id": "garrison_137_a",
+              "description": "<战斗中>攻击力和生命值+25%，造成的伤害变为弱点伤害（基于敌人的防御力和法术抗性变换物理和法术伤害）"
+            },
+            {
+              "id": "garrison_01_a",
+              "description": "<战斗中>造成的伤害变为弱点伤害（基于敌人的防御力和法术抗性变换物理和法术伤害）"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_3_17_a",
+            "data/garrisons.json#garrison_137_a",
+            "data/garrisons.json#garrison_01_a",
+            "server/sim/content/kits/ops/chess_char_3_17-shotst.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_09_a",
+          "name": "水月",
+          "tier": 4,
+          "skill": "囚徒困境",
+          "skillDescription": "攻击间隔小幅度缩短，攻击力+15%，第一天赋额外攻击1个目标并附加0.8秒束缚",
+          "traits": [
+            {
+              "id": "garrison_07_a",
+              "description": "【阿戈尔】每叠加3层，本干员攻击力+1%"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_09_a",
+            "data/garrisons.json#garrison_07_a",
+            "server/sim/content/kits/ops/chess_char_4_09-mizuki.js"
+          ]
+        },
+        {
+          "id": "chess_char_4_18_a",
+          "name": "泥岩",
+          "tier": 4,
+          "skill": "岩崩锤",
+          "skillDescription": "下次攻击时回复自身4%的最大生命，对周围所有地面敌人造成相当于攻击力190%的物理伤害，并有30%的几率晕眩其0.5秒",
+          "traits": [
+            {
+              "id": "garrison_21_a",
+              "description": "<售出时>进入下个休整期额外获得2资金"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_4_18_a",
+            "data/garrisons.json#garrison_21_a",
+            "server/sim/content/kits/ops/chess_char_4_18-mudrok.js"
+          ]
+        },
+        {
+          "id": "chess_char_5_11_a",
+          "name": "塞雷娅",
+          "tier": 5,
+          "skill": "药物配置",
+          "skillDescription": "治疗附近一定范围内的所有友军相当于塞雷娅攻击力95%的生命",
+          "traits": [
+            {
+              "id": "garrison_99_a",
+              "description": "身前一格干员若为“休整期结束时”特质，本干员的特质与其相同"
+            }
+          ],
+          "sourcePaths": [
+            "data/chess.json#chess_char_5_11_a",
+            "data/garrisons.json#garrison_99_a",
+            "server/sim/content/kits/ops/chess_char_5_11-demkni.js"
+          ]
+        }
+      ],
+      "disabledInStandard": true,
+      "sourcePaths": [
+        "data/bonds.json#soloShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    },
+    {
+      "id": "suntShip",
+      "name": "绝技",
+      "thresholds": [
+        2,
+        5
+      ],
+      "countMode": "BOARD_ALL_CHESS",
+      "countsHand": false,
+      "noStack": true,
+      "summary": "按在场精锐总数：2名精锐攻击+30%；5名精锐技力消耗-30%；同名精锐也分别计数。",
+      "officialDescription": "<在场2名精锐状态的干员>精锐状态的干员攻击力+30%\n<在场5名精锐状态的干员>精锐状态的干员技力消耗-30%\n（所有干员的精锐状态均可激活本盟约）",
+      "blackboard": {
+        "power_char_cnt": 2,
+        "ex_char_cnt": 5,
+        "power_atk": 0.3,
+        "sp_ratio": 0.7
+      },
+      "members": [],
+      "disabledInStandard": true,
+      "sourcePaths": [
+        "data/bonds.json#suntShip",
+        "server/match/bondsMeta.js",
+        "server/sim/content/bonds/addon/battle.js",
+        "server/sim/content/bonds/addon/meta.js"
+      ]
+    }
+  ],
+  "mechanics": [
+    {
+      "id": "bond-count",
+      "name": "人数与层数分开",
+      "text": "通常按场上不同干员计数，同名普通和精锐只算1名。层数整局保留，未激活时不产生盟约效果，每盟约上限999。",
+      "sourcePaths": [
+        "server/match/bondsMeta.js",
+        "shared/constants.js",
+        "docs/PLAYING.md"
+      ]
+    },
+    {
+      "id": "bench",
+      "name": "整备区也能激活的盟约",
+      "text": "远见、奇迹、投资人按场上与整备区共同去重计数；5格临时整备区不计入。特质是否在整备区触发另看描述，不要与盟约激活计数混淆。",
+      "sourcePaths": [
+        "server/match/bondsMeta.js",
+        "docs/PLAYING.md"
+      ]
+    },
+    {
+      "id": "tiers",
+      "name": "核心进阶阈值例外",
+      "text": "核心一般3/6人；炎有3/6/9三档，阿戈尔3/5两档。调和给已有真实成员的每个核心人数+1，可协助到达高档。",
+      "sourcePaths": [
+        "data/bonds.json",
+        "server/match/bondsMeta.js"
+      ]
+    },
+    {
+      "id": "standard",
+      "name": "标准模拟禁用项",
+      "text": "标准关闭拉特兰、阿戈尔、卡西米尔、灵巧、奥术、奇迹、投资人、突袭、独行、绝技。险境及以上启用23盟约，但每局抽选禁用会改变实际干员卡池。",
+      "sourcePaths": [
+        "data/config.json#modes",
+        "data/config.json#bans",
+        "server/match/gamedata.js"
+      ]
+    },
+    {
+      "id": "income",
+      "name": "资金每回合使用",
+      "text": "每回合基础资金=min(3+回合,12)；休整期末剩余资金清零，坎诺特策略例外。刷新1资金，出售任意干员仅返1资金。",
+      "sourcePaths": [
+        "data/config.json#economy",
+        "server/match/player/economy.js"
+      ]
+    },
+    {
+      "id": "shop",
+      "name": "升级和招募",
+      "text": "调度中心1至6级决定最高干员等阶；升级费用每过一回合降1至最低0，升级后按下级基础费重算。招募I–VI阶价格为2/3/3/3/4/4。",
+      "sourcePaths": [
+        "data/config.json#economy",
+        "docs/PLAYING.md"
+      ]
+    },
+    {
+      "id": "merge",
+      "name": "晋升与装备",
+      "text": "通常3张普通同名自动晋升精锐，风丸只需2张。晋升触发免费三选一高阶招募；2件同名装备合为进阶，每名干员通常2件装备。",
+      "sourcePaths": [
+        "data/config.json#economy",
+        "server/match/player/acquire.js",
+        "server/match/player/items.js"
+      ]
+    },
+    {
+      "id": "banned-pool",
+      "name": "合作公共卡池",
+      "text": "同盟通常共享干员库存；基础库存是独立模式的2倍。自选干员私人库存同样翻倍但不与队友共享。推导：开局分工不同阵营可减少抢牌。",
+      "sourcePaths": [
+        "data/config.json#economy",
+        "server/match/pool.js",
+        "docs/PLAYING.md"
+      ]
+    },
+    {
+      "id": "layer-phases",
+      "name": "叠层时机",
+      "text": "普通个人作战可从战斗特质叠层；联防援助、最终攻势和隐秘核心的战斗阶段不叠层。休整期触发的成长应在开战前安排。",
+      "sourcePaths": [
+        "data/config.json#unite",
+        "data/config.json#finalAssault",
+        "server/sim/content/garrisons/battle.js",
+        "docs/PLAYING.md"
+      ]
+    },
+    {
+      "id": "hidden",
+      "name": "隐秘核心",
+      "text": "险境及以上第14回合领袖胜利后，整队激活盟约层数总和>1200（独立>350）且LP>1，进入第15回合隐秘核心。是严格大于，等于不够。",
+      "sourcePaths": [
+        "data/config.json#hiddenCore",
+        "server/match/finalAssault.js"
+      ]
+    },
+    {
+      "id": "hit-limit",
+      "name": "领袖单次限伤",
+      "text": "最终攻势/隐秘核心领袖单次最终伤害向上取整后≥300000整次作废；整数299999正常，299999.1会作废。推导：高层数时需关注谢拉格、奥术等倍率叠加；多次适量伤害更容易避开单次阈值。",
+      "sourcePaths": [
+        "server/sim/damage.js:220",
+        "shared/constants.js:127",
+        "docs/PLAYING.md"
+      ]
+    },
+    {
+      "id": "unite",
+      "name": "联防的价值",
+      "text": "普通战斗有漏怪者和完美作战者时进入联防，至多2名完美作战者协防；场上干员保留生命、技力与位置。推导：稳定清怪可为全队保LP。",
+      "sourcePaths": [
+        "data/config.json#unite",
+        "server/match/unite.js",
+        "docs/PLAYING.md"
+      ]
+    },
+    {
+      "id": "milestones",
+      "name": "层数奖励补发",
+      "text": "维多利亚重锤、远见/奇迹资金奖励只在激活时结算；未激活时获得层数跨过的档位，在激活后补发且每档只发一次。",
+      "sourcePaths": [
+        "server/sim/content/bonds/core.js",
+        "server/sim/content/bonds/addon/meta.js",
+        "docs/PLAYING.md"
+      ]
+    },
+    {
+      "id": "attribute-math",
+      "name": "属性加成口径",
+      "text": "攻击/生命/防御的+百分比通常属于直接乘算类，与同类加成相加；不要把炎、技能和装备所有百分比逐项相乘。具体独立伤害倍率另算。",
+      "sourcePaths": [
+        "server/sim/content/bonds/core.js",
+        "server/sim/content/support",
+        "docs/research/02-bonds.md"
+      ]
+    }
+  ],
+  "visualStyle": {
+    "description": "近黑绿灰军事终端风；薄荷绿高亮，黄色价格，橙红警告，细线框、括角与高密度方形面板。",
+    "palette": {
+      "background": "#0c0f0e",
+      "surface": "#141816",
+      "surface2": "#1e2421",
+      "mint": "#4ed8af",
+      "mintBright": "#59f4ca",
+      "gold": "#ffc600",
+      "amber": "#f6a329",
+      "orange": "#e85a1a",
+      "red": "#e73118",
+      "text": "#f2f2f2",
+      "muted": "#8a948f"
+    },
+    "tierColors": [
+      "#a8a8a8",
+      "#f2f2f2",
+      "#34e6b2",
+      "#34b8d8",
+      "#f8bf00",
+      "#f88000"
+    ],
+    "typography": "中文 Noto Sans SC / 微软雅黑；数字 Bender / Rajdhani / Oxanium；英文展示 Novecento / Oxanium。",
+    "sourcePaths": [
+      "public/css/theme.css",
+      "public/css/screens/game.css",
+      "public/css/screens/sweep.css"
+    ]
+  },
+  "auditWarnings": [
+    "docs/PLAYING.md概括核心为3/6会遗漏炎9人、阿戈尔5人，网站必须以data/bonds.json.thresholds为准。",
+    "data/bonds.json.spec存在过时研究说明，尤其炎佑属性、目标选择；本审计据当前core.js与tokens.js修正。",
+    "README所述规则尽量对照官方，仓库仍保留[ASSUMED]推断；不能把复刻特有或推断规则标成全部官方已验证。",
+    "data/factions.json指特训敌人分类，攻略阵营请使用data/bonds.json，不要误用factions.json。"
+  ]
+}

@@ -1,0 +1,623 @@
+{
+  "researchedAt": "2026-10-19",
+  "method": "核查搜索引擎可读取的B站标题、作者简介、视频简介及官方更新公告；未取得视频字幕，不声称完整观看或逐帧验证。阵容数字与干员建议仅在简介明确写出时记录。",
+  "versionNotes": [
+    {
+      "date": "2026-03-14",
+      "title": "官方下半期更新",
+      "url": "https://ak.hypergryph.com/news/5114",
+      "summary": "下半期新增叙拉古、卡西米尔、绝技、奥术、独行；炎新增9人双炎佑，精准、坚守、突袭、协防等重做。2025年11月上半期攻略的阵容思路与阈值不应直接照搬。"
+    },
+    {
+      "date": "2026-03-27",
+      "title": "官方第二阶段更新",
+      "url": "https://ak.hypergryph.com/news/8584",
+      "summary": "新增终极模拟，银灰、伺夜、空弦、卡涅利安、雷蛇预设及四名策略；调整多名叠层干员等阶/特质、远见/奇迹/投资人阈值、异客盟约与录武官。3月15–26日教程应标为下半期早期思路，实机数值以使用版本为准。",
+      "specificChanges": [
+        "远见全体干员购买价格-1的首次阈值由150层调整为80层。",
+        "异客独行改精准，新增精准叠层攻击力成长；锡人增加迅捷；魔王移除奇迹。",
+        "录武官改为获得时增加炎和奇迹层数；刺玫改为休整期结束叠维多利亚；断崖改为自身和身后一格分别叠层。",
+        "初雪、凛御银灰冻结叠层概率/层数变化，华法琳特质每战上限变化。"
+      ]
+    },
+    {
+      "date": "2026-10-19查阅",
+      "title": "Stronghold-Protocol移植版README",
+      "url": "https://github.com/sganggs/Stronghold-Protocol",
+      "summary": "sganggs/Stronghold-Protocol为非官方同人浏览器复刻，README当前标0.3.1，单人或1–4人合作、112名可招募干员、23盟约。作者明确少数规则仍按推断实现。原版视频只可指导运营，移植版阈值、技能自动释放与修复情况应以仓库对应版本数据及玩法指南为准。"
+    }
+  ],
+  "recommendedVideoSources": [
+    {
+      "id": "yan_arcane_xiaoran",
+      "title": "【卫戍协议:盟约Ⅱ】无脑轮椅！【奥术】【炎】阵容推荐 简单好抄",
+      "author": "萧然Q",
+      "date": "2026-03-17",
+      "url": "https://www.bilibili.com/video/BV1RCwmzLENP/",
+      "tags": [
+        "炎",
+        "奥术",
+        "新手",
+        "运营"
+      ],
+      "verifiedFrom": "视频简介",
+      "claims": [
+        "推荐杜遥夜策略。",
+        "火陈、烛煌主C，夕和星源是叠层核心。",
+        "一般第3、5、7、9回合升级，六本视情况。",
+        "前期优先拿炎组成6炎，再补2远见、2奇迹、3投资人。",
+        "有3投资人后，录武官、诗怀雅、焰尾优先抓；转职装备考虑炎国短刀/奥术法阵。"
+      ],
+      "caveat": "简介为3/27更新前版本，尤其录武官与投资人变化后需对照本地数据。正文简称火陈/烛煌宜在网站用本地数据校对全名，不能凭昵称猜其他卡位。"
+    },
+    {
+      "id": "kazimierz_raid_xiaoran",
+      "title": "【卫戍协议:盟约Ⅱ】无脑阵容 突袭卡西米尔玩法推荐 简单好抄",
+      "author": "萧然Q",
+      "date": "2026-03-15",
+      "url": "https://www.bilibili.com/video/BV1XLwhz8ESa/",
+      "tags": [
+        "卡西米尔",
+        "突袭",
+        "新手",
+        "运营"
+      ],
+      "verifiedFrom": "视频简介（已直接打开复核）",
+      "claims": [
+        "瑕光为核心。",
+        "前期先3卡西米尔、2突袭，再2远见、2奇迹、3投资人。",
+        "一般第2、4、7、9回合升级，六本视情况。",
+        "焰尾优先抓，转职装备为卡西米尔旗帜（名称需按本地数据校对）。"
+      ],
+      "caveat": "升级回合是作者运营模板，不能写成任何起手都必须执行的规则。"
+    },
+    {
+      "id": "kazimierz_emengarde",
+      "title": "【卫戍协议:盟约Ⅱ】卡西米尔-专属策略埃芒加德，爽叠突袭无需不屈！ | 明日方舟攻略",
+      "author": "自在道爷",
+      "date": "2026-03-16",
+      "url": "https://www.bilibili.com/video/BV1g3wmzuEqH/",
+      "tags": [
+        "卡西米尔",
+        "突袭",
+        "埃芒加德"
+      ],
+      "verifiedFrom": "视频简介",
+      "claims": [
+        "作者用埃芒加德策略帮助卡西米尔叠层，认为高层数后耀骑士临光能反复再部署，因而此分支可不带不屈。"
+      ],
+      "caveat": "这是特定策略分支的作者判断，不代表所有卡西米尔都不需要不屈。"
+    },
+    {
+      "id": "eight_bonds_whitecherry",
+      "title": "【卫戍协议】看懂八个核心盟约叠层方式（一图流）",
+      "author": "白樱iridescent",
+      "date": "2026-03-15",
+      "url": "https://www.bilibili.com/video/BV1a9wbzdE2S/",
+      "tags": [
+        "全体系",
+        "叠层",
+        "入门"
+      ],
+      "verifiedFrom": "视频标题、日期、合集关联标题",
+      "claims": [
+        "八个核心盟约的叠层教学，适合作为通用基础外链。"
+      ],
+      "caveat": "未取得字幕，不能据标题补写八套具体操作。"
+    },
+    {
+      "id": "sargon_precision_whitecherry",
+      "title": "【卫戍协议】3精准bug修复！精迅萨一图流！萨尔贡体系强度提升！",
+      "author": "白樱iridescent",
+      "date": "2026-03-17",
+      "url": "https://www.bilibili.com/video/BV1ovwozkEst/",
+      "tags": [
+        "萨尔贡",
+        "精准",
+        "迅捷"
+      ],
+      "verifiedFrom": "视频标题与日期",
+      "claims": [
+        "可核实作者将精准、迅捷和萨尔贡作为组合教学，并以3精准判定修复为背景。"
+      ],
+      "caveat": "无可读详细简介，网站的具体干员组合需要另用本地数据支持。"
+    },
+    {
+      "id": "sargon_cardprune",
+      "title": "删卡流公式萨尔贡7回合成型实战教学",
+      "author": "B大收藏家",
+      "date": "2026-03-23",
+      "url": "https://www.bilibili.com/video/BV1UiQDBHE9J/",
+      "tags": [
+        "萨尔贡",
+        "佩佩",
+        "进阶",
+        "禁用盟约"
+      ],
+      "verifiedFrom": "视频简介与合集简介",
+      "claims": [
+        "教程针对禁萨尔贡、不禁精准的局；核心利用佩佩策略筛牌压缩卡池。",
+        "作者强调缇缇，实战示例无至简、魔王、迷迭香而使用泡泡。"
+      ],
+      "caveat": "反直觉的禁萨玩法为进阶特定分支，应单独标条件，不能当普通6萨的通用选牌表。作者的最高强度用语不应沿用成网站客观评级。"
+    },
+    {
+      "id": "sargon_beginner",
+      "title": "【入门教学单品】卫戍协议轮椅焚决！教你秒上手萨尔贡盟约队",
+      "author": "柏喙攻略组",
+      "date": "2026-03-26",
+      "url": "https://www.bilibili.com/video/BV14oXHBuEzc/",
+      "tags": [
+        "萨尔贡",
+        "佩佩",
+        "入门"
+      ],
+      "verifiedFrom": "视频标题、作者、日期、标签",
+      "claims": [
+        "入门向萨尔贡教程，标签包含佩佩。"
+      ],
+      "caveat": "无可读正文，不应由标题推导完整干员表。"
+    },
+    {
+      "id": "siracusa_whiteqi",
+      "title": "卫戍协议】无敌叙拉古思路分享！",
+      "author": "白绮Infinity",
+      "date": "2026-03-15",
+      "url": "https://www.bilibili.com/video/BV1YuwKztE9d/",
+      "tags": [
+        "叙拉古",
+        "贾维",
+        "阿米娅",
+        "运营"
+      ],
+      "verifiedFrom": "视频简介",
+      "claims": [
+        "作者建议阿米娅或贾维策略。",
+        "提醒叙拉古前中期需要补强力输出；阿罗玛吃地图，可能需要五本外援。",
+        "荒芜拉普兰德是六本核心，获得难度会影响成型。"
+      ],
+      "caveat": "这是3/27前评价；3/27强化拉普兰德叠层并新增伺夜预设后，叙拉古运营已有后续改进，勿写成当前不可玩的固定结论。"
+    },
+    {
+      "id": "siracusa_twoshop_new",
+      "title": "你最稳定的Boss对策：4分钟学会二本流叙拉古",
+      "author": "ZeroLucid",
+      "date": "2026-04-01",
+      "url": "https://www.bilibili.com/video/BV1Gk9jBTEbx/",
+      "tags": [
+        "叙拉古",
+        "贾维",
+        "3/27更新后"
+      ],
+      "verifiedFrom": "标题、日期、视频简介",
+      "claims": [
+        "作者明确这是更新后二本叙拉古，并认为稳定性、兜底与攻坚已有改善。"
+      ],
+      "caveat": "可作为旧版3/15高费核心路线的后续阅读；未获取具体运营字幕，不应杜撰步骤。"
+    },
+    {
+      "id": "victoria_whitecherry",
+      "title": "【卫戍协议】成型最强输出盟约—维多利亚一图流！轻松50％播报！",
+      "author": "白樱iridescent",
+      "date": "2026-03-20",
+      "url": "https://www.bilibili.com/video/BV1t9AJzfEr2/",
+      "tags": [
+        "维多利亚",
+        "一图流"
+      ],
+      "verifiedFrom": "标题、作者、日期",
+      "claims": [
+        "有针对维多利亚的下半期一图流教程。"
+      ],
+      "caveat": "最强/50%为作者标题宣称，网站不要转述成保证。具体运营需本地数据与官方条目支持。"
+    },
+    {
+      "id": "kjerag_twenty3",
+      "title": "【明日方舟_卫戍协议】最简单无脑的谢拉格打法 寒冰陀螺 启动！",
+      "author": "二十三号半",
+      "date": "2026-03-16",
+      "url": "https://www.bilibili.com/video/BV1uowLz7EAM/",
+      "tags": [
+        "谢拉格",
+        "入门"
+      ],
+      "verifiedFrom": "标题、日期、合集作者",
+      "claims": [
+        "下半期谢拉格教程，时长约9分57秒。"
+      ],
+      "caveat": "无可读细节，不编造卡位。"
+    },
+    {
+      "id": "aegir_mechanisms",
+      "title": "无转职无浊蒂也能抢播报？全网最详细阿戈尔攻略！【卫戍协议/阿戈尔吃人复活机制与运营思路】",
+      "author": "麓笙Lumshine",
+      "date": "2026-03-23",
+      "url": "https://www.bilibili.com/video/BV146QXB4EUK/",
+      "tags": [
+        "阿戈尔",
+        "吞噬",
+        "复活",
+        "机制"
+      ],
+      "verifiedFrom": "标题、作者、日期",
+      "claims": [
+        "可推荐为阿戈尔吞噬与复活机制专题。"
+      ],
+      "caveat": "不能由标题推导无转职时的完整阵容；还需按本地吞噬规则校对。"
+    },
+    {
+      "id": "comprehensive_cotton",
+      "title": "【明日方舟】卫戍协议高分阵容推荐！保姆级教程 大炎体系/叙拉古体系/卡西米尔分队打法解析",
+      "author": "叫我棉被",
+      "date": "2026-03-18",
+      "url": "https://www.bilibili.com/video/BV1QxwvzuEQN/",
+      "tags": [
+        "炎",
+        "叙拉古",
+        "卡西米尔",
+        "综合"
+      ],
+      "verifiedFrom": "标题、作者、日期、简介",
+      "claims": [
+        "综合解析三个核心体系，可作为新手视频入口。"
+      ]
+    },
+    {
+      "id": "tsg_banpick",
+      "title": "新盟约不会玩？Ban/Pick位记不住？这个视频可以帮到你【卫戍协议】",
+      "author": "黑蓑影卫攻略组",
+      "date": "2026-03-20",
+      "url": "https://www.bilibili.com/video/BV1LZAEzTEfz/",
+      "tags": [
+        "禁用",
+        "全体系",
+        "工具"
+      ],
+      "verifiedFrom": "视频简介",
+      "claims": [
+        "作者提供盟约Ban/Pick查询工具 https://arkrog.com/tool/autochess 。"
+      ],
+      "caveat": "本次工具网页抓取超时；只核实视频简介中存在该指路，不保证工具目前可用。"
+    },
+    {
+      "id": "tsg_kaz_aegir_new",
+      "title": "【卫戍攻略#3】不屈不是区！如何加强终端输出？终极模拟教学 卡西米尔&阿戈尔篇",
+      "author": "黑蓑影卫攻略组",
+      "date": "2026-04-06",
+      "url": "https://www.bilibili.com/video/BV1eBSdBBEig/",
+      "tags": [
+        "卡西米尔",
+        "阿戈尔",
+        "终极",
+        "3/27更新后"
+      ],
+      "verifiedFrom": "标题、作者、日期",
+      "claims": [
+        "终极模拟下卡西米尔、阿戈尔及不屈的后续教学。"
+      ]
+    },
+    {
+      "id": "tsg_yan_lat_new",
+      "title": "【卫戍攻略#4】什么叫叠到999层反而亏输出？终极模拟教学 炎&拉特兰篇",
+      "author": "黑蓑影卫攻略组",
+      "date": "2026-04-17",
+      "url": "https://www.bilibili.com/video/BV1nrdqBLERz/",
+      "tags": [
+        "炎",
+        "拉特兰",
+        "终极",
+        "限伤",
+        "3/27更新后"
+      ],
+      "verifiedFrom": "标题、作者、日期",
+      "claims": [
+        "较新的终极模拟炎、拉特兰专题，标题明确讨论满999层反而亏输出。"
+      ],
+      "caveat": "标题不能单独证明限伤算法；算法请引用仓库研究文档与本地代码。"
+    },
+    {
+      "id": "kjerag_mix_new",
+      "title": "惊天萨谢！这点层数就能爆杀终极隐秘了？",
+      "author": "作者名本次搜索结果未完整返回",
+      "date": "2026-04-09",
+      "url": "https://www.bilibili.com/video/BV1LLDJBrEsd/",
+      "tags": [
+        "谢拉格",
+        "萨尔贡",
+        "双修",
+        "进阶"
+      ],
+      "verifiedFrom": "视频简介",
+      "claims": [
+        "作者提出缪尔赛思、本家主C转谢、银灰或初雪构成谢拉格外挂，利用投资人和买卖雪猎、灵知补层。"
+      ],
+      "caveat": "作者在简介明确有部分其他阵营尚未测试；网站只把萨谢/叙谢作为实测分支外链，不泛化所有体系。"
+    }
+  ],
+  "portPrimarySources": [
+    {
+      "title": "玩法指南",
+      "url": "https://github.com/sganggs/Stronghold-Protocol/blob/master/docs/PLAYING.md",
+      "use": "资金跨回合清空（坎诺特例外）、三连晋升、装备锁定、共用卡池、禁用与调和等移植版行为。"
+    },
+    {
+      "title": "Research index",
+      "url": "https://github.com/sganggs/Stronghold-Protocol/blob/master/docs/research/00-INDEX.md",
+      "use": "区分DATA/VERIFIED/ASSUMED；文档Addendum优先；同盟14回合、独立标准9回合；层数999封顶；领袖单次伤害>=300000取消；隐藏核心单人激活层数>350、同盟总和>1200，且生命>1。以上若网站展示，仍应以本地代码版本核查。"
+    },
+    {
+      "title": "盟约研究",
+      "url": "https://github.com/sganggs/Stronghold-Protocol/blob/master/docs/research/02-bonds.md",
+      "use": "所有23盟约与叠层来源；本次直接抓取失败，但Research index明确列出该文件，可交由本地源码核查。"
+    },
+    {
+      "title": "干员研究",
+      "url": "https://github.com/sganggs/Stronghold-Protocol/blob/master/docs/research/03-operators.md",
+      "use": "Research index列出的正确文件名（不是05-operators）；干员特质与等阶应由本地数据生成。"
+    },
+    {
+      "title": "官方限伤研究",
+      "url": "https://github.com/sganggs/Stronghold-Protocol/blob/master/docs/research/11-limits-official.md",
+      "use": "Research index指出上限是单次>=30万对领袖伤害整次取消，而非截为30万；仅限领袖与对应阶段。"
+    }
+  ],
+  "contentGuidance": [
+    "网站攻略卡可明确分成核心输出、叠层发动机、前期过渡、装备、升级节奏、适用禁用条件；每条数值规则链接本地对应版本源，视频建议附发布日期。",
+    "已有直接可验证完整简介的入门方案主要是炎奥术和突袭卡西米尔；其余体系适合用仓库特质数据组织运营原则，再提供视频外链，不伪称逐帧整理。",
+    "不要将玩家视频标题中的最强、无脑、高胜率、播报比例当成保证或客观T0评级。",
+    "PRTS的/PRTS盟约记录页面可读内容保留大量上半期六势力数值，比如远见100全体减价；引用必须先判断是否旧记录，不可覆盖3/27官方公告及移植版本。",
+    "正式角色全名、装备名与盟约标签用本地数据校对；视频使用火陈、烛煌、缇缇、旗帜等简称时避免误配。"
+  ],
+  "sources": [
+    {
+      "title": "【卫戍协议:盟约Ⅱ】无脑轮椅！【奥术】【炎】阵容推荐 简单好抄",
+      "date": "2026-03-17",
+      "url": "https://www.bilibili.com/video/BV1RCwmzLENP/",
+      "author": "萧然Q",
+      "summary": "推荐杜遥夜策略。 火陈、烛煌主C，夕和星源是叠层核心。 一般第3、5、7、9回合升级，六本视情况。 前期优先拿炎组成6炎，再补2远见、2奇迹、3投资人。 有3投资人后，录武官、诗怀雅、焰尾优先抓；转职装备考虑炎国短刀/奥术法阵。",
+      "caution": "简介为3/27更新前版本，尤其录武官与投资人变化后需对照本地数据。正文简称火陈/烛煌宜在网站用本地数据校对全名，不能凭昵称猜其他卡位。",
+      "kind": "视频",
+      "scope": "炎 / 奥术 / 新手 / 运营"
+    },
+    {
+      "title": "【卫戍协议:盟约Ⅱ】无脑阵容 突袭卡西米尔玩法推荐 简单好抄",
+      "date": "2026-03-15",
+      "url": "https://www.bilibili.com/video/BV1XLwhz8ESa/",
+      "author": "萧然Q",
+      "summary": "瑕光为核心。 前期先3卡西米尔、2突袭，再2远见、2奇迹、3投资人。 一般第2、4、7、9回合升级，六本视情况。 焰尾优先抓，转职装备为卡西米尔旗帜（名称需按本地数据校对）。",
+      "caution": "升级回合是作者运营模板，不能写成任何起手都必须执行的规则。",
+      "kind": "视频",
+      "scope": "卡西米尔 / 突袭 / 新手 / 运营"
+    },
+    {
+      "title": "【卫戍协议:盟约Ⅱ】卡西米尔-专属策略埃芒加德，爽叠突袭无需不屈！ | 明日方舟攻略",
+      "date": "2026-03-16",
+      "url": "https://www.bilibili.com/video/BV1g3wmzuEqH/",
+      "author": "自在道爷",
+      "summary": "作者用埃芒加德策略帮助卡西米尔叠层，认为高层数后耀骑士临光能反复再部署，因而此分支可不带不屈。",
+      "caution": "这是特定策略分支的作者判断，不代表所有卡西米尔都不需要不屈。",
+      "kind": "视频",
+      "scope": "卡西米尔 / 突袭 / 埃芒加德"
+    },
+    {
+      "title": "【卫戍协议】看懂八个核心盟约叠层方式（一图流）",
+      "date": "2026-03-15",
+      "url": "https://www.bilibili.com/video/BV1a9wbzdE2S/",
+      "author": "白樱iridescent",
+      "summary": "八个核心盟约的叠层教学，适合作为通用基础外链。",
+      "caution": "未取得字幕，不能据标题补写八套具体操作。",
+      "kind": "视频",
+      "scope": "全体系 / 叠层 / 入门"
+    },
+    {
+      "title": "【卫戍协议】3精准bug修复！精迅萨一图流！萨尔贡体系强度提升！",
+      "date": "2026-03-17",
+      "url": "https://www.bilibili.com/video/BV1ovwozkEst/",
+      "author": "白樱iridescent",
+      "summary": "可核实作者将精准、迅捷和萨尔贡作为组合教学，并以3精准判定修复为背景。",
+      "caution": "无可读详细简介，网站的具体干员组合需要另用本地数据支持。",
+      "kind": "视频",
+      "scope": "萨尔贡 / 精准 / 迅捷"
+    },
+    {
+      "title": "删卡流公式萨尔贡7回合成型实战教学",
+      "date": "2026-03-23",
+      "url": "https://www.bilibili.com/video/BV1UiQDBHE9J/",
+      "author": "B大收藏家",
+      "summary": "教程针对禁萨尔贡、不禁精准的局；核心利用佩佩策略筛牌压缩卡池。 作者强调缇缇，实战示例无至简、魔王、迷迭香而使用泡泡。",
+      "caution": "反直觉的禁萨玩法为进阶特定分支，应单独标条件，不能当普通6萨的通用选牌表。作者的最高强度用语不应沿用成网站客观评级。",
+      "kind": "视频",
+      "scope": "萨尔贡 / 佩佩 / 进阶 / 禁用盟约"
+    },
+    {
+      "title": "【入门教学单品】卫戍协议轮椅焚决！教你秒上手萨尔贡盟约队",
+      "date": "2026-03-26",
+      "url": "https://www.bilibili.com/video/BV14oXHBuEzc/",
+      "author": "柏喙攻略组",
+      "summary": "入门向萨尔贡教程，标签包含佩佩。",
+      "caution": "无可读正文，不应由标题推导完整干员表。",
+      "kind": "视频",
+      "scope": "萨尔贡 / 佩佩 / 入门"
+    },
+    {
+      "title": "卫戍协议】无敌叙拉古思路分享！",
+      "date": "2026-03-15",
+      "url": "https://www.bilibili.com/video/BV1YuwKztE9d/",
+      "author": "白绮Infinity",
+      "summary": "作者建议阿米娅或贾维策略。 提醒叙拉古前中期需要补强力输出；阿罗玛吃地图，可能需要五本外援。 荒芜拉普兰德是六本核心，获得难度会影响成型。",
+      "caution": "这是3/27前评价；3/27强化拉普兰德叠层并新增伺夜预设后，叙拉古运营已有后续改进，勿写成当前不可玩的固定结论。",
+      "kind": "视频",
+      "scope": "叙拉古 / 贾维 / 阿米娅 / 运营"
+    },
+    {
+      "title": "你最稳定的Boss对策：4分钟学会二本流叙拉古",
+      "date": "2026-04-01",
+      "url": "https://www.bilibili.com/video/BV1Gk9jBTEbx/",
+      "author": "ZeroLucid",
+      "summary": "作者明确这是更新后二本叙拉古，并认为稳定性、兜底与攻坚已有改善。",
+      "caution": "可作为旧版3/15高费核心路线的后续阅读；未获取具体运营字幕，不应杜撰步骤。",
+      "kind": "视频",
+      "scope": "叙拉古 / 贾维 / 3/27更新后"
+    },
+    {
+      "title": "【卫戍协议】成型最强输出盟约—维多利亚一图流！轻松50％播报！",
+      "date": "2026-03-20",
+      "url": "https://www.bilibili.com/video/BV1t9AJzfEr2/",
+      "author": "白樱iridescent",
+      "summary": "有针对维多利亚的下半期一图流教程。",
+      "caution": "最强/50%为作者标题宣称，网站不要转述成保证。具体运营需本地数据与官方条目支持。",
+      "kind": "视频",
+      "scope": "维多利亚 / 一图流"
+    },
+    {
+      "title": "【明日方舟_卫戍协议】最简单无脑的谢拉格打法 寒冰陀螺 启动！",
+      "date": "2026-03-16",
+      "url": "https://www.bilibili.com/video/BV1uowLz7EAM/",
+      "author": "二十三号半",
+      "summary": "下半期谢拉格教程，时长约9分57秒。",
+      "caution": "无可读细节，不编造卡位。",
+      "kind": "视频",
+      "scope": "谢拉格 / 入门"
+    },
+    {
+      "title": "无转职无浊蒂也能抢播报？全网最详细阿戈尔攻略！【卫戍协议/阿戈尔吃人复活机制与运营思路】",
+      "date": "2026-03-23",
+      "url": "https://www.bilibili.com/video/BV146QXB4EUK/",
+      "author": "麓笙Lumshine",
+      "summary": "可推荐为阿戈尔吞噬与复活机制专题。",
+      "caution": "不能由标题推导无转职时的完整阵容；还需按本地吞噬规则校对。",
+      "kind": "视频",
+      "scope": "阿戈尔 / 吞噬 / 复活 / 机制"
+    },
+    {
+      "title": "【明日方舟】卫戍协议高分阵容推荐！保姆级教程 大炎体系/叙拉古体系/卡西米尔分队打法解析",
+      "date": "2026-03-18",
+      "url": "https://www.bilibili.com/video/BV1QxwvzuEQN/",
+      "author": "叫我棉被",
+      "summary": "综合解析三个核心体系，可作为新手视频入口。",
+      "caution": null,
+      "kind": "视频",
+      "scope": "炎 / 叙拉古 / 卡西米尔 / 综合"
+    },
+    {
+      "title": "新盟约不会玩？Ban/Pick位记不住？这个视频可以帮到你【卫戍协议】",
+      "date": "2026-03-20",
+      "url": "https://www.bilibili.com/video/BV1LZAEzTEfz/",
+      "author": "黑蓑影卫攻略组",
+      "summary": "作者提供盟约Ban/Pick查询工具 https://arkrog.com/tool/autochess 。",
+      "caution": "本次工具网页抓取超时；只核实视频简介中存在该指路，不保证工具目前可用。",
+      "kind": "视频",
+      "scope": "禁用 / 全体系 / 工具"
+    },
+    {
+      "title": "【卫戍攻略#3】不屈不是区！如何加强终端输出？终极模拟教学 卡西米尔&阿戈尔篇",
+      "date": "2026-04-06",
+      "url": "https://www.bilibili.com/video/BV1eBSdBBEig/",
+      "author": "黑蓑影卫攻略组",
+      "summary": "终极模拟下卡西米尔、阿戈尔及不屈的后续教学。",
+      "caution": null,
+      "kind": "视频",
+      "scope": "卡西米尔 / 阿戈尔 / 终极 / 3/27更新后"
+    },
+    {
+      "title": "【卫戍攻略#4】什么叫叠到999层反而亏输出？终极模拟教学 炎&拉特兰篇",
+      "date": "2026-04-17",
+      "url": "https://www.bilibili.com/video/BV1nrdqBLERz/",
+      "author": "黑蓑影卫攻略组",
+      "summary": "较新的终极模拟炎、拉特兰专题，标题明确讨论满999层反而亏输出。",
+      "caution": "标题不能单独证明限伤算法；算法请引用仓库研究文档与本地代码。",
+      "kind": "视频",
+      "scope": "炎 / 拉特兰 / 终极 / 限伤 / 3/27更新后"
+    },
+    {
+      "title": "惊天萨谢！这点层数就能爆杀终极隐秘了？",
+      "date": "2026-04-09",
+      "url": "https://www.bilibili.com/video/BV1LLDJBrEsd/",
+      "author": "作者名本次搜索结果未完整返回",
+      "summary": "作者提出缪尔赛思、本家主C转谢、银灰或初雪构成谢拉格外挂，利用投资人和买卖雪猎、灵知补层。",
+      "caution": "作者在简介明确有部分其他阵营尚未测试；网站只把萨谢/叙谢作为实测分支外链，不泛化所有体系。",
+      "kind": "视频",
+      "scope": "谢拉格 / 萨尔贡 / 双修 / 进阶"
+    },
+    {
+      "title": "官方下半期更新",
+      "date": "2026-03-14",
+      "url": "https://ak.hypergryph.com/news/5114",
+      "author": "明日方舟运营组",
+      "summary": "下半期新增叙拉古、卡西米尔、绝技、奥术、独行；炎新增9人双炎佑，精准、坚守、突袭、协防等重做。2025年11月上半期攻略的阵容思路与阈值不应直接照搬。",
+      "caution": "",
+      "kind": "官方更新",
+      "scope": "版本边界与适用性"
+    },
+    {
+      "title": "官方第二阶段更新",
+      "date": "2026-03-27",
+      "url": "https://ak.hypergryph.com/news/8584",
+      "author": "明日方舟运营组",
+      "summary": "新增终极模拟，银灰、伺夜、空弦、卡涅利安、雷蛇预设及四名策略；调整多名叠层干员等阶/特质、远见/奇迹/投资人阈值、异客盟约与录武官。3月15–26日教程应标为下半期早期思路，实机数值以使用版本为准。",
+      "caution": "",
+      "kind": "官方更新",
+      "scope": "版本边界与适用性"
+    },
+    {
+      "title": "Stronghold-Protocol移植版README",
+      "date": "2026-10-19查阅",
+      "url": "https://github.com/sganggs/Stronghold-Protocol",
+      "author": "sganggs",
+      "summary": "sganggs/Stronghold-Protocol为非官方同人浏览器复刻，README当前标0.3.1，单人或1–4人合作、112名可招募干员、23盟约。作者明确少数规则仍按推断实现。原版视频只可指导运营，移植版阈值、技能自动释放与修复情况应以仓库对应版本数据及玩法指南为准。",
+      "caution": "",
+      "kind": "仓库",
+      "scope": "版本边界与适用性"
+    },
+    {
+      "title": "玩法指南",
+      "date": "2026-10-19查阅",
+      "url": "https://github.com/sganggs/Stronghold-Protocol/blob/master/docs/PLAYING.md",
+      "author": "sganggs/Stronghold-Protocol",
+      "summary": "资金跨回合清空（坎诺特例外）、三连晋升、装备锁定、共用卡池、禁用与调和等移植版行为。",
+      "caution": "需以使用中的代码版本核查",
+      "kind": "仓库",
+      "scope": "移植版规则"
+    },
+    {
+      "title": "Research index",
+      "date": "2026-10-19查阅",
+      "url": "https://github.com/sganggs/Stronghold-Protocol/blob/master/docs/research/00-INDEX.md",
+      "author": "sganggs/Stronghold-Protocol",
+      "summary": "区分DATA/VERIFIED/ASSUMED；文档Addendum优先；同盟14回合、独立标准9回合；层数999封顶；领袖单次伤害>=300000取消；隐藏核心单人激活层数>350、同盟总和>1200，且生命>1。以上若网站展示，仍应以本地代码版本核查。",
+      "caution": "需以使用中的代码版本核查",
+      "kind": "仓库",
+      "scope": "移植版规则"
+    },
+    {
+      "title": "盟约研究",
+      "date": "2026-10-19查阅",
+      "url": "https://github.com/sganggs/Stronghold-Protocol/blob/master/docs/research/02-bonds.md",
+      "author": "sganggs/Stronghold-Protocol",
+      "summary": "所有23盟约与叠层来源；本次直接抓取失败，但Research index明确列出该文件，可交由本地源码核查。",
+      "caution": "需以使用中的代码版本核查",
+      "kind": "仓库",
+      "scope": "移植版规则"
+    },
+    {
+      "title": "干员研究",
+      "date": "2026-10-19查阅",
+      "url": "https://github.com/sganggs/Stronghold-Protocol/blob/master/docs/research/03-operators.md",
+      "author": "sganggs/Stronghold-Protocol",
+      "summary": "Research index列出的正确文件名（不是05-operators）；干员特质与等阶应由本地数据生成。",
+      "caution": "需以使用中的代码版本核查",
+      "kind": "仓库",
+      "scope": "移植版规则"
+    },
+    {
+      "title": "官方限伤研究",
+      "date": "2026-10-19查阅",
+      "url": "https://github.com/sganggs/Stronghold-Protocol/blob/master/docs/research/11-limits-official.md",
+      "author": "sganggs/Stronghold-Protocol",
+      "summary": "Research index指出上限是单次>=30万对领袖伤害整次取消，而非截为30万；仅限领袖与对应阶段。",
+      "caution": "需以使用中的代码版本核查",
+      "kind": "仓库",
+      "scope": "移植版规则"
+    }
+  ]
+}
